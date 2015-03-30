@@ -32,6 +32,7 @@ guard :rspec, cmd: 'bundle exec rspec' do
 
 end
 
+# Tmux Notifications
 notification :tmux,
   display_message: true,
   timeout: 3,
@@ -42,5 +43,11 @@ notification :tmux,
   failure: 'colour174',
   pending: 'colour179'
 
-
+# Rubocop
+#group :red_green_refactor, halt_on_fail: true do
+#
+#  guard :rubocop, cli: '--rails', keep_failed: true
+#
+#end
+#
 

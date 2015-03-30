@@ -37,6 +37,8 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-remote'
   gem 'rubocop'
+  gem 'guard-rubocop'
+  gem 'database_cleaner'
 end
 
 # To use ActiveModel has_secure_password
