@@ -28,6 +28,7 @@ gem 'resque', :require => 'resque/server'
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'rspec-mocks'
   gem 'json_spec'
   gem 'guard-rspec', :git => 'https://github.com/guard/guard-rspec.git'
   gem 'rb-readline', '~> 0.5.0'

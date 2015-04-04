@@ -18,6 +18,9 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
-en:
-  hello: "Hello world"
+en: 
+  error:
+    validation_error: "You have made some errors, please correct them and try again"
+    
+  success:
+    user_created: "User has been created"

@@ -5,27 +5,23 @@ class UsersController < ApplicationController
     
     if user.save
 
-      json_response(
-        status: 200,
+      json_response 200,
         success: true, 
-        message: "Resource created",
-        display_message: "Add display_message", # TODO
+        message_id: 'user_created',
+        message: I18n.t('success.user_created'),
         data: { user: remove_unsafe_keys(user) }
-      )
 
     else
       
       if user.errors
-        json_response(
-          status: 400,
+        json_response 400,
           success: false,
-          message: "Validation error",
-          display_message: "Add display_message", # TODO
+          message_id: 'validation_error',
+          message: I18n.t('error.validation_error'),
           data: { error: user.errors }
-        )
-      else
-        internal_server_error 
       end
+
+      # TODO: Handle missing user[]  
 
     end
 
