@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  
+  include Pundit
 
   def json_response(status, res)
 

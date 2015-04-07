@@ -12,6 +12,9 @@ gem 'active_model_serializers', '~> 0.9.2' # For JSON generation
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 
+# Authorization
+gem 'pundit'
+
 # Monitoring
 gem "bugsnag"
 gem 'newrelic_rpm'
