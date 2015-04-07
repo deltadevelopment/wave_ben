@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :auth_token
 
+  has_one :session
+
   before_save :encrypt_password
 
   validates :username, length: { in: 1..20, message: "must be between 1 and 15 characters" }

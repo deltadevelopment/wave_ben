@@ -27,6 +27,20 @@ class UsersController < ApplicationController
 
   end
 
+  # Used in SessionsController#create
+  def self.authenticate(username, password)
+   
+    user = User.find_by_username(username)
+
+    if user && user.password_hash == 
+               BCrypt::Engine.hash_secret(password, user.password_salt)
+      user
+    else
+      nil
+    end
+
+  end
+
   private 
 
   def create_params 

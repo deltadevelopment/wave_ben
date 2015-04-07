@@ -8,6 +8,8 @@ FactoryGirl.define do
     password "blackhatpr00f"
     availability 0
 
+    session { create(:session) }
+
     trait(:public) { private_profile false }
     trait(:private) { private_profile true }
   end

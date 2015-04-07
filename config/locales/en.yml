@@ -21,6 +21,8 @@
 en: 
   error:
     validation_error: "You have made some errors, please correct them and try again"
+    bad_credentials: "The username and/or password is incorrect"
     
   success:
     user_created: "User has been created"
+    session_created: "You have been logged in"

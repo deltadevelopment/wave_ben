@@ -31,13 +31,16 @@ describe UsersController do
 
     end
 
-    it 'returns 400 when you make a mistake' do
-      register_params['user']['username'] = ''
-      post 'create', register_params
-      expect(response).to have_http_status(400)
+    context 'with incorrect parameters' do
+      it 'returns 400 when you make a mistake' do
+        register_params['user']['username'] = ''
+        post 'create', register_params
+        expect(response).to have_http_status(400)
+      end
     end
 
-
   end
+
+
 
 end

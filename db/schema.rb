@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327104833) do
+ActiveRecord::Schema.define(version: 20150407121347) do
+
+  create_table "sessions", force: :cascade do |t|
+    t.string   "auth_token"
+    t.integer  "user_id"
+    t.string   "device_id"
+    t.integer  "device_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
