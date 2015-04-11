@@ -1,11 +1,18 @@
 class UsersController < ApplicationController
 
+  after_action :verify_authorized, except: :create
+
   def create
     user = User.new(create_params)
     
     if user.save
+      
+      session = Session.new.generate_token(user.id)
+      session.save
 
-      json_response 200,
+      user.auth_token = session.auth_token
+
+      json_response 201,
         success: true, 
         message_id: 'user_created',
         message: I18n.t('success.user_created'),
@@ -21,22 +28,46 @@ class UsersController < ApplicationController
           data: { error: user.errors }
       end
 
-      # TODO: Handle missing user[]  
-
     end
 
   end
 
-  # Used in SessionsController#create
-  def self.authenticate(username, password)
-   
-    user = User.find_by_username(username)
+  def destroy
+    user = User.find(params[:id])
 
-    if user && user.password_hash == 
-               BCrypt::Engine.hash_secret(password, user.password_salt)
-      user
+    authorize user 
+
+    user.destroy!
+
+    json_response 200,
+      success: true,
+      message_id: 'user_destroyed',
+      message: I18n.t('success.user_destroyed')
+
+  end
+
+  def update
+    user = User.find(params[:id])   
+  
+    authorize user
+
+    if user.update_attributes(update_params)
+      json_response 200,
+        success: true, 
+        message_id: 'user_updated',
+        message: I18n.t('success.user_updated'),
+        data: { user: remove_unsafe_keys(user) }
+
     else
-      nil
+      
+      if user.errors
+        json_response 400,
+          success: false,
+          message_id: 'validation_error',
+          message: I18n.t('error.validation_error'),
+          data: { error: user.errors }
+      end
+
     end
 
   end
@@ -46,6 +77,15 @@ class UsersController < ApplicationController
   def create_params 
     params.require(:user).permit(
       :username,
+      :password,
+      :email,
+      :private_profile,
+      :phone_number
+    )
+  end
+
+  def update_params 
+    params.require(:user).permit(
       :password,
       :email,
       :private_profile,

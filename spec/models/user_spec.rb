@@ -101,7 +101,22 @@ RSpec.describe User, type: :model do
 
   end
 
-  describe "password gets encrypted and stored" do
+  describe "password format" do
+
+    it "can't be blank" do
+      user.password = ""
+      expect(user).not_to be_valid
+    end
+
+    it "is 6 or more characters" do
+      user.password = "A" * 5
+      expect(user).not_to be_valid
+    end
+    
+    it "is less than 20 characters" do
+      user.password = "A" * 21
+      expect(user).not_to be_valid
+    end
 
     it "stores encrypted password and salt in the database" do
       existing_user = FactoryGirl.create(:user)

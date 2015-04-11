@@ -5,8 +5,17 @@ class ApplicationPolicy
     @user = user
     @record = record
   end
+
   def scope
     Pundit.policy_scope!(user, record.class)
+  end
+
+  def user_is_owner?
+    @user.id == @record.user_id 
+  end
+
+  def user_is_user?
+    @user.id == @record.id
   end
 
   class Scope

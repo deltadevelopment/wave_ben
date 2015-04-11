@@ -16,14 +16,14 @@ class User < ActiveRecord::Base
   # This is for other actions than on: :create 
   # TODO: This might be redundant
   validates :password, length: { in: 6..20, message: "must be between 6 and 20 characters" }, if: :password_entered
+  validates :password, presence: true, on: :create
   
   # TODO: Get better regex for email validation
   validates_format_of :email, 
     :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates :email, uniqueness: true
 
-  validates :phone_number, numericality: {message: "can only contain digits"}, uniqueness: true,
-            if: :phone_number_entered
+  validates :phone_number, numericality: {message: "can only contain digits"}, uniqueness: true, if: :phone_number_entered
 
   protected 
 
