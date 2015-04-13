@@ -34,7 +34,7 @@ end
 
 # Tmux Notifications
 notification :tmux,
-  display_message: true,
+  display_message: false,
   timeout: 3,
   color_location: false,
 

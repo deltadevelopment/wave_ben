@@ -1,4 +1,4 @@
-class Session < ActiveRecord::Base
+class UserSession < ActiveRecord::Base
 
   belongs_to :user
 

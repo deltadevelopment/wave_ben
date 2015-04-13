@@ -11,7 +11,8 @@ FactoryGirl.define do
 
     trait(:public) { private_profile false }
     trait(:private) { private_profile true }
-    trait(:logged_in) { session { create(:session) } }
+    trait(:logged_in) { user_session { create(:user_session) } }
+    trait(:logged_in_with_device_id) { user_session { create(:user_session, :with_device_id) } }
   end
 
 end

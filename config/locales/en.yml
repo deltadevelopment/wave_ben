@@ -34,5 +34,5 @@ en:
     user_updated: "Your profile has been updated"
 
     # Session
-    session_created: "You have been logged in"
-    session_destroyed: "You have been logged out"
+    user_session_created: "You have been logged in"
+    user_session_destroyed: "You have been logged out"

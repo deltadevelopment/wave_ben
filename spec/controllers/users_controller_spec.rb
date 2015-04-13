@@ -24,7 +24,7 @@ describe UsersController, focus: true do
       it 'logs the user in' do
         expect{
           post :create, register_params
-        }.to change(Session, :count).by(1)
+        }.to change(UserSession, :count).by(1)
       end
 
     end

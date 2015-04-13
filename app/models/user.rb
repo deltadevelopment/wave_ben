@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :auth_token
 
-  has_one :session
+  has_one :user_session
 
   before_save :encrypt_password
 

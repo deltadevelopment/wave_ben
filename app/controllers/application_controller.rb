@@ -47,16 +47,16 @@ class ApplicationController < ActionController::API
   # Authorization
 
   def check_session
-    @session = Session.find_by_auth_token(get_auth_token)
-    return not_authenticated unless @session
-    @session
+    @user_session = UserSession.find_by_auth_token(get_auth_token)
+    return not_authenticated unless @user_session
+    @user_session
   end
 
   # Used for serializer
   # Needs check_session to be called in beforehand
   def current_user
-    check_session unless @session
-    @user = User.find(@session.user_id)
+    check_session unless @user_session
+    @user = User.find(@user_session.user_id)
   end
 
   def get_auth_token

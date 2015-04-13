@@ -7,10 +7,10 @@ class UsersController < ApplicationController
     
     if user.save
       
-      session = Session.new.generate_token(user.id)
-      session.save
+      new_session = UserSession.new.generate_token(user.id)
+      new_session.save
 
-      user.auth_token = session.auth_token
+      user.auth_token = new_session.auth_token
 
       json_response 201,
         success: true, 

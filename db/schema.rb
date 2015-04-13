@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407121347) do
+ActiveRecord::Schema.define(version: 20150412143728) do
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "user_sessions", force: :cascade do |t|
     t.string   "auth_token"
     t.integer  "user_id"
     t.string   "device_id"
@@ -22,19 +22,20 @@ ActiveRecord::Schema.define(version: 20150407121347) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id"
+  add_index "user_sessions", ["user_id"], name: "index_user_sessions_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "email"
     t.integer  "phone_number"
     t.string   "display_name"
-    t.integer  "availability",    default: 0
+    t.integer  "availability",     default: 0
     t.string   "password_hash"
     t.string   "password_salt"
-    t.boolean  "private_profile", default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "private_profile",  default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "sns_endpoint_arn"
   end
 
 end

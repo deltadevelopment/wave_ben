@@ -21,12 +21,15 @@ gem 'newrelic_rpm'
 
 # Heroku specific
 gem 'rails_12factor', group: :production
-gem 'rails_stdout_logging'
 
 # AWS SDK
 gem 'aws-sdk', '~> 2'
 
 gem 'resque', :require => 'resque/server'
+
+group :production do
+  gem 'rails_stdout_logging'
+end
 
 group :development, :test do
   gem 'sqlite3'
