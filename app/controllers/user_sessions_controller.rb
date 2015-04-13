@@ -25,6 +25,7 @@ class UserSessionsController < ApplicationController
           "device_id=? AND user_id != ?", user_session.device_id, user_session.user_id).take
         
         unless device_id_other_user.nil?
+          binding.pry
           Resque.enqueue(AddDeviceToken, update_token_params, device_id_other_user.user.sns_endpoint_arn)
           device_id_other_user.user.update_attributes(sns_endpoint_arn: nil)
           device_id_other_user.destroy 

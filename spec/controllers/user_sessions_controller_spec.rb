@@ -75,20 +75,22 @@ describe UserSessionsController do
         context 'someone else is logged in with the same device_id' do
           
           before do
-            Resque.inline = true
             client = Aws::SNS::Client.new(stub_responses: true)
             expect(Aws::SNS::Client).to receive(:new) { client }
           end
 
-          it 'deletes other sessions having the same device_id' 
+          it 'deletes other sessions having the same device_id' do
+            Resque.inline = true
+          end
 
           it 'adds AddDeviceToken to the queue', focus: true do
 
             device = { device_id: liu_device_id_creds[:device_id],
                        device_type: liu_device_id_creds[:device_type] }
 
-
-            post :create, login_credentials.merge(device)
+            expect{
+              post :create, login_credentials.merge(device)
+            }.to change{Resque.size(AddDeviceToken)}.by(1)
 
           end
 
