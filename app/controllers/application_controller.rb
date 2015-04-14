@@ -14,8 +14,11 @@ class ApplicationController < ActionController::API
       message_id: res[:message_id]
     }
 
-    json.merge!(res[:data]) unless res[:data].nil?
-    json.merge!(res[:error]) unless res[:error].nil?
+    data = {
+      data: res[:data] 
+    }
+
+    json.merge!(data) unless res[:data].nil?
 
     render json: json, status: status 
      
