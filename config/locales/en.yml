@@ -36,3 +36,14 @@ en:
     # Session
     user_session_created: "You have been logged in"
     user_session_destroyed: "You have been logged out"
+  validation:
+    username_length: "validation_username_length"
+    username_alphanumeric: "validation_username_alphanumeric"
+    username_exists: "validation_username_exists"
+    display_name_length: "validation_display_name_length"
+    display_name_format: "validation_display_name_format"
+    password_length: "validation_password_length"
+    email_format: "validation_email_format"
+    email_exists: "validation_email_exists"
+    phone_number_numerical: "validation_phone_number_numerical"
+    phone_number_exists: "validation_phone_number_exists"
