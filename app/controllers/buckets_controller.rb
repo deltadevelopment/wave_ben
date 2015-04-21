@@ -1,0 +1,2 @@
+class BucketsController < ApplicationController
+end

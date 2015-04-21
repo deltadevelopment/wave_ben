@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
 
   validates :username, length: { in: 1..20, message: I18n.t('validation.username_length') }
-  validates :username, uniqueness: true, uniqueness: { message: I18n.t('validation.username_exists') }
+  validates :username, uniqueness: { message: I18n.t('validation.username_exists') }
   validates_format_of :username, :with => /\A\w+\z/i, message: I18n.t('validation.username_alphanumeric')
 
   validates :display_name, length: { in: 1..25, message: "must be between 1 and 25 characters" }, if: :display_name_entered
@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, 
     with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
     message: I18n.t('validation.email_format')
-  validates :email, uniqueness: true, uniqueness: { message: I18n.t('validation.email_exists') }
+  validates :email, uniqueness: { message: I18n.t('validation.email_exists') }
 
   validates :phone_number, numericality: {message: I18n.t('validation.phone_number_numerical') }, 
     uniqueness: { message: I18n.t('validation.phone_number_exists') },
