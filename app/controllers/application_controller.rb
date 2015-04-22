@@ -2,9 +2,13 @@ class ApplicationController < ActionController::API
   
   include Pundit
 
+  class NotAuthenticatedError < StandardError; end 
+  class CantSaveError < StandardError; end 
+
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
+  rescue_from NotAuthenticatedError, with: :not_authenticated
 
   def json_response(status, res)
 
@@ -21,7 +25,7 @@ class ApplicationController < ActionController::API
     json.merge!(data) unless res[:data].nil?
 
     render json: json, status: status 
-     
+
   end
 
   # General error messages
@@ -38,6 +42,7 @@ class ApplicationController < ActionController::API
       success: false,
       message_id: "not_authenticated",
       message: I18n.t('error.not_authenticated')
+    return
   end
 
   def parameter_missing(exception)
@@ -51,27 +56,22 @@ class ApplicationController < ActionController::API
 
   def check_session
     @user_session = UserSession.find_by_auth_token(get_auth_token)
-    return not_authenticated unless @user_session
+    raise NotAuthenticatedError unless @user_session
     @user_session
   end
-
-  # Used for serializer
-  # Needs check_session to be called in beforehand
+ 
   def current_user
     check_session unless @user_session
     @user = User.find(@user_session.user_id)
   end
 
   def get_auth_token
-    unless params[:auth_token].blank?
-      return params[:auth_token]
+    if !params[:auth_token].blank?
+      params[:auth_token]
+    elsif !request.headers['X-AUTH-TOKEN'].blank?
+      request.headers['X-AUTH-TOKEN']
+    else
+      nil 
     end
-
-    unless request.headers['X-AUTH-TOKEN'].blank?
-      return request.headers['X-AUTH-TOKEN']
-    end
-
-    false 
   end
-
 end

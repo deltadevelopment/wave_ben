@@ -16,14 +16,15 @@ gem 'pg'
 gem 'pundit'
 
 # Monitoring
-gem "bugsnag"
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', group: :production
 
 # Heroku specific
 gem 'rails_12factor', group: :production
 
 # AWS SDK
 gem 'aws-sdk', '~> 2'
+
+gem 'awesome_nested_set'
 
 gem 'resque', :require => 'resque/server'
 

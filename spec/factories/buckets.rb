@@ -1,24 +1,17 @@
 FactoryGirl.define do
   factory :bucket do
-    sequence(:title) { |n| "Here's a title#{n}" } 
-    description "Here's a description"
 
     factory :user_bucket do
-      title nil
-      description nil
-
       bucket_type :user
-
     end
 
     factory :shared_bucket do
       bucket_type :shared 
 
-    end
+      sequence(:title) { |n| "Here's a title#{n}" } 
+      description "Here's a description"
 
-    factory :location_bucket do
-      bucket_type :location
-
+      when_datetime DateTime.new.to_s
     end
 
   end
@@ -41,6 +34,10 @@ FactoryGirl.define do
 
   trait(:open){
     locked false 
+  }
+
+  trait(:with_user){
+    user { create(:user) }
   }
 
 end

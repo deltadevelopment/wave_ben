@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   post '/login' => 'user_sessions#create'
   delete '/login' => 'user_sessions#destroy'
 
+  # Bucket routes
+  post '/bucket' => 'buckets#create'
+  delete '/bucket/:id' => 'buckets#destroy'
+
   # Resque routes
   get 'jobs' => 'jobs#list'
 

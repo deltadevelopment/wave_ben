@@ -26,6 +26,7 @@ en:
     not_authenticated: "You are not logged in, or the session has expired. Please log in again"
     not_authorized: "You are not authorized to access that resource"
     parameter_missing: "A required parameter: `%{param}` is missing"
+    internal_server_error: "Internal Server Error"
     
   success:
     # User
@@ -36,7 +37,11 @@ en:
     # Session
     user_session_created: "You have been logged in"
     user_session_destroyed: "You have been logged out"
+
+    # Bucket
+    shared_bucket_created: "The bucket has been added successfully"
   validation:
+    # User
     username_length: "validation_username_length"
     username_alphanumeric: "validation_username_alphanumeric"
     username_exists: "validation_username_exists"
@@ -47,3 +52,13 @@ en:
     email_exists: "validation_email_exists"
     phone_number_numerical: "validation_phone_number_numerical"
     phone_number_exists: "validation_phone_number_exists"
+
+    # Bucket
+    title_length: "validation_title_length"
+    when_datetime_format: "validation_when_datetime_format"
+    bucket_type: "validation_bucket_type"
+    description_length: "validation_description_length"
+
+    # Drop
+    media_key_length: "validation_media_key_length"
+    media_key_unique: "validation_media_key_unique"

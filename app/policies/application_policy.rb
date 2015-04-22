@@ -10,6 +10,10 @@ class ApplicationPolicy
     Pundit.policy_scope!(user, record.class)
   end
 
+  def is_logged_in?
+    !@user.nil?
+  end
+
   def user_is_owner?
     @user.id == @record.user_id 
   end
@@ -31,4 +35,3 @@ class ApplicationPolicy
     end
   end
 end
-

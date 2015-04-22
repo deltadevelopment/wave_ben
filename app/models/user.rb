@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
 
-  attr_accessor :password, :auth_token
+  attr_accessor :password, :auth_token, :bucket
 
   has_one :user_session
+
+  has_many :buckets
+  has_many :drops
 
   before_save :encrypt_password
 
@@ -10,8 +13,8 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: { message: I18n.t('validation.username_exists') }
   validates_format_of :username, :with => /\A\w+\z/i, message: I18n.t('validation.username_alphanumeric')
 
-  validates :display_name, length: { in: 1..25, message: "must be between 1 and 25 characters" }, if: :display_name_entered
-  validates_format_of :display_name, :with => /\A[a-z0-9]+ *[a-z0-9]*\z/i, :message => "can only contain letters, spaces, and numbers", if: :display_name_entered
+  validates :display_name, length: { in: 1..25, message: I18n.t('validation.display_name_length') }, if: :display_name_entered
+  validates_format_of :display_name, :with => /\A[a-z0-9]+ *[a-z0-9]*\z/i, :message => I18n.t('validation.display_name_format'),if: :display_name_entered
   
   # This is for other actions than on: :create 
   # TODO: This might be redundant
@@ -27,6 +30,10 @@ class User < ActiveRecord::Base
   validates :phone_number, numericality: {message: I18n.t('validation.phone_number_numerical') }, 
     uniqueness: { message: I18n.t('validation.phone_number_exists') },
     if: :phone_number_entered
+
+  def bucket
+    Bucket.where("user_id=? AND bucket_type=0", self.id)
+  end
 
   protected 
 
