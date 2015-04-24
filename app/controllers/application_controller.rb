@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   include Pundit
 
   class NotAuthenticatedError < StandardError; end 
-  class CantSaveError < StandardError; end 
+  class CantSaveError < StandardError; end  # Needs to be logged
 
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 

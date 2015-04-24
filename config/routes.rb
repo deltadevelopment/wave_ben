@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   # Bucket routes
   post '/bucket' => 'buckets#create'
+  put '/bucket/:id' => 'buckets#update'
   delete '/bucket/:id' => 'buckets#destroy'
 
   # Resque routes

@@ -29,6 +29,11 @@ en:
     internal_server_error: "Internal Server Error"
     
   success:
+    # General
+    record_created: "record_created"
+    record_updated: "record_updated"
+    record_destroyed: "record_destroyed"
+
     # User
     user_created: "You have successfully created an account. Welcome!"
     user_destroyed: "You have successfully deleted your account"
@@ -37,9 +42,6 @@ en:
     # Session
     user_session_created: "You have been logged in"
     user_session_destroyed: "You have been logged out"
-
-    # Bucket
-    shared_bucket_created: "The bucket has been added successfully"
   validation:
     # User
     username_length: "validation_username_length"
