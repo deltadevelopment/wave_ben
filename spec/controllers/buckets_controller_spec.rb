@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe BucketsController, type: :controller do
+
+  let(:user) { FactoryGirl.create(:user) }
   
   describe "#create" do
     let(:shared_bucket) { FactoryGirl.build(:shared_bucket, :with_user) }
@@ -119,9 +121,14 @@ describe BucketsController, type: :controller do
         end
         
         it "returns 200" do
-
           post :update, valid_shared_bucket_params
           expect(response).to have_http_status(200)
+        end
+
+        it "updates the record" do
+          post :update, valid_shared_bucket_params
+          expect(shared_bucket.reload.title).to eq(valid_shared_bucket_params[:bucket][:title])
+
         end
 
       end
@@ -131,11 +138,53 @@ describe BucketsController, type: :controller do
     context "with incorrect credentials" do
 
       it "returns 401" do
-        allow(controller).to receive(:current_user) { User.new }
+        allow(controller).to receive(:current_user) { user }
         post :update, valid_shared_bucket_params
         expect(response).to have_http_status(401)
       end 
       
+    end
+
+  end
+
+  describe "#destroy" do
+    let!(:shared_bucket) { FactoryGirl.create(:shared_bucket, :with_user) }
+
+    context "with correct credentials" do
+
+      before do
+        allow(controller).to receive(:current_user) { shared_bucket.user }
+      end
+      
+      it "returns 200" do
+        delete :destroy, { id: shared_bucket.id }
+        expect(response).to have_http_status(200)
+      end
+
+      it "deletes the record" do
+        expect{ 
+          delete :destroy, { id: shared_bucket.id }
+        }.to change(Bucket, :count).by(-1)
+      end
+
+    end
+
+    context "with invalid credentials" do
+      before do
+        allow(controller).to receive(:current_user) { User.new }
+      end
+
+      it "returns 401" do
+        delete :destroy, { id: shared_bucket.id }
+        expect(response).to have_http_status(401)
+      end
+
+      it "does not delete the record" do
+        expect{ 
+          delete :destroy, { id: shared_bucket.id }
+        }.to change(Bucket, :count).by(0)
+      end
+
     end
 
   end

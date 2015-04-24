@@ -64,6 +64,17 @@ class BucketsController < ApplicationController
   end
   
   def destroy
+    bucket = Bucket.find(params[:id])
+
+    authorize bucket
+
+    bucket.destroy!
+
+    json_response 200,
+      sucess: false,
+      message_id: 'record_destroyed',
+      message: I18n.t('success.record_destroyed'),
+      data: { bucket: bucket } 
   end
 
   private
