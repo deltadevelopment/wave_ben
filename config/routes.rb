@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   put '/bucket/:id' => 'buckets#update'
   delete '/bucket/:id' => 'buckets#destroy'
 
+  # Drop routes
+  post '/drop/generate_upload_url' => 'drops#generate_upload_url'
+
   # Resque routes
   get 'jobs' => 'jobs#list'
 

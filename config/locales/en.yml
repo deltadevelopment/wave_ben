@@ -42,6 +42,9 @@ en:
     # Session
     user_session_created: "You have been logged in"
     user_session_destroyed: "You have been logged out"
+
+    # Drop
+    upload_url_generated: "Upload URL generated successfully"
   validation:
     # User
     username_length: "validation_username_length"

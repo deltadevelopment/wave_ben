@@ -20,7 +20,7 @@ describe BucketsController, type: :controller do
       expect(shared_bucket).to be_valid
     end
     
-    context "with correct credentials" do
+    context "with valid credentials" do
 
       before{
         allow(controller).to receive(:current_user) { shared_bucket.user }
@@ -74,7 +74,7 @@ describe BucketsController, type: :controller do
 
     end
 
-    context "with incorrect credentials" do
+    context "with invalid credentials" do
       
       it "returns 401" do
         post :create, valid_shared_bucket_params
@@ -112,7 +112,7 @@ describe BucketsController, type: :controller do
       expect(shared_bucket).to be_valid 
     end
 
-    context "with correct credentials" do
+    context "with valid credentials" do
       
       context "with valid parameters" do
 
@@ -135,7 +135,7 @@ describe BucketsController, type: :controller do
 
     end
 
-    context "with incorrect credentials" do
+    context "with invalid credentials" do
 
       it "returns 401" do
         allow(controller).to receive(:current_user) { user }
@@ -150,7 +150,7 @@ describe BucketsController, type: :controller do
   describe "#destroy" do
     let!(:shared_bucket) { FactoryGirl.create(:shared_bucket, :with_user) }
 
-    context "with correct credentials" do
+    context "with valid credentials" do
 
       before do
         allow(controller).to receive(:current_user) { shared_bucket.user }
@@ -188,5 +188,7 @@ describe BucketsController, type: :controller do
     end
 
   end
+
+
 
 end
