@@ -9,6 +9,7 @@ class ApplicationController < ActionController::API
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
   rescue_from NotAuthenticatedError, with: :not_authenticated
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def json_response(status, res)
 
@@ -42,7 +43,13 @@ class ApplicationController < ActionController::API
       success: false,
       message_id: "not_authenticated",
       message: I18n.t('error.not_authenticated')
-    return
+  end
+  
+  def record_not_found 
+    json_response 404,
+      success: false,
+      message_id: "record_not_found",
+      message: I18n.t('error.not_found')
   end
 
   def parameter_missing(exception)

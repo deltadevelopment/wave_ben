@@ -3,19 +3,13 @@ class UsersController < ApplicationController
   after_action :verify_authorized, except: :create
 
   def create
-    user = User.new(create_params)
-    
-    if user.save
-      
-      # TODO Refactor creation of buckets into a service
-      
-      user_session = UserSession.new.generate_token(user.id)
-      user_session.save
+    user, user_session, bucket = 
+      UserActions.new(
+        user: User.new(create_params),
+        params: params
+      ).register
 
-      bucket = Bucket.create({
-        user_id: user.id,
-        bucket_type: :user
-      })
+    if user.persisted? 
 
       json_response 201,
         success: true, 
@@ -24,7 +18,7 @@ class UsersController < ApplicationController
         data: { 
           user: remove_unsafe_keys(user),
           session: user_session.slice(:auth_token),
-          bucket: bucket
+          bucket: bucket.slice(:id)
         }
 
     else
@@ -38,20 +32,6 @@ class UsersController < ApplicationController
       end
 
     end
-
-  end
-
-  def destroy
-    user = User.find(params[:id])
-
-    authorize user 
-
-    user.destroy!
-
-    json_response 200,
-      success: true,
-      message_id: 'user_destroyed',
-      message: I18n.t('success.user_destroyed')
 
   end
 
@@ -78,6 +58,20 @@ class UsersController < ApplicationController
       end
 
     end
+
+  end
+
+  def destroy
+    user = User.find(params[:id])
+
+    authorize user 
+
+    user.destroy!
+
+    json_response 200,
+      success: true,
+      message_id: 'user_destroyed',
+      message: I18n.t('success.user_destroyed')
 
   end
 
