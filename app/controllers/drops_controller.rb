@@ -2,7 +2,7 @@ class DropsController < ApplicationController
 
   def generate_upload_url
 
-    authorize Drop.new
+    authorize Drop.new 
 
     s3 = Aws::S3::Resource.new
     key = SecureRandom::hex(40)

@@ -7,16 +7,25 @@ class UsersController < ApplicationController
     
     if user.save
       
-      new_session = UserSession.new.generate_token(user.id)
-      new_session.save
+      # TODO Refactor creation of buckets into a service
+      
+      user_session = UserSession.new.generate_token(user.id)
+      user_session.save
 
-      user.auth_token = new_session.auth_token
+      bucket = Bucket.create({
+        user_id: user.id,
+        bucket_type: :user
+      })
 
       json_response 201,
         success: true, 
         message_id: 'user_created',
         message: I18n.t('success.user_created'),
-        data: { user: remove_unsafe_keys(user) }
+        data: { 
+          user: remove_unsafe_keys(user),
+          session: user_session.slice(:auth_token),
+          bucket: bucket
+        }
 
     else
       
@@ -94,7 +103,7 @@ class UsersController < ApplicationController
   end
 
   def remove_unsafe_keys(user)
-    user.slice('id', 'display_name', 'username', 'email', 'phone_number', 'auth_token')
+    user.slice('id', 'display_name', 'username', 'email', 'phone_number')
   end
 
 

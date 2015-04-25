@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe UsersController, focus: true do
+describe UsersController do
   
   describe '#create' do
 
@@ -21,10 +21,22 @@ describe UsersController, focus: true do
         expect(response).to be_success
       end
 
+      it 'saves the user' do
+        expect{
+          post :create, register_params
+        }.to change(User, :count).by(1)
+      end
+
       it 'logs the user in' do
         expect{
           post :create, register_params
         }.to change(UserSession, :count).by(1)
+      end
+
+      it 'creates a new bucket' do
+        expect{
+          post :create, register_params
+        }.to change(Bucket, :count).by(1)
       end
 
     end
@@ -40,6 +52,20 @@ describe UsersController, focus: true do
       it 'returns 400 when you dont include `user`' do
         post :create 
         expect(response).to have_http_status(400)
+      end
+
+      it 'does not save the user' do
+        register_params['user']['username'] = ''
+        expect{
+          post :create, register_params
+        }.to change(User, :count).by(0)
+      end
+
+      it 'does not create a new bucket' do
+        register_params['user']['username'] = ''
+        expect{
+          post :create, register_params
+        }.to change(Bucket, :count).by(0)
       end
 
     end

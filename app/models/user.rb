@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  attr_accessor :password, :auth_token, :bucket
+  attr_accessor :password, :bucket
 
   has_one :user_session
 
