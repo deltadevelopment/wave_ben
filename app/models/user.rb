@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_one :user_session
 
-  has_many :buckets
+  has_many :buckets, dependent: :destroy
   has_many :drops
 
   before_save :encrypt_password
