@@ -133,7 +133,7 @@ describe UsersController do
 
   describe '#destroy' do
 
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { FactoryGirl.create(:user, :with_bucket) }
 
     context "with the right credentials" do
 
@@ -146,10 +146,16 @@ describe UsersController do
         expect(response).to be_success
       end
 
-      it 'destroys the resource' do
+      it 'destroys the user' do
         expect { 
           delete :destroy, {id: user.id}
         }.to change(User, :count).by(-1)
+      end
+
+      it 'destroys the users buckets' do
+        expect { 
+          delete :destroy, {id: user.id}
+        }.to change(Bucket, :count).by(-1)
       end
 
     end

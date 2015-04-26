@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe BucketsController, type: :controller do
+describe BucketsController do
 
   let(:user) { FactoryGirl.create(:user) }
   
@@ -148,7 +148,7 @@ describe BucketsController, type: :controller do
   end
 
   describe "#destroy" do
-    let!(:shared_bucket) { FactoryGirl.create(:shared_bucket, :with_user) }
+    let!(:shared_bucket) { FactoryGirl.create(:shared_bucket, :with_user, :with_drop) }
 
     context "with valid credentials" do
 
@@ -165,6 +165,12 @@ describe BucketsController, type: :controller do
         expect{ 
           delete :destroy, { id: shared_bucket.id }
         }.to change(Bucket, :count).by(-1)
+      end
+
+      it "deletes the containing drops" do
+        expect{
+          delete :destroy, { id: shared_bucket.id } 
+        }.to change(Drop, :count).by(-1)
       end
 
     end

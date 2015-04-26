@@ -8,7 +8,12 @@ FactoryGirl.define do
     password "blackhatpr00f"
     availability 0
 
-    trait(:with_bucket) { bucket { create(:user_bucket) } }
+    trait(:with_bucket){
+      after(:create) do |user|
+        create(:user_bucket, user: user)
+      end
+    }
+
     trait(:public) { private_profile false }
     trait(:private) { private_profile true }
     trait(:logged_in) { user_session { create(:user_session) } }

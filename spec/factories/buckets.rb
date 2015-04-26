@@ -20,6 +20,12 @@ FactoryGirl.define do
     visibility :everyone  
   }
 
+  trait(:with_drop){
+    after(:create) do |bucket|
+      create(:drop, bucket: bucket)
+    end
+  }
+
   trait(:followers){
     visibility :followers
   }
