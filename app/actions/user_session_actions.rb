@@ -12,19 +12,7 @@ class UserSessionActions
     if user
       user_session = generate_session(user, @params)
 
-      arn = get_arn(@params[:device_type])
-
-      unless arn == nil or @params[:device_id] == nil
-
-        update_token_params = { 
-          arn: arn, 
-          device_id: @params[:device_id],
-          user_id: user.id 
-        }
-
-        add_device_id_sns(user_session, update_token_params)
-
-      end
+      check_device_id_and_arn(user_session)
       
       user_session
 
@@ -48,15 +36,36 @@ class UserSessionActions
     user_session
   end
 
+  def check_device_id_and_arn(user_session)
+    arn = get_arn(@params[:device_type])
+
+    unless arn == nil or @params[:device_id] == nil
+      update_token_params = { 
+        arn: arn, 
+        device_id: @params[:device_id],
+        user_id: user_session.user_id
+      }
+
+      add_device_id_sns(user_session, update_token_params)
+
+    end
+
+  end
+
   def add_device_id_sns(user_session, update_token_params)
     device_id_in_use = UserSession.device_id_in_use(user_session)
+
     unless device_id_in_use.nil?
       Resque.enqueue(AddDeviceToken, update_token_params, device_id_in_use.user.sns_endpoint_arn)
-      device_id_in_use.user.update_attributes(sns_endpoint_arn: nil)
-      device_id_in_use.destroy
+      reset_session_and_user_with_device_id(device_id_in_use)
     else
       Resque.enqueue(AddDeviceToken, update_token_params)
     end
+  end
+
+  def reset_session_and_user_with_device_id(user_session)
+    user_session.user.update_attributes(sns_endpoint_arn: nil)
+    user_session.destroy
   end
 
   def generate_token
@@ -79,7 +88,6 @@ class UserSessionActions
   end
 
   def find_user_by_username_and_password(username, password)
-
     user = User.find_by_username(username)
 
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)

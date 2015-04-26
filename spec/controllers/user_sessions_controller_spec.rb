@@ -10,20 +10,22 @@ describe UserSessionsController do
   describe '#create' do
 
     let(:login_credentials) { 
-      { username: user.username,
+      { user: {
+        username: user.username,
         password: user.password }
+      }
     }
 
     context 'with incorrect credentials' do
 
       it 'returns 401' do
-        post :create, { username: '', password: '' }
+        post :create, { user: { username: '', password: '' } }
         expect(response).to have_http_status(401)        
       end
 
       it 'does not save the session' do
         auth_token = logged_in_user.user_session.auth_token
-        post :create, { username: logged_in_user.username, password: 'wrong' }
+        post :create, { user: { username: logged_in_user.username, password: 'wrong' } }
         expect(logged_in_user.user_session.reload.auth_token).to eq(auth_token) 
       end
 
@@ -34,13 +36,16 @@ describe UserSessionsController do
       ENV['AWS_SNS_IOS_ARN'] = 'A'*30
 
       let(:liu_login_credentials) { 
-        { username: logged_in_user.username,
+        { user: { 
+          username: logged_in_user.username, 
           password: logged_in_user.password }
+        }
       }
 
       let(:liu_device_id_creds) {
-        { username: liu_device_id.username,
-          password: liu_device_id.password,
+        { user: { 
+          username: liu_device_id.username,
+          password: liu_device_id.password },
           device_id: liu_device_id.user_session.device_id,
           device_type: liu_device_id.user_session.device_type }
       }
@@ -72,9 +77,9 @@ describe UserSessionsController do
           expect(liu_device_id.user_session.reload.auth_token).to_not eq(auth_token)
         end
         
-        it 'sets the endpoint arn of the user', focus: true do
+        it 'sets the endpoint arn of the user' do
           device = { device_id: liu_device_id.user_session.device_id,
-                       device_type: liu_device_id.user_session.device_type }
+                     device_type: liu_device_id.user_session.device_type }
           res = { sns_endpoint_arn: "example" }
 
           Resque.inline = true

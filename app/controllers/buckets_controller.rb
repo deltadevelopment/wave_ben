@@ -1,13 +1,14 @@
 class BucketsController < ApplicationController
 
   def create
-    bucket = current_user.buckets.new(bucket_create_params)
+    authorize Bucket.new
 
-    authorize bucket
+    bucket, drop = BucketActions.new(
+      bucket: current_user.buckets.new(bucket_create_params),
+      params: params
+    ).create!(drop_create_params)
 
-    drop = bucket.drops.new(drop_create_params.merge({user_id: bucket.user_id}))
-
-    if drop.valid? && bucket.valid? && drop.save && bucket.save
+    if bucket.persisted? && drop.persisted?
 
       json_response 201,
         success: true,

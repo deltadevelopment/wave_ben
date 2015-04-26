@@ -27,6 +27,7 @@ en:
     not_authorized: "You are not authorized to access that resource"
     parameter_missing: "A required parameter: `%{param}` is missing"
     internal_server_error: "Internal Server Error"
+    record_not_found: "Oops! What you are looking for is not here"
     
   success:
     # General
@@ -46,6 +47,7 @@ en:
     # Drop
     upload_url_generated: "Upload URL generated successfully"
   validation:
+
     # User
     username_length: "validation_username_length"
     username_alphanumeric: "validation_username_alphanumeric"
