@@ -1,5 +1,15 @@
 class DropsController < ApplicationController
 
+  def create
+    bucket = Bucket.find(params[:id])
+
+    authorize bucket
+
+  end
+
+  def destroy
+  end
+
   def generate_upload_url
 
     authorize Drop.new 

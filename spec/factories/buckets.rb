@@ -26,6 +26,12 @@ FactoryGirl.define do
     end
   }
 
+  trait(:with_unsaved_drop){
+    after(:create) do |bucket|
+      build(:drop, bucket: bucket)
+    end
+  }
+
   trait(:followers){
     visibility :followers
   }

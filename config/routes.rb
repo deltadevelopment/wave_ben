@@ -15,7 +15,13 @@ Rails.application.routes.draw do
   delete '/bucket/:id' => 'buckets#destroy'
 
   # Drop routes
+  post '/bucket/:id/drop/' => 'drops#create'
+  delete '/drop/:drop_id' => 'drops#create'
   post '/drop/generate_upload_url' => 'drops#generate_upload_url'
+
+  # Following routes
+  post 'user/:user_id/follow/:followee_id' => 'followings#create_or_request'
+  delete 'user/:user_id/follow/:followee_id' => 'followings#create_or_request'
 
   # Resque routes
   get 'jobs' => 'jobs#list'
