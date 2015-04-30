@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422132910) do
+ActiveRecord::Schema.define(version: 20150428093316) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -41,6 +41,20 @@ ActiveRecord::Schema.define(version: 20150422132910) do
   add_index "drops", ["lft"], name: "index_drops_on_lft"
   add_index "drops", ["parent_id"], name: "index_drops_on_parent_id"
   add_index "drops", ["rgt"], name: "index_drops_on_rgt"
+
+  create_table "following_requests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "followee_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "followings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "followee_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "user_sessions", force: :cascade do |t|
     t.string   "auth_token"
