@@ -1,7 +1,7 @@
 class Bucket < ActiveRecord::Base
 
   enum bucket_type: [:shared, :user]
-  enum visibility: [:everyone, :followers, :tagged]
+  enum visibility: [:everyone, :tagged]
 
   belongs_to :user
 
@@ -9,11 +9,11 @@ class Bucket < ActiveRecord::Base
 
   validates :title, length: { in: 1..25, message: I18n.t('validation.title_length')}, if: :shared?
 
-  validates :description, length: { in: 0..250, message: I18n.t('validation.description_length')}, if: :shared_and_entered?
+  validates :description, length: { in: 0..250, message: I18n.t('validation.description_length')}, if: :shared_and_entered_description?
 
   private
 
-  def shared_and_entered?
+  def shared_and_entered_description?
     self.shared? && !description.nil?
   end
   

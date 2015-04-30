@@ -71,7 +71,7 @@ class BucketsController < ApplicationController
 
     bucket.destroy!
 
-    json_response 200,
+    json_response 204,
       sucess: false,
       message_id: 'record_destroyed',
       message: I18n.t('success.record_destroyed'),

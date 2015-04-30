@@ -68,10 +68,13 @@ class UsersController < ApplicationController
 
     user.destroy!
 
-    json_response 200,
+    json_response 204,
       success: true,
       message_id: 'user_destroyed',
-      message: I18n.t('success.user_destroyed')
+      message: I18n.t('success.user_destroyed'),
+      data: {
+        user: remove_unsafe_keys(user)
+      }
 
   end
 

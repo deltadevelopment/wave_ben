@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422132910) do
+ActiveRecord::Schema.define(version: 20150430123918) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -42,6 +42,20 @@ ActiveRecord::Schema.define(version: 20150422132910) do
   add_index "drops", ["parent_id"], name: "index_drops_on_parent_id"
   add_index "drops", ["rgt"], name: "index_drops_on_rgt"
 
+  create_table "subscribers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "subscribee_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "subscribee_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "user_sessions", force: :cascade do |t|
     t.string   "auth_token"
     t.integer  "user_id"
@@ -61,9 +75,8 @@ ActiveRecord::Schema.define(version: 20150422132910) do
     t.integer  "availability",     default: 0
     t.string   "password_hash"
     t.string   "password_salt"
-    t.boolean  "private_profile",  default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "sns_endpoint_arn"
   end
 

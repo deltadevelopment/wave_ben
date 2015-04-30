@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
 
     json = {
       success: res[:success],
-      record_not_foundmessage: res[:message],
+      message: res[:message],
       message_id: res[:message_id]
     }
 

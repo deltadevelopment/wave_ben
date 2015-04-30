@@ -141,10 +141,10 @@ describe UserSessionsController do
 
     context 'with the right token' do
 
-      it "returns 200" do
+      it "returns 204" do
         @request.headers.merge!(header)
         delete :destroy
-        expect(response).to be_success 
+        expect(response).to have_http_status(204)
       end
       
       it "deletes the session" do

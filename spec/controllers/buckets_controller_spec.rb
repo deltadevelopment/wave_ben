@@ -121,12 +121,12 @@ describe BucketsController do
         end
         
         it "returns 200" do
-          post :update, valid_shared_bucket_params
+          put :update, valid_shared_bucket_params
           expect(response).to have_http_status(200)
         end
 
         it "updates the record" do
-          post :update, valid_shared_bucket_params
+          put :update, valid_shared_bucket_params
           expect(shared_bucket.reload.title).to eq(valid_shared_bucket_params[:bucket][:title])
 
         end
@@ -139,7 +139,7 @@ describe BucketsController do
 
       it "returns 401" do
         allow(controller).to receive(:current_user) { user }
-        post :update, valid_shared_bucket_params
+        put :update, valid_shared_bucket_params
         expect(response).to have_http_status(401)
       end 
       
@@ -156,9 +156,9 @@ describe BucketsController do
         allow(controller).to receive(:current_user) { shared_bucket.user }
       end
       
-      it "returns 200" do
+      it "returns 204" do
         delete :destroy, { id: shared_bucket.id }
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(204)
       end
 
       it "deletes the record" do

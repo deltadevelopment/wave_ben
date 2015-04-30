@@ -7,7 +7,6 @@ FactoryGirl.define do
     display_name "Wave Rider"
     password "blackhatpr00f"
     availability 0
-    private_profile false
 
     trait(:with_bucket){
       after(:create) do |user|
@@ -15,7 +14,6 @@ FactoryGirl.define do
       end
     }
 
-    trait(:private) { private_profile true }
     trait(:logged_in) { user_session { create(:user_session) } }
     trait(:logged_in_with_device_id) { user_session { create(:user_session, :with_device_id) } }
   end

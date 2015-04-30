@@ -80,7 +80,6 @@ describe UsersController do
         user: {
           password: 'newpassword',
           email: 'new@email.com',
-          private_profile: false,
           phone_number: 12345678
         }
       }
@@ -143,7 +142,7 @@ describe UsersController do
 
       it 'returns success' do
         delete :destroy, {id: user.id}
-        expect(response).to be_success
+        expect(response).to have_http_status(204)
       end
 
       it 'destroys the user' do

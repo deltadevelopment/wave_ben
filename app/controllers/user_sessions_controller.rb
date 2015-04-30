@@ -27,10 +27,11 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user.user_session.destroy!
 
-    json_response 200,
+    json_response 204,
       success: true,
       message_id: 'user_session_destroyed',
-      message: I18n.t('success.user_session_destroyed')
+      message: I18n.t('success.user_session_destroyed'),
+      data: { session: current_user.user_session }
 
   end
 

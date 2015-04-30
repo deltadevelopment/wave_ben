@@ -19,9 +19,9 @@ Rails.application.routes.draw do
   delete '/drop/:drop_id' => 'drops#create'
   post '/drop/generate_upload_url' => 'drops#generate_upload_url'
 
-  # Following routes
-  post 'user/:user_id/follow/:followee_id' => 'followings#create_or_request'
-  delete 'user/:user_id/follow/:followee_id' => 'followings#create_or_request'
+  # Subscriber routes
+  post 'user/:user_id/subscribe/:subscribee_id' => 'subscriptions#create'
+  delete 'user/:user_id/subscribe/:subscribee_id' => 'subscriptions#destroy'
 
   # Resque routes
   get 'jobs' => 'jobs#list'
