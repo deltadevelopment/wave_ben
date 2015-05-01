@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430123918) do
+ActiveRecord::Schema.define(version: 20150430181015) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 20150430123918) do
   add_index "drops", ["parent_id"], name: "index_drops_on_parent_id"
   add_index "drops", ["rgt"], name: "index_drops_on_rgt"
 
+  create_table "hashtags", force: :cascade do |t|
+    t.string   "tag_string"
+    t.integer  "count"
+    t.integer  "expires"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "subscribers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "subscribee_id"
@@ -54,6 +62,15 @@ ActiveRecord::Schema.define(version: 20150430123918) do
     t.integer  "subscribee_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.integer  "drop_id"
+    t.integer  "bucket_id"
+    t.integer  "taggee_id"
+    t.integer  "tag_type_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "user_sessions", force: :cascade do |t|
