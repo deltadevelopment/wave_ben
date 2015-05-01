@@ -23,7 +23,12 @@ class ApplicationController < ActionController::API
       data: res[:data] 
     }
 
+    errors = {
+      errors: res[:errors]
+    }
+
     json.merge!(data) unless res[:data].nil?
+    json.merge!(errors) unless res[:errors].nil?
 
     render json: json, status: status 
 

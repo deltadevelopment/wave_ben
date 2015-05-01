@@ -2,7 +2,7 @@ class UserSessionsController < ApplicationController
   before_action :check_session, only: :destroy
 
   def create
-    user_session = UserSessionActions.new(params: params).create!
+    user_session = UserSessionActions.new(params: login_params).create!
 
     if user_session
       json_response 200,
@@ -17,7 +17,7 @@ class UserSessionsController < ApplicationController
         success: false,
         message_id: 'bad_credentials',
         message: I18n.t('error.bad_credentials'),
-        error: {
+        errors: {
           "password": ["is incorrect"]
         }
     end
@@ -38,7 +38,7 @@ class UserSessionsController < ApplicationController
   private
 
   def login_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :device_id, :device_type)
   end
 
 end

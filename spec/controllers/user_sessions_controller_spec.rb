@@ -45,9 +45,10 @@ describe UserSessionsController do
       let(:liu_device_id_creds) {
         { user: { 
           username: liu_device_id.username,
-          password: liu_device_id.password },
+          password: liu_device_id.password,
           device_id: liu_device_id.user_session.device_id,
           device_type: liu_device_id.user_session.device_type }
+        }
       }
       
       it 'returns 200' do
@@ -70,6 +71,14 @@ describe UserSessionsController do
       end
 
       context 'with device_id and device_type set' do
+        let(:credentials) {
+          { user: {
+            username: user.username,
+            password: user.password,
+            device_id: liu_device_id.user_session.device_id,
+            device_type: liu_device_id.user_session.device_type } 
+          }
+        }
 
         it 'updates sessions when users are already logged in' do
           auth_token = liu_device_id.user_session.auth_token
@@ -78,8 +87,6 @@ describe UserSessionsController do
         end
         
         it 'sets the endpoint arn of the user' do
-          device = { device_id: liu_device_id.user_session.device_id,
-                     device_type: liu_device_id.user_session.device_type }
           res = { sns_endpoint_arn: "example" }
 
           Resque.inline = true
@@ -91,7 +98,7 @@ describe UserSessionsController do
  
           allow(user).to receive(:update_attributes).and_return(true)
 
-          post :create, login_credentials.merge(device)
+          post :create, credentials
           
         end
 
@@ -101,32 +108,24 @@ describe UserSessionsController do
             Resque.inline = true
           end
 
-          it 'deletes other sessions having the same device_id' do
-            device = { device_id: liu_device_id.user_session.device_id,
-                       device_type: liu_device_id.user_session.device_type }
+          it 'deletes other sessions having the same device_id', focus: true do
             allow(Resque).to receive(:enqueue).and_return(true)
-        
-            post :create, login_credentials.merge(device)
+             
+            post :create, credentials
             expect(liu_device_id.reload.user_session).to eql(nil)
           end
 
           it 'executes the job' do
-            device = { device_id: liu_device_id.user_session.device_id,
-                       device_type: liu_device_id.user_session.device_type }
-
             client = Aws::SNS::Client.new(stub_responses: true)
 
             expect(Aws::SNS::Client).to receive(:new) { client }
 
-            post :create, login_credentials.merge(device)
+            post :create, credentials
           end
 
           it 'adds AddDeviceToken to the queue' do
-            device = { device_id: liu_device_id.user_session.device_id,
-                       device_type: liu_device_id.user_session.device_type }
-            
             expect(Resque).to receive(:enqueue).and_return(true)
-            post :create, login_credentials.merge(device)
+            post :create, credentials
           end
 
         end

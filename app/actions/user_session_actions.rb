@@ -6,11 +6,11 @@ class UserSessionActions
   end
 
   def create!
-    user = find_user_by_username_and_password(
-      @params[:user][:username], @params[:user][:password])
+    @user = find_user_by_username_and_password(
+      @params[:username], @params[:password])
 
-    if user
-      user_session = generate_session(user, @params)
+    if @user
+      user_session = generate_session(@user, @params)
 
       check_device_id_and_arn(user_session)
       

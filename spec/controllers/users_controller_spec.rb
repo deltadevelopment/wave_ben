@@ -33,7 +33,7 @@ describe UsersController do
         }.to change(UserSession, :count).by(1)
       end
 
-      it 'creates a new bucket' do
+      it 'creates a new user bucket' do
         expect{
           post :create, register_params
         }.to change(Bucket, :count).by(1)

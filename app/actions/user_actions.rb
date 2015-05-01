@@ -10,7 +10,7 @@ class UserActions
     if @user.save
       user_session = UserSessionActions.new(
         user: @user, 
-        params: @params
+        params: @params[:user]
       ).create!
 
       bucket = Bucket.create({
