@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430181015) do
+ActiveRecord::Schema.define(version: 20150501133252) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -65,13 +65,15 @@ ActiveRecord::Schema.define(version: 20150430181015) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.integer  "drop_id"
-    t.integer  "bucket_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "taggee_id"
-    t.integer  "tag_type_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "taggee_type"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
   end
+
+  add_index "tags", ["taggable_id"], name: "index_tags_on_taggable_id"
 
   create_table "user_sessions", force: :cascade do |t|
     t.string   "auth_token"

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :buckets, dependent: :destroy
   has_many :drops
 
+  has_many :tags, as: :taggee
+
   before_save :encrypt_password
 
   validates :username, length: { in: 1..20, message: I18n.t('validation.username_length') }

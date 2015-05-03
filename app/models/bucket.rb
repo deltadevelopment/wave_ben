@@ -5,6 +5,8 @@ class Bucket < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :tags, as: :taggable
+
   has_many :drops, dependent: :destroy
 
   validates :title, length: { in: 1..25, message: I18n.t('validation.title_length')}, if: :shared?

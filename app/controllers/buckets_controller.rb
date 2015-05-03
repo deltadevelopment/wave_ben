@@ -12,7 +12,7 @@ class BucketsController < ApplicationController
 
       json_response 201,
         success: true,
-        message_id: 'shared_bucket_created',
+        message_id: 'record_created',
         message: I18n.t('success.record_created'),
         data: {
           bucket: bucket,

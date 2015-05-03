@@ -1,8 +1,6 @@
 class Tag < ActiveRecord::Base
 
-  belongs_to :drop
-  belongs_to :bucket
-
-  has_many :hashtags
+  belongs_to :taggable, polymorphic: true
+  belongs_to :taggee, polymorphic: true
 
 end
