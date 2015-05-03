@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150501133252) do
+ActiveRecord::Schema.define(version: 20150503122942) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -45,9 +45,9 @@ ActiveRecord::Schema.define(version: 20150501133252) do
   create_table "hashtags", force: :cascade do |t|
     t.string   "tag_string"
     t.integer  "count"
-    t.integer  "expires"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "expires",    default: 7
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "subscribers", force: :cascade do |t|
