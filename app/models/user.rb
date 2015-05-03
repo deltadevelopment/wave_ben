@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
   has_one :user_session
 
   has_many :buckets, dependent: :destroy
-  has_many :drops
+  has_many :drops, dependent: :destroy
 
-  has_many :tags, as: :taggee
+  has_many :tags, as: :taggee, dependent: :destroy
 
   before_save :encrypt_password
 

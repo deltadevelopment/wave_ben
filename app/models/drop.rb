@@ -3,7 +3,7 @@ class Drop < ActiveRecord::Base
   belongs_to :bucket
   belongs_to :user
 
-  has_many :tags, as: :taggable
+  has_many :tags, as: :taggable, dependent: :destroy
 
   acts_as_nested_set
 

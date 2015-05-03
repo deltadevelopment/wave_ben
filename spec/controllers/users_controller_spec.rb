@@ -151,12 +151,6 @@ describe UsersController do
         }.to change(User, :count).by(-1)
       end
 
-      it 'destroys the users buckets' do
-        expect { 
-          delete :destroy, {id: user.id}
-        }.to change(Bucket, :count).by(-1)
-      end
-
     end
 
     context "with the incorrect credentials" do

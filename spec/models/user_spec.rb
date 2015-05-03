@@ -4,6 +4,11 @@ describe User do
 
   let(:user) { FactoryGirl.build(:user) }
 
+  it { should have_one(:user_session) }
+  it { should have_many(:buckets).dependent(:destroy) }
+  it { should have_many(:drops).dependent(:destroy) }
+  it { should have_many(:tags).dependent(:destroy) }
+
   describe "test the tests" do
     it "initializes a valid user" do
       expect(user).to be_valid

@@ -167,12 +167,6 @@ describe BucketsController do
         }.to change(Bucket, :count).by(-1)
       end
 
-      it "deletes the containing drops" do
-        expect{
-          delete :destroy, { id: shared_bucket.id } 
-        }.to change(Drop, :count).by(-1)
-      end
-
     end
 
     context "with invalid credentials" do

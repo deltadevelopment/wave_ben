@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-describe Bucket, type: :model do
+describe Bucket do
+
+  it { should belong_to(:user) }
+  it { should have_many(:tags).dependent(:destroy) }
+  it { should have_many(:drops).dependent(:destroy ) }
 
   describe "title format" do
 
