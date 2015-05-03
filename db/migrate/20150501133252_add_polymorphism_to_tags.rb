@@ -10,7 +10,8 @@ class AddPolymorphismToTags < ActiveRecord::Migration
 
       t.belongs_to :taggable, polymorphic: true, null: false
       
-      t.index :taggable_id, :taggee_id
+      t.index :taggable_id
+      t.index :taggee_id
     end
   end
 end
