@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 class TagPolicy < ApplicationPolicy
 
   def create?
