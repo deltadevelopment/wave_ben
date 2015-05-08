@@ -8,26 +8,14 @@ describe DropsController do
 
   describe "#create" do
     let!(:drop) { FactoryGirl.build(:drop, :with_bucket) }
-    let(:valid_drop_params) {
-      { id: drop.bucket.id,
+    let(:valid_params) {
+      { bucket_id: drop.bucket.id,
         drop: { 
           media_key: drop.media_key
         }
       }
     }
   
-    context "with valid credentials" do 
-      
-    end
-
-    context "without being logged in" do 
-      
-      it "should return 401" do
-        post :create, valid_drop_params 
-        expect(response).to have_http_status(401)
-      end
-
-    end
 
   end
 
@@ -37,9 +25,9 @@ describe DropsController do
 
       before { allow(controller).to receive(:current_user) { User.new } } 
       
-      it "returns 201" do
+      it "returns 200" do
         post :generate_upload_url
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(200)
       end
 
     end

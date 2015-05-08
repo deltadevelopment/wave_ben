@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find(params[:id])   
+    user = User.find(params[:user_id])   
   
     authorize user
 
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = User.find(params[:user_id])
 
     authorize user 
 

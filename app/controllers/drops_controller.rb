@@ -1,7 +1,7 @@
 class DropsController < ApplicationController
 
   def create
-    bucket = Bucket.find(params[:id])
+    bucket = Bucket.find(params[:bucket_id])
 
     authorize bucket
 
@@ -20,7 +20,7 @@ class DropsController < ApplicationController
     obj = s3.bucket(ENV['S3_BUCKET']).object(key)
     url = URI::parse(obj.presigned_url(:put))
 
-    json_response 201,
+    json_response 200,
       success: true,
       message_id: 'upload_url_generated',
       message: I18n.t('success.upload_url_generated'),

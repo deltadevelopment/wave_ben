@@ -76,7 +76,7 @@ describe UsersController do
 
     let(:update_params){
       {
-        id: user.id,
+        user_id: user.id,
         user: {
           password: 'newpassword',
           email: 'new@email.com',
@@ -141,13 +141,13 @@ describe UsersController do
       }
 
       it 'returns success' do
-        delete :destroy, {id: user.id}
+        delete :destroy, {user_id: user.id}
         expect(response).to have_http_status(204)
       end
 
       it 'destroys the user' do
         expect { 
-          delete :destroy, {id: user.id}
+          delete :destroy, {user_id: user.id}
         }.to change(User, :count).by(-1)
       end
 
@@ -160,13 +160,13 @@ describe UsersController do
         }
 
       it 'returns 401' do
-        delete :destroy, {id: user.id}
+        delete :destroy, {user_id: user.id}
         expect(response).to have_http_status(401)
       end
 
       it 'does not destroy the resource' do
         expect { 
-          delete :destroy, {id: user.id}
+          delete :destroy, {user_id: user.id}
         }.to change(User, :count).by(0)
       end
 

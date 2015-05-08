@@ -69,3 +69,6 @@ en:
     # Drop
     media_key_length: "validation_media_key_length"
     media_key_unique: "validation_media_key_unique"
+
+    # Tag
+    tag_string_format: "tag_string_format"

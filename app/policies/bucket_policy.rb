@@ -5,11 +5,11 @@ class BucketPolicy < ApplicationPolicy
   end
 
   def update?
-    user_is_user?
+    user_is_owner?
   end
 
   def destroy?
-    user_is_user?
+    user_is_owner?
   end
 
 end

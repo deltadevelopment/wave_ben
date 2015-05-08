@@ -37,7 +37,7 @@ class BucketsController < ApplicationController
   end
 
   def update
-    bucket = Bucket.find(params[:id])
+    bucket = Bucket.find(params[:bucket_id])
 
     authorize bucket
     
@@ -65,7 +65,7 @@ class BucketsController < ApplicationController
   end
   
   def destroy
-    bucket = Bucket.find(params[:id])
+    bucket = Bucket.find(params[:bucket_id])
 
     authorize bucket
 
@@ -96,6 +96,7 @@ class BucketsController < ApplicationController
 
   def update_params
     params.require(:bucket).permit(
+      :title,
       :description,
       :when_datetime,
       :visibility,

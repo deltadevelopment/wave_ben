@@ -1,7 +1,7 @@
 class Bucket < ActiveRecord::Base
 
   enum bucket_type: [:shared, :user]
-  enum visibility: [:everyone, :tagged]
+  enum visibility: [:everyone, :taggees]
 
   belongs_to :user
 

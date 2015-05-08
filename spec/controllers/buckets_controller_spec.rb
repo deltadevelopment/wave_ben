@@ -100,10 +100,10 @@ describe BucketsController do
   describe "#update" do
     let(:shared_bucket) { FactoryGirl.create(:shared_bucket, :with_user) }
     let(:valid_shared_bucket_params) do
-      { id: shared_bucket.id,
+      { bucket_id: shared_bucket.id,
         bucket: { title: shared_bucket.title, 
                   description: shared_bucket.description, 
-                  visibility: "tagged", 
+                  visibility: "taggees", 
                   locked: false } 
       }
     end
@@ -157,13 +157,13 @@ describe BucketsController do
       end
       
       it "returns 204" do
-        delete :destroy, { id: shared_bucket.id }
+        delete :destroy, { bucket_id: shared_bucket.id }
         expect(response).to have_http_status(204)
       end
 
       it "deletes the record" do
         expect{ 
-          delete :destroy, { id: shared_bucket.id }
+          delete :destroy, { bucket_id: shared_bucket.id }
         }.to change(Bucket, :count).by(-1)
       end
 
@@ -175,13 +175,13 @@ describe BucketsController do
       end
 
       it "returns 401" do
-        delete :destroy, { id: shared_bucket.id }
+        delete :destroy, { bucket_id: shared_bucket.id }
         expect(response).to have_http_status(401)
       end
 
       it "does not delete the record" do
         expect{ 
-          delete :destroy, { id: shared_bucket.id }
+          delete :destroy, { bucket_id: shared_bucket.id }
         }.to change(Bucket, :count).by(0)
       end
 

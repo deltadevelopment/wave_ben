@@ -32,24 +32,26 @@ FactoryGirl.define do
     end
   }
 
-  trait(:followers){
-    visibility :followers
-  }
-
-  trait(:tagged){
-    visibility :tagged
+  trait(:taggees){
+    visibility :taggees
   }
 
   trait(:locked){
     locked true
   }
 
-  trait(:open){
+  trait(:unlocked){
     locked false 
   }
 
   trait(:with_user){
     user { create(:user) }
+  }
+
+  trait(:with_taggee){
+    after(:create) do |bucket|
+      create(:usertag, taggable: bucket)
+    end     
   }
 
 end

@@ -1,4 +1,6 @@
-class DropPolicy < ApplicationPolicy
+require 'rails_helper'
+
+class TagPolicy < ApplicationPolicy
 
   def create?
     if record.taggable.locked?
@@ -17,15 +19,19 @@ class DropPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user_is_owner_of_drop_or_bucket?
-  end
-  
-  def user_is_owner_of_drop_or_bucket?
-    false
+    user_is_owner?
   end
 
-  def generate_upload_url?
-    is_logged_in?    
+  def user_is_taggee?
+    record.taggable.tags.pluck(:taggee_id).include?(user.id)
+  end
+
+  def user_is_owner?
+    record.taggable.user_id == user.id
+  end
+
+  def user_is_owner_or_taggee?
+    user_is_owner? || user_is_taggee?
   end
 
 end
