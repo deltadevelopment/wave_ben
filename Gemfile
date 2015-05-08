@@ -17,7 +17,6 @@ gem 'pundit'
 
 # Monitoring
 gem 'newrelic_rpm', group: :production
-gem "skylight", group: :production
 
 # Heroku specific
 gem 'rails_12factor', group: :production
