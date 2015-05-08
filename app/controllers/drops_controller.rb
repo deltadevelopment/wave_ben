@@ -2,8 +2,30 @@ class DropsController < ApplicationController
 
   def create
     bucket = Bucket.find(params[:bucket_id])
+    drop = Drop.new(bucket: bucket, user: current_user)
 
-    authorize bucket
+    authorize drop
+
+    drop = DropActions.new(drop, params).create! 
+
+    if drop.persisted?
+       json_response 201,
+        success: true,
+        message_id: 'resource_created',
+        message: I18n.t('success.resource_created'),
+        data: { drop: drop }
+    else
+      if drop.errors
+        json_response 400,
+          success: false,
+          message_id: 'validation_error',
+          message: I18n.t('error.validation_error'),
+          errors: drop.errors
+      else
+        raise CantSaveError
+      end
+
+    end
 
   end
 

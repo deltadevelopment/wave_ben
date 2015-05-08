@@ -14,9 +14,7 @@ class ApplicationPolicy
     !@user.nil?
   end
 
-  def user_is_owner?(dep=nil)
-    return @user.id == @record.dep.user_id unless dep.nil?
-
+  def user_is_owner?
     @user.id == @record.user_id 
   end
 

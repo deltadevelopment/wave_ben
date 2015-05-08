@@ -22,7 +22,7 @@ FactoryGirl.define do
 
   trait(:with_drop){
     after(:create) do |bucket|
-      create(:drop, bucket: bucket)
+      create(:drop, bucket: bucket, user: create(:user))
     end
   }
 

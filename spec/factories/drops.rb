@@ -4,7 +4,7 @@ FactoryGirl.define do
   end
 
   trait(:with_bucket) { 
-    association :bucket, factory: :shared_bucket 
+    association :bucket, factory: [:shared_bucket, :with_user]
   }
 
 end
