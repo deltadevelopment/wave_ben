@@ -22,7 +22,7 @@ class BucketsController < ApplicationController
     else
       errors = bucket.errors.messages.merge(drop.errors.messages)
 
-      if errors
+      unless errors.empty?
         json_response 400,
           success: false,
           message_id: 'validation_error',
@@ -50,7 +50,7 @@ class BucketsController < ApplicationController
           data: { bucket: bucket } 
 
     else
-      if bucket.errors
+      unless bucket.errors.empty?
         json_response 400,
           sucess: false,
           message_id: 'validation_error',

@@ -70,6 +70,11 @@ describe UserSessionsController do
         }.to change(UserSession, :count).by(0)        
       end
 
+      it "returns 400 with invalid params" do
+        post :create, {}
+        expect(response).to have_http_status(400)
+      end
+
       context 'with device_id and device_type set' do
         let(:credentials) {
           { user: {

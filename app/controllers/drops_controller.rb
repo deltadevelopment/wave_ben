@@ -15,7 +15,7 @@ class DropsController < ApplicationController
         message: I18n.t('success.resource_created'),
         data: { drop: drop }
     else
-      if drop.errors
+      unless drop.errors.empty?
         json_response 400,
           success: false,
           message_id: 'validation_error',

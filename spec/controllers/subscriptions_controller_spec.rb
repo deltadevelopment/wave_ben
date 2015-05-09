@@ -12,7 +12,7 @@ describe SubscriptionsController do
     
     context "with valid credentials" do
       before do
-        allow(controller).to receive(:current_user) { User.new }
+        allow(controller).to receive(:current_user) { user }
       end
 
       it "returns 201" do
@@ -25,6 +25,11 @@ describe SubscriptionsController do
           post :create, valid_params
         }.to change(Subscription, :count).by(1)
       end          
+
+      it "returns 404 with non-existing users" do
+        post :create, { user_id: 150, subscribee_id: 150 }
+        expect(response).to have_http_status(404)
+      end
 
     end
 
@@ -66,6 +71,11 @@ describe SubscriptionsController do
         expect {
           delete :destroy, valid_params
         }.to change(Subscription, :count).by(-1)
+      end
+
+      it "returns 404 on non-existing users" do
+        delete :destroy, { user_id: 150, subscribee_id: 150 }
+        expect(response).to have_http_status(404)
       end
 
     end

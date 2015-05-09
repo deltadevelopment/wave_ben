@@ -40,6 +40,11 @@ describe TagsController do
       expect(response).to have_http_status(400)
     end
 
+    it "returns 404 when the bucket does not exist" do
+      post :create, { bucket_id: 150 }       
+      expect(response).to have_http_status(404)
+    end
+
   end 
 
   describe "#destroy" do
@@ -59,6 +64,11 @@ describe TagsController do
       expect{
         delete :destroy, { tag_id: bucket.tags[0].id }
       }.to change(Tag, :count).by(-1)
+    end
+
+    it "returns 404 when the tag does not exist" do
+      delete :destroy, { tag_id: 150 }       
+      expect(response).to have_http_status(404)
     end
 
   end

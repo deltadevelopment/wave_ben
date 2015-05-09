@@ -1,6 +1,8 @@
 class SubscriptionsController < ApplicationController
 
   def create
+    user = User.find(params[:user_id])
+    subscribee = User.find(params[:subscribee_id])
     subscription = Subscription.new(create_params)
 
     authorize subscription
@@ -14,19 +16,7 @@ class SubscriptionsController < ApplicationController
             subscription: subscription
           }
     else
-
-      if subscription.errors
-        json_response 400,
-          success: false,
-          message_id: 'validation_error',
-          message: I18n.t('error.validation_error'),
-          data: {
-            error: subscription.errors
-          }
-      else
-        raise CantSaveError
-      end
-
+      raise CantSaveError
     end
 
   end

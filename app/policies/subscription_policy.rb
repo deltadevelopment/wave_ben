@@ -1,11 +1,11 @@
 class SubscriptionPolicy < ApplicationPolicy
 
   def create?
-    is_logged_in?    
+    user_is_owner?
   end
 
   def destroy?
-    user_is_user?
+    user_is_owner?
   end
 
 end

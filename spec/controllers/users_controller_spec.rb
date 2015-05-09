@@ -124,6 +124,11 @@ describe UsersController do
           expect(response).to have_http_status 400
         end 
 
+        it 'returns 404' do
+          put :update, { user_id: 150 }
+          expect(response).to have_http_status 404
+        end
+
       end
 
     end
@@ -149,6 +154,11 @@ describe UsersController do
         expect { 
           delete :destroy, {user_id: user.id}
         }.to change(User, :count).by(-1)
+      end
+
+      it 'returns 404 for non-existing users' do
+        delete :destroy, { user_id: 200 }
+        expect(response).to have_http_status(404)
       end
 
     end

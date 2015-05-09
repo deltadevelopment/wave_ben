@@ -113,6 +113,24 @@ describe BucketsController do
     end
 
     context "with valid credentials" do
+
+      context "with invalid parameters" do
+
+        before do
+          allow(controller).to receive(:current_user) { shared_bucket.user }
+        end
+
+        it "returns 404 when bucket does not exist" do
+          put :update, { bucket_id: 150 }
+          expect(response).to have_http_status(404)
+        end
+
+        it "returns 400 with bad parameters" do
+          put :update, { bucket_id: shared_bucket.id }
+          expect(response).to have_http_status(400)
+        end
+
+      end
       
       context "with valid parameters" do
 
@@ -165,6 +183,11 @@ describe BucketsController do
         expect{ 
           delete :destroy, { bucket_id: shared_bucket.id }
         }.to change(Bucket, :count).by(-1)
+      end
+
+      it "returns 404 when the record does not exist" do
+        delete :destroy, { bucket_id: 150 }
+        expect(response).to have_http_status(404)
       end
 
     end

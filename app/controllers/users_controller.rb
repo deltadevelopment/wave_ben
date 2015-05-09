@@ -23,12 +23,14 @@ class UsersController < ApplicationController
 
     else
       
-      if user.errors
+      unless user.errors.empty?
         json_response 400,
           success: false,
           message_id: 'validation_error',
           message: I18n.t('error.validation_error'),
           data: { error: user.errors }
+      else
+        raise CantSaveError
       end
 
     end
@@ -49,12 +51,14 @@ class UsersController < ApplicationController
 
     else
       
-      if user.errors
+      unless user.errors.empty?
         json_response 400,
           success: false,
           message_id: 'validation_error',
           message: I18n.t('error.validation_error'),
           data: { error: user.errors }
+      else
+        raise CantSaveError
       end
 
     end
