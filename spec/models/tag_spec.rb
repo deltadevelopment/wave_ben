@@ -9,7 +9,7 @@ describe Tag do
 
     context "when using a hashtag" do
 
-      let(:tag) { FactoryGirl.build(:hashtag) }
+      let(:tag) { FactoryGirl.build(:tag_hashtag) }
 
       it "tests the tests" do
         expect(tag).to be_valid

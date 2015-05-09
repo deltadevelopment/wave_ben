@@ -3,7 +3,7 @@ require 'rails_helper'
 describe DropsController do
 
   describe "#create" do
-    let!(:drop) { FactoryGirl.build(:drop, :with_bucket) }
+    let!(:drop) { FactoryGirl.build(:drop, :with_shared_bucket) }
     let(:valid_params) {
       { bucket_id: drop.bucket.id,
         drop: { 
@@ -36,6 +36,43 @@ describe DropsController do
       it "returns 404 if the bucket does not exist" do
         post :create, { bucket_id: 200 }
         expect(response).to have_http_status(404)
+      end
+
+    end
+
+  end
+
+  describe "#destroy" do
+    let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket) }
+    let(:valid_params) { { drop_id: drop.id } }
+
+    before do
+      allow(controller).to receive(:current_user) { drop.user }
+    end
+    
+    it "returns 204 when deleting the drop" do
+      binding.pry
+      delete :destroy, valid_params
+      expect(response).to have_http_status(204)
+    end
+
+    it "deletes the record" do
+      expect{
+        delete :destroy, valid_params
+      }.to change(Drop, :count).by(-1)
+    end
+
+    it "returns 404 if the drop does not exist" do
+      delete :destroy, { drop_id: 0 }
+      expect(response).to have_http_status(404)
+    end
+
+    context "with invalid credentials" do
+
+      it "returns 401 with invalid credentials" do
+        allow(controller).to receive(:current_user) { User.new }
+        delete :destroy, valid_params
+        expect(response).to have_http_status(401)
       end
 
     end

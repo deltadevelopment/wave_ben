@@ -6,7 +6,7 @@ class DropsController < ApplicationController
 
     authorize drop
 
-    drop = DropActions.new(drop, params).create! 
+    drop = DropActions.new(drop, create_params).create! 
 
     if drop.persisted?
        json_response 201,
@@ -30,7 +30,20 @@ class DropsController < ApplicationController
   end
 
   def destroy
-  end
+    drop = Drop.find(params[:drop_id])
+
+    authorize drop
+
+    drop.destroy!
+
+    json_response 204,
+      success: true,
+      message_id: 'resource_destroyed',
+      message: I18n.t('success.resource_destroyed'),
+      data: { drop: drop } 
+
+  end 
+
 
   def generate_upload_url
 
@@ -53,6 +66,12 @@ class DropsController < ApplicationController
         }
       }
 
+  end
+
+  private
+
+  def create_params
+    params.require(:drop).permit(:media_key, :caption)
   end
 
 end

@@ -14,6 +14,8 @@ class TagActions
       @tag.taggee = is_hashtag ? 
         Hashtag.find_or_create_by(tag_string: tag_string) :
         User.find_by_username(tag_string)
+
+      @tag.taggee.update_attributes(expires: 7) unless @tag.taggee.new_record?
       
       @tag.save
     end
