@@ -6,13 +6,13 @@ class DropsController < ApplicationController
 
     authorize drop
 
-    drop = DropActions.new(drop, create_params).create! 
+    drop = DropActions.new(drop: drop, param: create_params).create!
 
     if drop.persisted?
        json_response 201,
         success: true,
-        message_id: 'resource_created',
-        message: I18n.t('success.resource_created'),
+        message_id: 'record_created',
+        message: I18n.t('success.record_created'),
         data: { drop: drop }
     else
       unless drop.errors.empty?

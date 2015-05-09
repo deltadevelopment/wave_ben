@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     Bucket.where("user_id=? AND bucket_type=0", self.id)
   end
 
+  def is_owner?(resource)
+    self.id == resource.user_id
+  end
+
   protected 
 
   # Returns true if a phone number was entered

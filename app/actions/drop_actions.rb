@@ -1,6 +1,6 @@
 class DropActions
 
-  def initialize(drop, param)
+  def initialize(drop: nil, param: nil)
     @drop = drop
     @param = param
   end
@@ -13,9 +13,10 @@ class DropActions
     # Parse caption to find tags
          
     if @drop.bucket.bucket_type == 'user'
-      Drop.where(
+      parent_id = Drop.where(
         "bucket_id=? AND user_id=?", @drop.bucket.id, @drop.bucket.user_id
-      ).order(created_at: :desc)
+      ).order(created_at: :desc).pluck(:id).first
+      @drop.parent_id = parent_id unless @drop.user.is_owner?(@drop.bucket)
     end
 
     @drop.save
