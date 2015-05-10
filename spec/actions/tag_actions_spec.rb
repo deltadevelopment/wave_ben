@@ -16,6 +16,18 @@ describe TagActions do
       expect(tag.taggee.expires).to eq(7)
     end
 
+    it "creates new captions for drops" do
+        drop = FactoryGirl.build(:drop, :with_user_bucket)
+        FactoryGirl.create(:user, :username => "miri")
+
+        expect{
+          drop = DropActions.new(
+            drop: drop,
+            param: { caption: "hello #oslo @miri come to #berlin" }
+          ).create!
+        }.to change(Tag, :count).by(3)
+    end
+
   end
 
 end

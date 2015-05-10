@@ -29,15 +29,19 @@ describe DropActions do
       expect(drop5.parent_id).to eql(drop4.id)
     end   
 
-    it "parses the captions", focus: true do
-      drop = FactoryGirl.build(:drop, :with_user_bucket)
+    context "including tags in the caption" do
 
-      expect{
-        drop = DropActions.new(
-          drop: drop,
-          param: { caption: "hello #oslo @jason @miri come to #berlin" }
-        ).create!
-      }.to change(Tag, :count).by(4)
+#      it "parses the captions and calls create on each one" do
+#        drop = FactoryGirl.build(:drop, :with_user_bucket)
+#
+#        drop = DropActions.new(
+#          drop: drop,
+#          param: { caption: "hello #oslo @miri come to #berlin" }
+#        ).create!
+#
+#        expect(tag_actions).to receive(:create!).exactly(3).times
+#      end
+
     end
   
   end
