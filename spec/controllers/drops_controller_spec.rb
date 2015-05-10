@@ -51,7 +51,6 @@ describe DropsController do
     end
     
     it "returns 204 when deleting the drop" do
-      binding.pry
       delete :destroy, valid_params
       expect(response).to have_http_status(204)
     end

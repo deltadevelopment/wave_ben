@@ -11,8 +11,7 @@ class TagsController < ApplicationController
     authorize tag
 
     tag = TagActions.new(
-      tag: tag, 
-      param: create_params 
+      tag: tag
     ).create!
 
     if tag.persisted?

@@ -6,9 +6,9 @@ class TagActions
   end
     
   def create!
-    tag_string, is_hashtag = process_tag(@param[:tag_string])
+    tag_string, is_hashtag = process_tag(@tag.tag_string)
 
-    if @tag.taggable.bucket_type == 'user'
+    if @tag.taggable.is_a?(Bucket) && @tag.taggable.bucket_type == 'user'
       @tag.errors.add(:bucket_type, "it's not possible to tag a user bucket")
     elsif @tag.valid?
       @tag.taggee = is_hashtag ? 
