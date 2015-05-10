@@ -8,8 +8,6 @@ class TagActions
   def create!
     tag_string, is_hashtag = process_tag(@tag.tag_string)
 
-    bucket_type_taggable?
-
     if @tag.valid?
       set_taggee(tag_string, is_hashtag)
 
@@ -23,12 +21,6 @@ class TagActions
   end
 
   private
-
-  def bucket_type_taggable?
-    if @tag.taggable.is_a?(Bucket) && @tag.taggable.bucket_type == 'user'
-      @tag.errors.add(:bucket_type, "it's not possible to tag a user bucket")
-    end
-  end
 
   def set_taggee(tag_string, is_hashtag)
     @tag.taggee = is_hashtag ? 

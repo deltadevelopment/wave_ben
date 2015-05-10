@@ -65,6 +65,9 @@ en:
     when_datetime_format: "validation_when_datetime_format"
     bucket_type: "validation_bucket_type"
     description_length: "validation_description_length"
+    user_bucket_title_set: "user_bucket_title_set"
+    user_bucket_when_datetime: "user_bucket_when_datetime_set"
+    user_bucket_description_set: "user_bucket_description_set"
 
     # Drop
     media_key_length: "validation_media_key_length"
@@ -73,3 +76,4 @@ en:
 
     # Tag
     tag_string_format: "tag_string_format"
+    tag_bucket_type_invalid: "tag_bucket_type_invalid"

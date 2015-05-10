@@ -71,6 +71,24 @@ describe Tag do
 
     end
 
+    context "when tagging a bucket" do
+      let(:tag) { FactoryGirl.build(:usertag) }
+      
+      it "can not be a user bucket" do
+        bucket = FactoryGirl.create(:user_bucket)
+        tag.taggable = bucket
+        expect(tag).to_not be_valid
+      end
+
+      it "can be a shared bucket" do
+        bucket = FactoryGirl.create(:shared_bucket)
+        tag.taggable = bucket
+        expect(tag).to be_valid
+      end
+
+
+    end
+
   end
 
 

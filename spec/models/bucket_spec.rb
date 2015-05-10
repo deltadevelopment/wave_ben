@@ -37,6 +37,27 @@ describe Bucket do
       expect(shared_bucket).to be_valid
     end
 
+
+  end
+
+  describe "user buckets" do
+    let(:user_bucket) { FactoryGirl.create(:user_bucket) }
+
+    it "cant set description for user buckets" do
+      user_bucket.description = "abc"
+      expect(user_bucket).to_not be_valid
+    end
+
+    it "cant set title for user buckets" do
+      user_bucket.title = "abc"
+      expect(user_bucket).to_not be_valid
+    end
+
+    it "cant set when_datetime for user buckets" do
+      user_bucket.when_datetime = Time.now
+      expect(user_bucket).to_not be_valid
+    end
+
   end
 
 end
