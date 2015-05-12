@@ -1,6 +1,6 @@
 class Drop < ActiveRecord::Base
 
-  attr_acecssor :download_uri
+  attr_accessor :download_uri
 
   belongs_to :bucket, counter_cache: true
 
