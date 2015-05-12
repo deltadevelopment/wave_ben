@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  # Feed routes
+  get '/feed' => 'feed#show'
+
   # User routes
   post '/register' => 'users#create'
   delete '/user/:user_id' => 'users#destroy'
@@ -10,6 +13,7 @@ Rails.application.routes.draw do
   delete '/login' => 'user_sessions#destroy'
 
   # Bucket routes
+  get '/bucket/:bucket_id/' => 'buckets#show'
   post '/bucket' => 'buckets#create'
   put '/bucket/:bucket_id' => 'buckets#update'
   delete '/bucket/:bucket_id' => 'buckets#destroy'

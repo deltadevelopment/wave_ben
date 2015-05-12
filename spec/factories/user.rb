@@ -6,7 +6,6 @@ FactoryGirl.define do
     sequence(:phone_number) { |n| "1234567#{n}".to_i } 
     display_name "Wave Rider"
     password "blackhatpr00f"
-    availability 0
 
     trait(:with_bucket){
       after(:create) do |user|

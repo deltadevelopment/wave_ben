@@ -11,7 +11,7 @@ class TagActions
     if @tag.valid?
       set_taggee(tag_string, is_hashtag)
 
-      update_exipiry!
+      update_exipiry_and_counter_cache!
 
       @tag.save unless @tag.taggee.nil?
     end
@@ -32,9 +32,10 @@ class TagActions
     [tag_string[1..-1], tag_string[0] == "#"]
   end
 
-  def update_exipiry!
-    if @tag.taggee.is_a?(Hashtag)
-      @tag.taggee.update_attributes(expires: 7) unless @tag.taggee.new_record?
+  def update_exipiry_and_counter_cache!
+    if !@tag.taggee.new_record? && @tag.taggee.is_a?(Hashtag)
+      @tag.taggee.tags_count += 1
+      @tag.taggee.expires = 7
     end
   end
 

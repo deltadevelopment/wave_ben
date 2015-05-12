@@ -17,7 +17,7 @@ class UsersController < ApplicationController
         message: I18n.t('success.user_created'),
         data: { 
           user: remove_unsafe_keys(user),
-          session: user_session.slice(:auth_token),
+          session: user_session[0].slice(:auth_token),
           bucket: bucket.slice(:id)
         }
 

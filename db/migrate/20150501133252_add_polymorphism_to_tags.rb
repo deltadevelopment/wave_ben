@@ -6,9 +6,9 @@ class AddPolymorphismToTags < ActiveRecord::Migration
       t.remove :drop_id
       t.remove :bucket_id
 
-      t.belongs_to :taggee, polymorphic: true, null: false
+      t.belongs_to :taggee, polymorphic: true
 
-      t.belongs_to :taggable, polymorphic: true, null: false
+      t.belongs_to :taggable, polymorphic: true
       
       t.index :taggable_id
       t.index :taggee_id

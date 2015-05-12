@@ -1,2 +1,0 @@
-class SessionPolicy < ApplicationPolicy
-end

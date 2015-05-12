@@ -1,6 +1,9 @@
 class Drop < ActiveRecord::Base
 
-  belongs_to :bucket
+  attr_acecssor :download_uri
+
+  belongs_to :bucket, counter_cache: true
+
   belongs_to :user
 
   has_many :tags, as: :taggable, dependent: :destroy
@@ -15,6 +18,15 @@ class Drop < ActiveRecord::Base
       "bucket_id=? AND user_id=?", self.bucket.id, self.bucket.user_id
     ).order(created_at: :desc).pluck(:id).first
     self.parent_id = parent_id unless self.user.is_owner?(self.bucket)
+  end
+
+   def generate_download_uri
+    obj = Aws::S3::Object.new(
+      bucket_name: ENV['S3_BUCKET'],
+      key: self.media_key
+    )
+
+    self.media_url = obj.presigned_url(:get, expires_in: 3600)
   end
 
 end

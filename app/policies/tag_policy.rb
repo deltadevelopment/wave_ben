@@ -19,6 +19,8 @@ class TagPolicy < ApplicationPolicy
   def destroy?
     user_is_owner?
   end
+  
+  private
 
   def user_is_taggee?
     record.taggable.tags.pluck(:taggee_id).include?(user.id)

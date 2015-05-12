@@ -8,6 +8,8 @@ describe User do
   it { should have_many(:buckets).dependent(:destroy) }
   it { should have_many(:drops).dependent(:destroy) }
   it { should have_many(:tags).dependent(:destroy) }
+  it { should have_many(:subscribers).dependent(:destroy) }
+  it { should have_many(:subscribees).dependent(:destroy) }
 
   describe "test the tests" do
     it "initializes a valid user" do

@@ -33,4 +33,13 @@ describe Drop do
 
   end
 
+  describe "counters" do
+
+    
+    it "keeps a total count of drops in the bucket" do
+      drop = FactoryGirl.create(:drop, :with_user_bucket)
+    end
+
+  end
+
 end

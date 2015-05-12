@@ -2,16 +2,17 @@ class SubscriptionsController < ApplicationController
 
   def create
     user = User.find(params[:user_id])
-    subscribee = User.find(params[:subscribee_id])
-    subscription = Subscription.new(create_params)
+    authorize Subscription.new(user: user)
 
-    authorize subscription
+    subscribee = User.find(params[:subscribee_id])
+    subscription = Subscription.find_or_create_by(create_params)
+
 
     if subscription.save
         json_response 201,
           success: true,
           message_id: 'record_created',
-          message: I18n.t('success.record_create'),
+          message: I18n.t('success.record_created'),
           data: {
             subscription: subscription
           }
@@ -33,8 +34,8 @@ class SubscriptionsController < ApplicationController
 
     json_response 204,
       success: true,
-      message_id: 'record_created',
-      message: I18n.t('success.record_create'),
+      message_id: 'record_destroyed',
+      message: I18n.t('success.record_destroyed'),
       data: {
         subscription: subscription
       }

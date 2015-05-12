@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150503122942) do
+ActiveRecord::Schema.define(version: 20150512172136) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type",   default: 0
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20150503122942) do
     t.date     "when_datetime"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "drops_count",   default: 0,    null: false
   end
 
   create_table "drops", force: :cascade do |t|
@@ -32,10 +33,11 @@ ActiveRecord::Schema.define(version: 20150503122942) do
     t.integer  "parent_id"
     t.integer  "bucket_id"
     t.integer  "user_id"
-    t.integer  "lft",        null: false
-    t.integer  "rgt",        null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "lft",                     null: false
+    t.integer  "rgt",                     null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "likes_count", default: 0, null: false
   end
 
   add_index "drops", ["lft"], name: "index_drops_on_lft"
@@ -48,13 +50,7 @@ ActiveRecord::Schema.define(version: 20150503122942) do
     t.integer  "expires",    default: 7
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "subscribers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "subscribee_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.integer  "tags_count", default: 1, null: false
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -74,6 +70,7 @@ ActiveRecord::Schema.define(version: 20150503122942) do
   end
 
   add_index "tags", ["taggable_id"], name: "index_tags_on_taggable_id"
+  add_index "tags", ["taggee_id"], name: "index_tags_on_taggee_id"
 
   create_table "user_sessions", force: :cascade do |t|
     t.string   "auth_token"
@@ -91,12 +88,13 @@ ActiveRecord::Schema.define(version: 20150503122942) do
     t.string   "email"
     t.integer  "phone_number"
     t.string   "display_name"
-    t.integer  "availability",     default: 0
     t.string   "password_hash"
     t.string   "password_salt"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "sns_endpoint_arn"
+    t.integer  "subscribers_count",   default: 0, null: false
+    t.integer  "subscriptions_count", default: 0, null: false
   end
 
 end

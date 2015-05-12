@@ -1,5 +1,13 @@
 class BucketsController < ApplicationController
 
+  def show
+    bucket = Bucket.find(params[:bucket_id])
+    
+    authorize bucket
+
+    render json: bucket
+  end
+
   def create
     authorize Bucket.new
 

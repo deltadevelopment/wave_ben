@@ -259,7 +259,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (~> 0.9.2)
+  active_model_serializers (~> 0.9.0)
   awesome_nested_set
   aws-sdk (~> 2)
   bcrypt
