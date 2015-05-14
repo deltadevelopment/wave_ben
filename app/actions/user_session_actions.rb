@@ -11,7 +11,7 @@ class UserSessionActions
 
     if @user
       user_session = generate_session(@user, @params)
-      bucket = Bucket.where(bucket_type: Bucket.bucket_types[:user], user_id: @user.id)
+      bucket = Bucket.where(bucket_type: Bucket.bucket_types[:user], user_id: @user.id).take!
 
       check_device_id_and_arn(user_session)
       
