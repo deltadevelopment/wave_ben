@@ -5,7 +5,11 @@ class BucketsController < ApplicationController
     
     authorize bucket
 
-    render json: bucket
+    json_response 200,
+      success: true,
+      message: I18n.t('success.ok'),
+      message_id: 'ok',
+      data: BucketSerializer.new(bucket)
   end
 
   def create

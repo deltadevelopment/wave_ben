@@ -34,6 +34,7 @@ en:
     record_created: "record_created"
     record_updated: "record_updated"
     record_destroyed: "record_destroyed"
+    ok: "ok"
 
     # User
     user_created: "You have successfully created an account. Welcome!"
