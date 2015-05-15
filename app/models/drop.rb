@@ -8,8 +8,6 @@ class Drop < ActiveRecord::Base
 
   has_many :tags, as: :taggable, dependent: :destroy
 
-  acts_as_nested_set
-
   validates :media_key, length: { in: 60..120, message: I18n.t('validation.media_key_length')},
                         uniqueness: { message: I18n.t('validation.media_key_unique') }
 
