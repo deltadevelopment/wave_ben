@@ -85,7 +85,7 @@ describe UsersController do
       }
     }
 
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { FactoryGirl.create(:user, :with_bucket) }
 
     context 'with invalid credentials' do
 

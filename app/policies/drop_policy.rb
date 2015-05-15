@@ -1,12 +1,8 @@
 class DropPolicy < ApplicationPolicy
 
   def create?
-    if record.bucket.locked?
-      if record.bucket.visibility == 'taggees'
-        user_is_bucket_owner?  
-      else
-        user_is_bucket_owner_or_taggee? 
-      end
+    if record.bucket.user?
+      user_is_bucket_owner?
     else
       if record.bucket.visibility == 'taggees'
         user_is_bucket_owner_or_taggee?

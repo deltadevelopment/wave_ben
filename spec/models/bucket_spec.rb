@@ -23,38 +23,11 @@ describe Bucket do
 
   end
 
-  describe "description format" do
-    
-    let(:shared_bucket) { FactoryGirl.build(:shared_bucket) }
-
-    it "should be less than 250 characters" do
-      shared_bucket.description = 'A'*251
-      expect(shared_bucket).to_not be_valid
-    end
-
-    it "can be blank" do
-      shared_bucket.description = ""
-      expect(shared_bucket).to be_valid
-    end
-
-
-  end
-
   describe "user buckets" do
     let(:user_bucket) { FactoryGirl.create(:user_bucket) }
 
-    it "cant set description for user buckets" do
-      user_bucket.description = "abc"
-      expect(user_bucket).to_not be_valid
-    end
-
     it "cant set title for user buckets" do
       user_bucket.title = "abc"
-      expect(user_bucket).to_not be_valid
-    end
-
-    it "cant set when_datetime for user buckets" do
-      user_bucket.when_datetime = Time.now
       expect(user_bucket).to_not be_valid
     end
 

@@ -8,7 +8,7 @@ class FeedController < ApplicationController
 
     buckets = Bucket.where("user_id IN (?)", subscription_ids)
 
-    render json: buckets
+    render json: buckets, each_serializer: FeedSerializer
 
   end
 

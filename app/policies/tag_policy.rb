@@ -1,19 +1,7 @@
 class TagPolicy < ApplicationPolicy
 
   def create?
-    if record.taggable.locked?
-      if record.taggable.visibility == 'taggees'
-        user_is_owner?  
-      else
-        user_is_owner_or_taggee? 
-      end
-    else
-      if record.taggable.visibility == 'taggees'
-        user_is_owner_or_taggee?
-      else
-        is_logged_in?
-      end
-    end
+    user_is_owner?
   end
 
   def destroy?

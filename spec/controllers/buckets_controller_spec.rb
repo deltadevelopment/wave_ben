@@ -102,9 +102,8 @@ describe BucketsController do
     let(:valid_shared_bucket_params) do
       { bucket_id: shared_bucket.id,
         bucket: { title: shared_bucket.title, 
-                  description: shared_bucket.description, 
-                  visibility: "taggees", 
-                  locked: false } 
+                  visibility: "taggees"
+        } 
       }
     end
 

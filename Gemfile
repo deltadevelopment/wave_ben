@@ -23,8 +23,6 @@ gem 'rails_12factor', group: :production
 # AWS SDK
 gem 'aws-sdk', '~> 2'
 
-gem 'awesome_nested_set'
-
 gem 'resque', :require => 'resque/server'
 
 group :production do

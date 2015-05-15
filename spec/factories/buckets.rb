@@ -9,9 +9,6 @@ FactoryGirl.define do
       bucket_type :shared 
 
       sequence(:title) { |n| "Here's a title#{n}" } 
-      description "Here's a description"
-
-      when_datetime DateTime.new.to_s
     end
 
   end
@@ -34,14 +31,6 @@ FactoryGirl.define do
 
   trait(:taggees){
     visibility :taggees
-  }
-
-  trait(:locked){
-    locked true
-  }
-
-  trait(:unlocked){
-    locked false 
   }
 
   trait(:with_user){

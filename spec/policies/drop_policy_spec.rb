@@ -5,80 +5,47 @@ describe DropPolicy do
   subject { described_class }
 
   permissions :create? do
-
-    context "bucket is visible to everyone" do
-
-      context "bucket is unlocked" do
-        let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :everyone, :with_taggee, :unlocked) }
-        let(:user) { FactoryGirl.create(:user) }
     
-        it "allows the owner to add new drops" do
-          expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
-        end
-
-        it "allows tagged users to add new drops" do
-          expect(subject).to permit(bucket.tags[0].taggee, Drop.new(bucket: bucket))
-        end
-
-        it "allows untagged users to add new drops" do
-          expect(subject).to permit(user, Drop.new(bucket: bucket))
-        end
-
+    context "shared bucket" do
+      let(:bucket) do
+        FactoryGirl.create(:shared_bucket, :taggees, :with_taggee, :with_user) 
       end
 
-      context "bucket is locked" do
-        let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :everyone, :with_taggee, :locked) }
+      it "allows the owner to add drops" do
+        expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      end
+      
+      context "bucket is visible to everyone" do
+        let(:bucket) { FactoryGirl.create(:shared_bucket, :everyone) }
 
-        it "allows the owner to add new drops" do
-          expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+        it "allows anyone to add drops" do
+          expect(subject).to permit(User.new, Drop.new(bucket: bucket))
+        end
+      end      
+
+      context "bucket is visible to taggees" do
+        let(:bucket) do
+          FactoryGirl.create(:shared_bucket, :everyone, :with_taggee)
         end
 
-        it "allows tagged users to add new drops" do
-          expect(subject).to permit(bucket.tags[0].taggee, Drop.new(bucket: bucket))
+        it "allows tagged users to add drops" do
+          expect(subject).to permit(bucket.tags[0], Drop.new(bucket: bucket))
         end
-
-        it "does not allow untagged users to add new drops" do
-          expect(subject).to_not permit(User.new, Drop.new(bucket: bucket))
-        end
-
       end
 
-      context "bucket is visible to tagged users" do
- 
-        context "bucket is unlocked" do
-          let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :taggees, :with_taggee, :unlocked) }
+    end 
 
-          it "allows the owner to add new drops" do
-            expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
-          end
+    context "user bucket" do
+      let(:bucket) do
+        FactoryGirl.create(:user_bucket, :with_user)
+      end
 
-          it "allows tagged users to add new drops" do
-            expect(subject).to permit(bucket.tags[0].taggee, Drop.new(bucket: bucket))
-          end
+      it "allows the owner to add drops" do
+        expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      end
 
-          it "does not allow untagged users to add new drops" do
-            expect(subject).to_not permit(User.new, Drop.new(bucket: bucket))
-          end
-
-        end
-
-        context "bucket is locked" do
-          let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :taggees, :with_taggee, :locked) }
-
-          it "allows the owner to add new drops" do
-            expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
-          end
-
-          it "does not allow tagged users to add new drops" do
-            expect(subject).to_not permit(bucket.tags[0].taggee, Drop.new(bucket: bucket))
-          end
-
-          it "does not allow untagged users to add new drops" do
-            expect(subject).to_not permit(User.new, Drop.new(bucket: bucket))
-          end
-
-        end
-
+      it "does not allow anyone to add a drop" do
+        expect(subject).to_not permit(User.new, Drop.new(bucket: bucket))
       end
 
     end
@@ -86,26 +53,45 @@ describe DropPolicy do
   end
 
   permissions :destroy? do
+    context "shared bucket" do
+      let(:bucket) do
+        FactoryGirl.create(:shared_bucket, :taggees, :with_taggee, :with_user) 
+      end
+      let(:drop) do
+        FactoryGirl.create(:drop, :with_shared_bucket)
+      end
+      let(:user) { FactoryGirl.create(:user) }
 
-    let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :taggees, :with_taggee, :with_drop, :locked) }
-    let(:user) { FactoryGirl.create(:user) }
+      it "allows the bucket owner to delete drops" do
+        expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      end
 
-    it "allows the bucket owner to delete the drop" do
-      expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      it "allows the drop owner to delete the drop" do
+        expect(subject).to permit(drop.user, drop)
+      end
+
+      it "does not allow anyone else to delete the drop" do
+        expect(subject).to_not permit(user, Drop.new(bucket: bucket))
+      end
+
+    end 
+
+    context "user bucket" do
+      let(:bucket) do
+        FactoryGirl.create(:user_bucket, :with_user)
+      end
+      let(:user) { FactoryGirl.create(:user) }
+
+      it "allows the owner to delete drops" do
+        expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      end
+
+      it "does not allow anyone to delete a drop" do
+        expect(subject).to_not permit(user, Drop.new(bucket: bucket))
+      end
+
     end
 
-    it "allows the drop owner to delete the drop" do
-      user = User.new
-      expect(subject).to permit(user, Drop.new(bucket: bucket, user: user))
-    end
-
-    it "does not allow tagged users to delete the drop" do
-      expect(subject).to_not permit(bucket.tags[0].taggee, Drop.new(bucket: bucket)) 
-    end
-
-    it "does not allow untagged users to delete the drop" do
-      expect(subject).to_not permit(user, Drop.new(bucket: bucket)) 
-    end
   end
 
 end

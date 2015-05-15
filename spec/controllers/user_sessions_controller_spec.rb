@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe UserSessionsController do
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user, :with_bucket) }
   let(:logged_in_user) { FactoryGirl.create(:user, :logged_in) }
   let!(:liu_device_id) { FactoryGirl.create(:user, :logged_in_with_device_id) }
   let!(:header) { {'X-AUTH-TOKEN' => logged_in_user.user_session.auth_token} }

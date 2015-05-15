@@ -56,7 +56,7 @@ class ApplicationController < ActionController::API
     json_response 404,
       success: false,
       message_id: "record_not_found",
-      message: I18n.t('error.not_found')
+      message: I18n.t('error.record_not_found')
   end
 
   def parameter_missing(exception)
