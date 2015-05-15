@@ -8,7 +8,14 @@ class FeedController < ApplicationController
 
     buckets = Bucket.where("user_id IN (?)", subscription_ids)
 
-    render json: buckets, each_serializer: FeedSerializer, root: "buckets"
+    json_response 200,
+      success: true,
+      message_id: 'resource_found',
+      data: ActiveModel::ArraySerializer.new(
+        buckets,
+        each_serializer: FeedSerializer,
+        root: "buckets"
+      )
 
   end
 

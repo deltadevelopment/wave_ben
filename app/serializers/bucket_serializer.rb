@@ -3,5 +3,4 @@ class BucketSerializer < ActiveModel::Serializer
   
   has_many :drops
   has_one :user
-
 end
