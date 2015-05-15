@@ -7,6 +7,12 @@ describe UserPolicy do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
 
+  permissions :show? do
+    it "allows anyone logged in to view a profile" do
+      expect(subject).to permit(User.new, user)
+    end
+  end
+
   permissions :update? do
 
     it "allows the owner to update his profile" do

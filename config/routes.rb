@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/feed' => 'feed#show'
 
   # User routes
+  get '/user/:user_id' => 'users#show'
   post '/register' => 'users#create'
   delete '/user/:user_id' => 'users#destroy'
   put 'user/:user_id' => 'users#update'

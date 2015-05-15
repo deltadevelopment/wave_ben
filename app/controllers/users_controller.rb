@@ -2,6 +2,18 @@ class UsersController < ApplicationController
 
   after_action :verify_authorized, except: :create
 
+  def show
+    user = User.find(params[:user_id])
+    
+    authorize user
+
+    json_response 200,
+      success: true,
+      message: I18n.t('success.ok'),
+      message_id: 'ok',
+      data: UserSerializer.new(user)
+  end
+
   def create
     user, user_session, bucket = 
       UserActions.new(

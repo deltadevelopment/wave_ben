@@ -1,4 +1,8 @@
 class UserPolicy < ApplicationPolicy
+
+  def show?
+    is_logged_in?
+  end
   
   def update?
     user_is_user?
