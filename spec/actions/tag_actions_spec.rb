@@ -30,6 +30,21 @@ describe TagActions do
 
     end
 
+    describe "when adding a usertag" do
+      let!(:tag) { FactoryGirl.build(:usertag) }
+      
+      it "sets the buckets visibility to taggees" do
+
+        TagActions.new(
+          tag: tag,
+          param: { tag_string: "@#{tag.taggee.username}"}
+        ).create!
+
+        expect(tag.taggable.taggees?).to eql(true) 
+      end
+
+    end
+
     it "creates new captions for drops" do
         drop = FactoryGirl.build(:drop, :with_user_bucket)
         FactoryGirl.create(:user, :username => "miri")
@@ -42,6 +57,57 @@ describe TagActions do
         }.to change(Tag, :count).by(3)
     end
 
+  end
+
+  describe "#destroy" do
+    
+    context "destroying a user tag" do
+      let(:bucket) do
+        FactoryGirl.create(:shared_bucket, :taggees, :with_taggee, :with_drop)
+      end
+      let(:user) { FactoryGirl.create(:user) }
+
+      it "destroying the last usertag returns the bucket 
+          visibility to everyone" do
+        TagActions.new(
+          tag: bucket.tags[0],
+          param: { tag_string: "@#{bucket.tags[0].taggee.username}" }
+        ).destroy!
+        expect(bucket.reload.everyone?).to be(true) 
+      end
+
+      it "destroying a single usertag does not change visibility" do
+        tag_string = "@#{user.username}"
+        TagActions.new(
+          tag: Tag.new(taggee: user, taggable: bucket, tag_string: tag_string),
+          param: { tag_string: tag_string } 
+        ).create!
+        TagActions.new(
+          tag: bucket.tags[0],
+          param: { tag_string: "@#{bucket.tags[0].taggee.username}" }
+        ).destroy!
+        expect(bucket.reload.taggees?).to be(true) 
+      end
+      
+      it "deletes the users drops from the bucket" do
+        user = bucket.drops[0].user
+        tag_string = "@#{user.username}"
+        tag = Tag.new(taggee: user, taggable: bucket, tag_string: tag_string)
+        TagActions.new(
+          tag: tag,
+          param: { tag_string: tag_string } 
+        ).create!
+
+        expect {
+          TagActions.new(
+            tag: tag,
+            param: { tag_string: "@#{user.username}" }
+          ).destroy!
+        }.to change(Drop, :count).by(-1)
+
+      end
+
+    end
   end
 
 end

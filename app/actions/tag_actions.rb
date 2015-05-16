@@ -6,10 +6,15 @@ class TagActions
   end
     
   def create!
-    tag_string, is_hashtag = process_tag(@tag.tag_string)
 
     if @tag.valid?
+      tag_string, is_hashtag = process_tag(@tag.tag_string)
+
       set_taggee(tag_string, is_hashtag)
+
+      if @tag.taggable.is_a?(Bucket) && !is_hashtag
+        @tag.taggable.visibility = :taggees
+      end
 
       update_exipiry_and_counter_cache!
 
@@ -20,7 +25,22 @@ class TagActions
 
   end
 
+  def destroy!
+    @tag.destroy!
+    
+    @tag.taggable.drops.where(user: @tag.taggee).each(&:destroy)
+
+    if @tag.taggable.is_a?(Bucket) && @tag.taggee.is_a?(User) && !has_taggees(@tag.taggable) && @tag.taggable.taggees?
+      @tag.taggable.update(visibility: :everyone)
+    end
+
+  end
+
   private
+
+  def has_taggees(taggable)
+    taggable.tags.count > 0 
+  end
 
   def set_taggee(tag_string, is_hashtag)
     @tag.taggee = is_hashtag ? 

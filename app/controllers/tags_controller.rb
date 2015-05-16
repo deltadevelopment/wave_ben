@@ -39,7 +39,7 @@ class TagsController < ApplicationController
 
     authorize tag
 
-    tag.destroy!     
+    tag = TagActions.new(tag: tag).destroy!
 
     json_response 204,
       success: true,

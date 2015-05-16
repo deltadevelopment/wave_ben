@@ -14,10 +14,6 @@ class DropActions
       create_tags(parse_caption(@drop.caption))
     end
 
-    if @drop.bucket.bucket_type == 'user'
-      @drop.set_parent_id
-    end
-
     @drop.save
     
     @drop
