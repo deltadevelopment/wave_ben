@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515112721) do
+ActiveRecord::Schema.define(version: 20150518095622) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0

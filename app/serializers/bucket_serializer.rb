@@ -3,4 +3,8 @@ class BucketSerializer < ActiveModel::Serializer
   
   has_many :drops
   has_one :user
+
+  def drops
+    Drop.where(bucket_id: object.id).order(created_at: :desc)
+  end
 end
