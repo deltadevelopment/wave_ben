@@ -8,6 +8,7 @@ class DropActions
   def create!
     
     @drop.media_key = @param[:media_key]
+    @drop.media_type = @param[:media_type]
     @drop.caption = @param[:caption]
     
     if @drop.caption
