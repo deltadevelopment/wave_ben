@@ -71,7 +71,7 @@ class DropsController < ApplicationController
   private
 
   def create_params
-    params.require(:drop).permit(:media_key, :caption)
+    params.require(:drop).permit(:media_key, :media_type, :caption)
   end
 
 end
