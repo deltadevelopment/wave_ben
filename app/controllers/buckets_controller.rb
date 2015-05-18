@@ -102,6 +102,7 @@ class BucketsController < ApplicationController
   def drop_create_params
     params.require(:drop).permit(
       :media_key,
+      :media_type,
       :caption
     )
   end
