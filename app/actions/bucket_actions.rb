@@ -7,12 +7,13 @@ class BucketActions
 
   def create!(drop_create_params)
     
-    drop = @bucket.drops.new(
-      drop_create_params.merge({
+    drop = DropActions.new(
+      drop: Drop.new(drop_create_params.merge({
         user_id: @bucket.user_id
-      }))
+      })),
+      param: @params[:drop]
+    ).create!
 
-    drop.save 
     @bucket.save
 
     [@bucket, drop]

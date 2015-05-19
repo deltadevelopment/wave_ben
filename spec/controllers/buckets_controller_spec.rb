@@ -6,11 +6,14 @@ describe BucketsController do
   
   describe "#create" do
     let(:shared_bucket) { FactoryGirl.build(:shared_bucket, :with_user) }
+    let(:drop) { FactoryGirl.build(:drop) }
     let(:valid_shared_bucket_params) do
       { bucket: 
           { title: shared_bucket.title },
         drop: 
-          { media_key: SecureRandom.hex(40),
+          { media_key: drop.media_key,
+            media_type: drop.media_type,
+            thumbnail_key: drop.thumbnail_key,
             caption: "Some caption" } 
       }
     end
