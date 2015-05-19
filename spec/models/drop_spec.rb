@@ -32,6 +32,13 @@ describe Drop do
     end
 
   end
+  
+  describe 'media_type format' do
+    it 'must be present' do
+      drop.media_type = nil
+      expect(drop).to_not be_valid
+    end 
+  end
 
   describe "counters" do
 

@@ -74,6 +74,7 @@ en:
     media_key_length: "validation_media_key_length"
     media_key_unique: "validation_media_key_unique"
     parent_id_missing: "validation_parent_id_missing"
+    media_type_missing: "validation_media_type_missing"
 
     # Tag
     tag_string_format: "tag_string_format"

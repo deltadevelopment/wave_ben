@@ -103,6 +103,7 @@ class BucketsController < ApplicationController
     params.require(:drop).permit(
       :media_key,
       :media_type,
+      :thumbnail_key,
       :caption
     )
   end

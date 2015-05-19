@@ -10,6 +10,7 @@ class DropActions
     @drop.media_key = @param[:media_key]
     @drop.media_type = @param[:media_type]
     @drop.caption = @param[:caption]
+    @drop.thumbnail_key = @param[:thumbnail_key]
     
     if @drop.caption
       create_tags(parse_caption(@drop.caption))

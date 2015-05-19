@@ -7,7 +7,9 @@ describe DropsController do
     let(:valid_params) {
       { bucket_id: drop.bucket.id,
         drop: { 
-          media_key: drop.media_key
+          media_key: drop.media_key,
+          media_type: drop.media_type,
+          thumbnail_key: drop.thumbnail_key
         }
       }
     }
