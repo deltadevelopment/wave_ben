@@ -4,12 +4,12 @@ class DropSerializer < ActiveModel::Serializer
   has_one :user
 
   def media_url
-    object.generate_download_uri(media_key)
+    object.generate_download_uri(media: media_key)
   end
 
   def thumbnail_url
-    if object.thumbnail_key
-      object.generate_download_uri(object.thumbnail_key)
+    if object.media_type == 1
+      object.generate_download_uri(thumbnail: object.thumbnail_key)
     end
   end
 end

@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
 
   include ActionController::Serialization
-  
   include Pundit
 
   class NotAuthenticatedError < StandardError; end 

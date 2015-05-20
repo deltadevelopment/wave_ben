@@ -1,5 +1,5 @@
 class BucketSerializer < ActiveModel::Serializer
-  attributes :id, :title, :bucket_type
+  attributes :id, :title, :bucket_type, :drop_count
   
   has_many :drops
   has_one :user

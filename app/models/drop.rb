@@ -1,6 +1,5 @@
 class Drop < ActiveRecord::Base
-
-  attr_accessor :media_url
+  attr_accessor :media_url, :thumbnail_url
 
   belongs_to :bucket, counter_cache: true
 
@@ -16,13 +15,19 @@ class Drop < ActiveRecord::Base
 
   validates :media_type, numericality: { message: I18n.t('validation.media_type_missing')}
 
-  def generate_download_uri(key)
+  def generate_download_uri(thumbnail: nil, media: nil)
     obj = Aws::S3::Object.new(
       bucket_name: ENV['S3_BUCKET'],
-      key: key
+      key: thumbnail || media
     )
 
-    self.media_url = obj.presigned_url(:get, expires_in: 3600)
+    if media 
+      self.media_url = obj.presigned_url(:get, expires_in: 3600)
+    elsif thumbnail 
+      self.thumbnail_url = obj.presigned_url(:get, expires_in: 3600)
+    else
+      raise ArgumentError
+    end
   end
 
   def key_uniqueness
