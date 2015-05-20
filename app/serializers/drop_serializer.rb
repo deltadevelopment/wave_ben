@@ -1,5 +1,5 @@
 class DropSerializer < ActiveModel::Serializer
-  attributes :id, :media_key, :temperature, :media_type, :thumbnail_key
+  attributes :id, :media_key, :temperature, :media_type, :thumbnail_key, :media_url
 
   has_one :user
 
