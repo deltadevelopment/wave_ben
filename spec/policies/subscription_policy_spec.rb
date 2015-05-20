@@ -4,6 +4,20 @@ describe SubscriptionPolicy do
   
   subject { described_class }
 
+  permissions :show? do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "allows the owner of the relationship to fetch it" do
+      expect(subject).to permit(user, Subscription.new(user: user))
+    end
+
+    it "does not allow others to fetch it" do
+      expect(subject).to permit(User.new, Subscription.new(user: user))
+    end
+
+  end
+
+
   permissions :create? do
     let(:user) { FactoryGirl.create(:user) }
 

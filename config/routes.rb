@@ -25,8 +25,9 @@ Rails.application.routes.draw do
   post '/drop/generate_upload_url' => 'drops#generate_upload_url'
 
   # Subscriber routes
-  post 'user/:user_id/subscribe/:subscribee_id' => 'subscriptions#create'
-  delete 'user/:user_id/subscribe/:subscribee_id' => 'subscriptions#destroy'
+  get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'
+  post 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#create'
+  delete 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#destroy'
 
   # Tag routes
   post 'bucket/:bucket_id/tag' => 'tags#create'

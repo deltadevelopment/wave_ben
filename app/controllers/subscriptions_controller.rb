@@ -1,4 +1,19 @@
 class SubscriptionsController < ApplicationController
+  after_action :verify_authorized
+
+  def show
+    subscription = Subscription.where(user_id: params[:user_id], subscribee_id: params[:subscribee_id]).take!
+
+    authorize subscription
+    
+    json_response 200,
+      success: true,
+      message_id: 'ok',
+      message: I18n.t('success.ok'),
+      data: {
+        subscription: subscription
+      }
+  end
 
   def create
     user = User.find(params[:user_id])
