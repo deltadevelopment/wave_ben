@@ -1,9 +1,15 @@
 class DropSerializer < ActiveModel::Serializer
-  attributes :id, :media_key, :temperature, :media_type, :thumbnail_key, :media_url
+  attributes :id, :media_key, :temperature, :media_type, :media_url, :thumbnail_url
 
   has_one :user
 
   def media_url
-    object.generate_download_uri
+    object.generate_download_uri(media_key)
+  end
+
+  def thumbnail_url
+    if object.thumbnail_key
+      object.generate_download_uri(object.thumbnail_key)
+    end
   end
 end

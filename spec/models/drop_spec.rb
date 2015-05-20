@@ -32,6 +32,30 @@ describe Drop do
     end
 
   end
+
+  describe 'thumbnail_key format' do
+
+    it 'tests the tests' do
+      expect(drop).to be_valid
+      expect(bucket).to be_valid
+    end
+   
+    it 'must be unique' do
+      drop.thumbnail_key = bucket.drops[0].thumbnail_key
+      expect(drop).to_not be_valid
+    end
+
+    it 'should be less than 120 characters' do
+      drop.media_key = 'A'*121
+      expect(drop).to_not be_valid
+    end
+
+    it 'should be more than 60 characters' do
+      drop.media_key = 'A'*59
+      expect(drop).to_not be_valid
+    end
+
+  end
   
   describe 'media_type format' do
     it 'must be present' do
