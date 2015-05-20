@@ -8,9 +8,9 @@ class Drop < ActiveRecord::Base
 
   has_many :tags, as: :taggable, dependent: :destroy
 
-  validates :media_key, length: { in: 60..120, message: I18n.t('validation.media_key_length')}
+  validates :media_key, length: { in: 60..120, message: I18n.t('validation.key_length')}
 
-  validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.media_key_length')}
+  validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.key_length')}, if: 'self.media_type==1'
 
   validate :key_uniqueness
 

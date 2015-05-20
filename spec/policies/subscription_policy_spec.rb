@@ -12,7 +12,7 @@ describe SubscriptionPolicy do
     end
 
     it "does not allow others to fetch it" do
-      expect(subject).to permit(User.new, Subscription.new(user: user))
+      expect(subject).to_not permit(User.new, Subscription.new(user: user))
     end
 
   end

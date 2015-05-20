@@ -71,7 +71,7 @@ en:
     user_bucket_description_set: "user_bucket_description_set"
 
     # Drop
-    media_key_length: "validation_media_key_length"
+    key_length: "validation_key_length"
     unique_key_exists: "validation_unique_key_exists"
     parent_id_missing: "validation_parent_id_missing"
     media_type_missing: "validation_media_type_missing"
