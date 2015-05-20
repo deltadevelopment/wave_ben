@@ -1,4 +1,5 @@
 class DropsController < ApplicationController
+  after_action :verify_authorized
 
   def create
     bucket = Bucket.find(params[:bucket_id])

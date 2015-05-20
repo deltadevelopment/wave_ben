@@ -1,4 +1,5 @@
 class BucketsController < ApplicationController
+  after_action :verify_authorized
 
   def show
     bucket = Bucket.find(params[:bucket_id])

@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   after_action :verify_authorized, except: :create
 
   def show
