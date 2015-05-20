@@ -93,6 +93,23 @@ class UsersController < ApplicationController
 
   end
 
+  def generate_upload_url
+    authorize User.new
+
+    url, key = aws_generate_upload_url(bucket: 'S3_PROFILE_BUCKET')
+
+    json_response 200,
+      success: true,
+      message_id: 'upload_url_generated',
+      message: I18n.t('success.upload_url_generated'),
+      data: {
+        upload_url: {
+          url: url.to_s,
+          media_key: key
+        }
+      }
+  end
+
   private 
 
   def create_params 
@@ -110,7 +127,8 @@ class UsersController < ApplicationController
       :password,
       :email,
       :private_profile,
-      :phone_number
+      :phone_number,
+      :profile_picture_key
     )
   end
 

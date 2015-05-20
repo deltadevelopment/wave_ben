@@ -45,16 +45,11 @@ class DropsController < ApplicationController
 
   end 
 
-
   def generate_upload_url
 
     authorize Drop.new 
 
-    s3 = Aws::S3::Resource.new
-    key = SecureRandom::hex(40)
-    
-    obj = s3.bucket(ENV['S3_BUCKET']).object(key)
-    url = URI::parse(obj.presigned_url(:put))
+    url, key = aws_generate_upload_url
 
     json_response 200,
       success: true,

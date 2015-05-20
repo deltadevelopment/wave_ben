@@ -65,6 +65,18 @@ class ApplicationController < ActionController::API
       message: exception.to_s
   end
 
+  # Amazon
+
+  def aws_generate_upload_url(bucket: 'S3_BUCKET')
+    s3 = Aws::S3::Resource.new
+    key = SecureRandom::hex(40)
+    
+    obj = s3.bucket(ENV[bucket]).object(key)
+    url = URI::parse(obj.presigned_url(:put))
+
+    [url, key]
+  end
+
   # Authorization
 
   def check_session

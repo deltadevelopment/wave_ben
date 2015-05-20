@@ -12,6 +12,10 @@ class DropPolicy < ApplicationPolicy
     end
   end
 
+  def generate_upload_url?
+    is_logged_in?    
+  end
+
   def destroy?
     user_is_bucket_owner? || user_is_owner?
   end
@@ -30,10 +34,6 @@ class DropPolicy < ApplicationPolicy
 
   def user_is_bucket_owner_or_taggee?
     user_is_bucket_owner? || user_is_taggee?
-  end
-
-  def generate_upload_url?
-    is_logged_in?    
   end
 
 end

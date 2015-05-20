@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  attr_accessor :password, :bucket
+  attr_accessor :password, :bucket, :profile_picture_url
 
   has_one :user_session
 
@@ -45,6 +45,15 @@ class User < ActiveRecord::Base
 
   def is_owner?(resource)
     self.id == resource.user_id
+  end
+
+  def generate_download_uri
+    obj = Aws::S3::Object.new(
+      bucket_name: ENV['S3_PROFILE_BUCKET'],
+      key: self.profile_picture_key
+    )
+
+    self.profile_picture_url = obj.presigned_url(:get, expires_in: 3600) 
   end
 
   protected 

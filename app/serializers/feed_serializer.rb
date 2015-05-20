@@ -11,7 +11,3 @@ class FeedSerializer < ActiveModel::Serializer
   end
   
 end
-
-class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username
-end

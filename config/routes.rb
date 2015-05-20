@@ -4,25 +4,26 @@ Rails.application.routes.draw do
   get '/feed' => 'feed#show'
 
   # User routes
-  get '/user/:user_id' => 'users#show'
-  post '/register' => 'users#create'
-  delete '/user/:user_id' => 'users#destroy'
+  get 'user/generate_upload_url' => 'users#generate_upload_url'
+  get 'user/:user_id' => 'users#show'
+  post 'register' => 'users#create'
+  delete 'user/:user_id' => 'users#destroy'
   put 'user/:user_id' => 'users#update'
 
   # Session routes
-  post '/login' => 'user_sessions#create'
-  delete '/login' => 'user_sessions#destroy'
+  post 'login' => 'user_sessions#create'
+  delete 'login' => 'user_sessions#destroy'
 
   # Bucket routes
-  get '/bucket/:bucket_id/' => 'buckets#show'
-  post '/bucket' => 'buckets#create'
-  put '/bucket/:bucket_id' => 'buckets#update'
-  delete '/bucket/:bucket_id' => 'buckets#destroy'
+  get 'bucket/:bucket_id/' => 'buckets#show'
+  post 'bucket' => 'buckets#create'
+  put 'bucket/:bucket_id' => 'buckets#update'
+  delete 'bucket/:bucket_id' => 'buckets#destroy'
 
   # Drop routes
-  post '/bucket/:bucket_id/drop/' => 'drops#create'
-  delete '/drop/:drop_id' => 'drops#destroy'
-  post '/drop/generate_upload_url' => 'drops#generate_upload_url'
+  post 'bucket/:bucket_id/drop/' => 'drops#create'
+  delete 'drop/:drop_id' => 'drops#destroy'
+  post 'drop/generate_upload_url' => 'drops#generate_upload_url'
 
   # Subscriber routes
   get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'

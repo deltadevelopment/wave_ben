@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519134741) do
+ActiveRecord::Schema.define(version: 20150520181353) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150519134741) do
     t.string   "sns_endpoint_arn"
     t.integer  "subscribers_count",   default: 0, null: false
     t.integer  "subscriptions_count", default: 0, null: false
+    t.string   "profile_picture_key"
   end
 
 end
