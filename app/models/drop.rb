@@ -25,8 +25,6 @@ class Drop < ActiveRecord::Base
       self.media_url = obj.presigned_url(:get, expires_in: 3600)
     elsif thumbnail 
       self.thumbnail_url = obj.presigned_url(:get, expires_in: 3600)
-    else
-      raise ArgumentError
     end
   end
 

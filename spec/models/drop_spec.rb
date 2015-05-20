@@ -86,12 +86,6 @@ describe Drop do
       expect(drop.thumbnail_url).to eql(url)
     end
 
-    it "raises an ArgumentError with no paramenter" do
-      expect{
-        drop.generate_download_uri
-      }.to raise_error(ArgumentError)
-    end
-
   end
 
 end
