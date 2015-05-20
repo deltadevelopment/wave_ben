@@ -136,5 +136,4 @@ class UsersController < ApplicationController
     user.slice('id', 'display_name', 'username', 'email', 'phone_number')
   end
 
-
 end
