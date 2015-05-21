@@ -87,6 +87,9 @@ describe DropsController do
       before { allow(controller).to receive(:current_user) { User.new } } 
       
       it "returns 200" do
+        allow(controller).to receive(:aws_generate_upload_url) {
+          ["url", "key"]
+        }
         post :generate_upload_url
         expect(response).to have_http_status(200)
       end

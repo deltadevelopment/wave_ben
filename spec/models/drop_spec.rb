@@ -73,19 +73,4 @@ describe Drop do
 
   end
 
-  describe "#generate_download_uri" do
-    let(:drop) { FactoryGirl.create(:drop) }
-
-    it "sets the media_url given a thumbnail_key" do
-      url = drop.generate_download_uri(media: drop.media_key)
-      expect(drop.media_url).to eql(url)
-    end
-
-    it "sets the thumbnail_url given a thumbnail_key" do
-      url = drop.generate_download_uri(thumbnail: drop.thumbnail_key)
-      expect(drop.thumbnail_url).to eql(url)
-    end
-
-  end
-
 end
