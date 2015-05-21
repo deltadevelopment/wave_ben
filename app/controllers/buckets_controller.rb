@@ -96,7 +96,6 @@ class BucketsController < ApplicationController
   def bucket_create_params
     params.require(:bucket).permit(
       :title,
-      :description,
     )
   end
   
@@ -111,11 +110,7 @@ class BucketsController < ApplicationController
 
   def update_params
     params.require(:bucket).permit(
-      :title,
-      :description,
-      :when_datetime,
-      :visibility,
-      :locked
+      :title
     )
   end
 
