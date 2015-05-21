@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
 
+  # Initialization
+
   include ActionController::Serialization
   include Pundit
 
