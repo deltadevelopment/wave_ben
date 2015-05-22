@@ -20,6 +20,10 @@ class BucketPolicy < ApplicationPolicy
     user_is_owner?
   end
 
+  def buckets_for_user?
+    user_is_owner? 
+  end
+
   private
 
   def user_is_taggee?

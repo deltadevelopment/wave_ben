@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'register' => 'users#create'
   delete 'user/:user_id' => 'users#destroy'
   put 'user/:user_id' => 'users#update'
+  get 'user/:user_id/buckets' => 'buckets#buckets_for_user'
 
   # Session routes
   post 'login' => 'user_sessions#create'
@@ -24,6 +25,9 @@ Rails.application.routes.draw do
   post 'bucket/:bucket_id/drop/' => 'drops#create'
   delete 'drop/:drop_id' => 'drops#destroy'
   post 'drop/generate_upload_url' => 'drops#generate_upload_url'
+
+  # Temperature routes
+  post 'drop/:drop_id/vote' => 'drops#vote'
 
   # Subscriber routes
   get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'
