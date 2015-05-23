@@ -10,6 +10,7 @@ describe User do
   it { should have_many(:tags).dependent(:destroy) }
   it { should have_many(:subscribers).dependent(:destroy) }
   it { should have_many(:subscribees).dependent(:destroy) }
+  it { should have_many(:votes) }
 
   describe "test the tests" do
     it "initializes a valid user" do

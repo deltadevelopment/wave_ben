@@ -5,6 +5,7 @@ describe Drop do
   it { should belong_to(:bucket) }
   it { should belong_to(:user) }
   it { should have_many(:tags).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
 
   let(:bucket) { FactoryGirl.create(:user_bucket, :with_drop) }
   let(:drop) { FactoryGirl.build(:drop, :with_user_bucket) }

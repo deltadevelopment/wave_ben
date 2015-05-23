@@ -21,4 +21,39 @@ describe DropActions do
   
   end
 
+  describe "#vote!", focus: true do
+      let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket) }
+      let!(:vote) {
+        DropActions.new(
+          drop: drop,
+          param: { temperature: 50 },
+          user: drop.bucket.user
+        ).vote!
+      }
+
+      it "saves new votes" do
+        drop = FactoryGirl.create(:drop, :with_shared_bucket)
+        expect{
+          DropActions.new(
+            drop: drop,
+            param: { temperature: 50 },
+            user: drop.bucket.user
+          ).vote!
+        }.to change(Vote, :count).by(1)
+      end
+
+      it "updates existing votes" do
+      
+        DropActions.new(
+          drop: drop,
+          param: { temperature: 25 },
+          user: drop.bucket.user
+        ).vote!
+
+        expect(vote.reload.temperature).to eql(25)
+
+      end
+
+  end
+
 end

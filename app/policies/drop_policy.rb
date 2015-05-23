@@ -20,6 +20,19 @@ class DropPolicy < ApplicationPolicy
     user_is_bucket_owner? || user_is_owner?
   end
 
+  def vote?
+    if record.bucket.visibility == 'taggees'
+      user_is_bucket_owner_or_taggee?
+    else
+      is_logged_in?
+    end
+  end
+
+  private
+
+  def user_can_see_bucket?
+  end
+
   def user_is_taggee?
     record.bucket.tags.pluck(:taggee_id).include?(user.id)
   end

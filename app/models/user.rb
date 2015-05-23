@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :subscribers, 
     foreign_key: 'subscribee_id', class_name: 'Subscription', dependent: :destroy
 
+  has_many :votes
+
   before_save :encrypt_password
 
   validates :username, length: { in: 1..20, message: I18n.t('validation.username_length') }

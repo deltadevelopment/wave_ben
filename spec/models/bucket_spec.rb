@@ -5,6 +5,7 @@ describe Bucket do
   it { should belong_to(:user) }
   it { should have_many(:tags).dependent(:destroy) }
   it { should have_many(:drops).dependent(:destroy ) }
+  it { should have_many(:votes) }
 
   describe "title format" do
 

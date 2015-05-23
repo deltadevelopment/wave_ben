@@ -9,6 +9,8 @@ class Bucket < ActiveRecord::Base
 
   has_many :drops, dependent: :destroy
 
+  has_many :votes
+
   validates :title, length: { in: 1..25, message: I18n.t('validation.title_length')}, if: :shared?
 
   # Validations to not allow user buckets to update

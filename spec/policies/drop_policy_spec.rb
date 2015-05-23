@@ -94,4 +94,36 @@ describe DropPolicy do
 
   end
 
+  permissions :vote? do
+
+    context "bucket visible to taggees" do
+
+      let(:bucket) { 
+        FactoryGirl.create(
+          :shared_bucket, :taggees, :with_user, :with_taggee
+        ) 
+      }
+      
+      it "allows the owner to vote" do
+        expect(subject).to permit(bucket.user, Drop.new(bucket: bucket))
+      end 
+
+      it "allows taggees to vote on a tagged bucket" do
+        expect(subject).to permit(bucket.tags[0].taggee, Drop.new(bucket: bucket))
+      end
+
+      it "does not allow anyone to vote on a tagged bucket" do
+        expect(subject).to_not permit(User.new, Drop.new(bucket: bucket))
+      end
+
+  end
+
+  let(:bucket) { FactoryGirl.create(:shared_bucket, :everyone) }
+
+  it "allows anyone to comment on a bucket visible to everyone" do
+    expect(subject).to permit(User.new, Drop.new(bucket: bucket))
+  end
+
+  end
+
 end

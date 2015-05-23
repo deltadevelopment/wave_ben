@@ -1,8 +1,9 @@
 class DropActions
 
-  def initialize(drop: nil, param: nil)
+  def initialize(drop: nil, param: nil, user: nil)
     @drop = drop
     @param = param
+    @user = user
   end
 
   def create!
@@ -19,6 +20,21 @@ class DropActions
     @drop.save
     
     @drop
+  end
+
+  def vote!
+    vote = Vote.find_or_create_by(
+      user: @user,
+      drop: @drop, 
+      bucket: @drop.bucket
+    )
+
+    vote.temperature = @param[:temperature]
+    
+    vote.save
+
+    vote
+
   end
 
   private

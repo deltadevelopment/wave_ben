@@ -75,6 +75,8 @@ en:
     unique_key_exists: "validation_unique_key_exists"
     parent_id_missing: "validation_parent_id_missing"
     media_type_missing: "validation_media_type_missing"
+    temperature_must_be_between_0_100: 
+      "validation_temperature_must_be_between_0_100"
 
     # Tag
     tag_string_format: "tag_string_format"
