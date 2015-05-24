@@ -7,7 +7,6 @@ class DropActions
   end
 
   def create!
-    
     @drop.media_key = @param[:media_key]
     @drop.media_type = @param[:media_type]
     @drop.caption = @param[:caption]
@@ -37,6 +36,23 @@ class DropActions
 
   end
 
+  def redrop!
+    drop = Drop.new(
+      media_key: @drop.media_key,
+      media_type: @drop.media_type,
+      thumbnail_key: @drop.thumbnail_key,
+      caption: nil, 
+      bucket_id: @user.user_bucket.take!.id,
+      user_id: @user.id,
+      temperature: -1,
+      drop_id: @drop.id
+    )
+    
+    drop.save
+
+    drop
+  end
+
   private
 
   def parse_caption(caption)
@@ -53,6 +69,5 @@ class DropActions
       ).create!
     end
   end
-
 
 end

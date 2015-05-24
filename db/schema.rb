@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522081654) do
+ActiveRecord::Schema.define(version: 20150523211739) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150522081654) do
     t.integer  "temperature",   default: 25, null: false
     t.integer  "media_type",    default: 0,  null: false
     t.string   "thumbnail_key"
+    t.integer  "drop_id"
   end
 
   create_table "hashtags", force: :cascade do |t|

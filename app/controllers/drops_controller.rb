@@ -96,6 +96,30 @@ class DropsController < ApplicationController
     end
   end
 
+  def redrop
+    drop = Drop.find(params[:drop_id]) 
+    
+    authorize drop
+
+    drop = DropActions.new(
+      drop: drop,
+      user: current_user
+    ).redrop!
+
+    if drop.persisted?
+      json_response 201,
+        success: true,
+        message_id: 'resource_created',
+        message: I18n.t('success.resource_created'),
+        data: {
+          drop: drop
+        }
+    else
+      raise CantSaveError
+    end
+
+  end
+
   private
 
   def create_params

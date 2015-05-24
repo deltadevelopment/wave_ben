@@ -56,4 +56,21 @@ describe DropActions do
 
   end
 
+  describe "#redrop!" do
+    
+   it "saves new redrops" do
+      drop = FactoryGirl.create(:drop, :with_shared_bucket)
+      bucket = FactoryGirl.create(:user_bucket, :with_user)
+
+      expect{
+        DropActions.new(
+          drop: drop,
+          user: bucket.user
+        ).redrop!
+      }.to change(Drop, :count).by(1)
+   end 
+
+
+  end
+
 end

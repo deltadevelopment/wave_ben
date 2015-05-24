@@ -3,6 +3,8 @@ class Bucket < ActiveRecord::Base
   enum bucket_type: [:shared, :user]
   enum visibility: [:everyone, :taggees]
 
+  scope :user_bucket, -> { where(bucket_type: 1) }
+
   belongs_to :user
 
   has_many :tags, as: :taggable, dependent: :destroy

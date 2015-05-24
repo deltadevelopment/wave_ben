@@ -11,7 +11,7 @@ class Drop < ActiveRecord::Base
 
   validates :media_key, length: { in: 60..120, message: I18n.t('validation.key_length')}
 
-  validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.key_length')}, if: 'self.media_type==1'
+  validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.key_length')}, if: 'media_type==1'
 
   validate :key_uniqueness
 
@@ -36,12 +36,12 @@ class Drop < ActiveRecord::Base
     thumbnail_key_exists = Drop.where(
       'thumbnail_key=? OR thumbnail_key=?', self.media_key, self.thumbnail_key)
 
-    unless media_key_exists.empty?
+    unless media_key_exists.empty? || drop_id != nil
       errors.add(:media_key, I18n.t('validation.unique_key_exists'))
     end
 
-    unless thumbnail_key_exists.empty?
-      errors.add(:media_key, I18n.t('validation.unique_key_exists'))
+    unless thumbnail_key_exists.empty? || drop_id != nil
+      errors.add(:thumbnail_key, I18n.t('validation.unique_key_exists'))
     end
 
   end

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post 'bucket/:bucket_id/drop/' => 'drops#create'
   delete 'drop/:drop_id' => 'drops#destroy'
   post 'drop/generate_upload_url' => 'drops#generate_upload_url'
+  post 'drop/:drop_id/redrop' => 'drops#redrop'
 
   # Temperature routes
   post 'drop/:drop_id/vote' => 'drops#vote'

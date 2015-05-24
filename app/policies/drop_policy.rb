@@ -28,6 +28,10 @@ class DropPolicy < ApplicationPolicy
     end
   end
 
+  def redrop?
+    is_logged_in?
+  end
+
   private
 
   def user_can_see_bucket?

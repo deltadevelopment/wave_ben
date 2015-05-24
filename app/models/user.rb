@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 
   has_many :votes
 
+  delegate :user_bucket, to: :buckets
+
   before_save :encrypt_password
 
   validates :username, length: { in: 1..20, message: I18n.t('validation.username_length') }

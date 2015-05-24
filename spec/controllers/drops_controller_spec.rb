@@ -138,4 +138,25 @@ describe DropsController do
 
   end
 
+  describe "#redrop" do
+    let(:drop) { FactoryGirl.create(:drop) }
+    let(:bucket) { FactoryGirl.create(:user_bucket, :with_user) }
+    let(:valid_params) { { drop_id: drop.id } }
+
+    before {
+      allow(controller).to receive(:current_user) { bucket.user }
+    }
+    
+    it "returns 201" do
+      post :redrop, valid_params
+      expect(response).to have_http_status(201)
+    end
+
+    it "returns 404 for drops that do not exist" do
+      post :redrop, { drop_id: 500 }
+      expect(response).to have_http_status(404)
+    end
+
+  end
+
 end
