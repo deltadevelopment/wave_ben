@@ -15,4 +15,8 @@ FactoryGirl.define do
     association :bucket, factory: [:user_bucket, :with_user]
   }
 
+  trait(:day_old) {
+    created_at DateTime.now-24.hours
+  }
+
 end

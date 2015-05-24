@@ -24,6 +24,7 @@ gem 'rails_12factor', group: :production
 gem 'aws-sdk', '~> 2'
 
 gem 'resque', :require => 'resque/server'
+gem 'resque-scheduler'
 
 group :production do
   gem 'rails_stdout_logging'
