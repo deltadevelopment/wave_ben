@@ -7,7 +7,7 @@ class FeedController < ApplicationController
     subscription_ids = [current_user.id]
     subscriptions.each { |f| subscription_ids.push(f.subscribee_id) }
 
-    buckets = Bucket.where("user_id IN (?)", subscription_ids)
+    buckets = Bucket.where("user_id IN (?) AND drops_count > 0", subscription_ids)
 
     json_response 200,
       success: true,

@@ -6,6 +6,6 @@ end
 
 task :delete_empty_buckets => :environment do
   puts "Deleting empty buckets..."
-  DeleteEmptyBuckets.perform_later
+  DeleteEmptyBucketsJob.perform_later
   puts "Done deleting empty buckets"
 end
