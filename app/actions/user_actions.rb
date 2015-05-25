@@ -1,8 +1,8 @@
 class UserActions
 
-  def initialize(user: nil, params: nil)
+  def initialize(user: nil, param: nil)
     @user = user
-    @params = params
+    @param = param
   end
 
   def register
@@ -15,7 +15,7 @@ class UserActions
 
       user_session = UserSessionActions.new(
         user: @user, 
-        params: @params[:user]
+        param: @param[:user]
       ).create!
 
     end

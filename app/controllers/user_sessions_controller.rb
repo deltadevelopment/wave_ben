@@ -2,7 +2,7 @@ class UserSessionsController < ApplicationController
   before_action :check_session, only: :destroy
 
   def create
-    user_session, bucket = UserSessionActions.new(params: login_params).create!
+    user_session, bucket = UserSessionActions.new(param: login_params).create!
 
     if user_session
       json_response 200,
@@ -33,7 +33,6 @@ class UserSessionsController < ApplicationController
       message_id: 'user_session_destroyed',
       message: I18n.t('success.user_session_destroyed'),
       data: { session: current_user.user_session }
-
   end
 
   private

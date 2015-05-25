@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :bucket, :profile_picture_url
 
-  has_one :user_session
+  has_one :user_session, dependent: :destroy
 
   has_many :buckets, dependent: :destroy
   has_many :drops, dependent: :destroy
@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :subscribers, 
     foreign_key: 'subscribee_id', class_name: 'Subscription', dependent: :destroy
 
-  has_many :votes
+  has_many :votes, dependent: :destroy
 
   delegate :user_bucket, to: :buckets
 

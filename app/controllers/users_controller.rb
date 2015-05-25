@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     user, user_session, bucket = 
       UserActions.new(
         user: User.new(create_params),
-        params: params
+        param: params
       ).register
 
     if user.persisted? 

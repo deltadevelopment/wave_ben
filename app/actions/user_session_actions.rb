@@ -1,16 +1,16 @@
 class UserSessionActions
   
-  def initialize(user: nil, params: nil)
+  def initialize(user: nil, param: nil)
     @user   = user
-    @params = params
+    @param = param 
   end
 
   def create!
     @user = find_user_by_username_and_password(
-      @params[:username], @params[:password])
+      @param[:username], @param[:password])
 
     if @user
-      user_session = generate_session(@user, @params)
+      user_session = generate_session(@user, @param)
       bucket = Bucket.where(bucket_type: Bucket.bucket_types[:user], user_id: @user.id).take!
 
       check_device_id_and_arn(user_session)
@@ -25,25 +25,25 @@ class UserSessionActions
 
   private
   
-  def generate_session(user, params)
+  def generate_session(user, param)
     user_session = UserSession.find_or_create_by(user_id: user.id)
 
     user_session.update(
       auth_token: generate_token,
-      device_id: params[:device_id],
-      device_type: params[:device_type]
+      device_id: param[:device_id],
+      device_type: param[:device_type]
     )
 
     user_session
   end
 
   def check_device_id_and_arn(user_session)
-    arn = get_arn(@params[:device_type])
+    arn = get_arn(@param[:device_type])
 
-    unless arn == nil or @params[:device_id] == nil
+    unless arn == nil or @param[:device_id] == nil
       update_token_params = { 
         arn: arn, 
-        device_id: @params[:device_id],
+        device_id: @param[:device_id],
         user_id: user_session.user_id
       }
 
@@ -56,11 +56,11 @@ class UserSessionActions
   def add_device_id_sns(user_session, update_token_params)
     device_id_in_use = UserSession.device_id_in_use(user_session)
 
-    unless device_id_in_use.nil?
-      Resque.enqueue(AddDeviceToken, update_token_params, device_id_in_use.user.sns_endpoint_arn)
+    if !device_id_in_use.nil?
+      AddDeviceTokenJob.perform_later(update_token_params, device_id_in_use.user.sns_endpoint_arn)
       reset_session_and_user_with_device_id(device_id_in_use)
     else
-      Resque.enqueue(AddDeviceToken, update_token_params)
+      AddDeviceTokenJob.perform_later(update_token_params)
     end
   end
 
