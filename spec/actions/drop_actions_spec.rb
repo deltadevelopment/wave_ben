@@ -54,6 +54,24 @@ describe DropActions do
 
       end
 
+      context "when voting on a re-drop" do
+        let(:redrop) { FactoryGirl.create(
+          :drop, 
+          :with_user_bucket, 
+          :as_redrop
+        ) }
+
+        it "the vote references the original drop" do
+          vote = DropActions.new(
+            drop: redrop,
+            param: { temperature: 25 },
+            user: redrop.bucket.user
+          ).vote!
+          expect(vote.drop.id).to eql(redrop.original_drop.id)
+        end
+
+      end
+
   end
 
   describe "#redrop!" do

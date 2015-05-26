@@ -22,9 +22,11 @@ class DropActions
   end
 
   def vote!
+    drop = @drop.original_drop ? @drop.original_drop : @drop
+
     vote = Vote.find_or_create_by(
       user: @user,
-      drop: @drop, 
+      drop: drop,
       bucket: @drop.bucket
     )
 

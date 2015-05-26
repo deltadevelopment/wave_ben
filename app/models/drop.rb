@@ -9,6 +9,10 @@ class Drop < ActiveRecord::Base
 
   has_many :votes, dependent: :destroy
 
+  has_many :redrops, class_name: "Drop", foreign_key: "drop_id"
+
+  belongs_to :original_drop, class_name: "Drop", foreign_key: "drop_id"
+
   validates :media_key, length: { in: 60..120, message: I18n.t('validation.key_length')}
 
   validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.key_length')}, if: 'media_type==1'
