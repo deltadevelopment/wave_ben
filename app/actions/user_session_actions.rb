@@ -81,10 +81,12 @@ class UserSessionActions
     case device_type
     when 'ios'
       arn = ENV['AWS_SNS_IOS_ARN']
-     else
+    when 'android'
+      arn = ENV['AWS_SNS_AND_ARN']
+    else
       arn = nil
     end
-
+    # This return might be refactored out
     arn
   end
 
