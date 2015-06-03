@@ -40,7 +40,7 @@ class BucketsController < ApplicationController
           success: false,
           message_id: 'validation_error',
           message: I18n.t('error.validation_error'),
-          data: { error: errors  }
+          errors: errors
       else
         raise CantSaveError
       end      
@@ -68,7 +68,7 @@ class BucketsController < ApplicationController
           sucess: false,
           message_id: 'validation_error',
           message: I18n.t('error.validation_error'),
-          data: { error: bucket.errors } 
+          errors: bucket.errors
       else
         raise CantSaveError
       end
@@ -106,6 +106,41 @@ class BucketsController < ApplicationController
         each_serializer: FeedSerializer,
         root: "buckets"
       )
+  end
+
+  def watch
+    bucket = Bucket.find(params[:bucket_id])
+
+    authorize bucket
+
+    watcher = WatcherActions.new(
+      watcher: Watcher.new(
+          user: current_user,
+          watchable: bucket)
+    ).create!
+    
+    if watcher.persisted?
+      json_response 201,
+          success: true,
+          message: I18n.t('success.ok'),
+       message_id: 'ok',
+             data: { watcher: watcher }
+    else
+      unless watcher.errors.empty?
+        json_response 400,
+            success: false,
+            message: I18n.t('error.validation_error'),
+         message_id: 'validation_error',
+             errors: watcher.errors
+      end
+    end
+  end
+
+  def unwatch
+    bucket = Bucket.find(params[:bucket_id])
+
+    # Use some sort of authorization
+    
   end
 
   private

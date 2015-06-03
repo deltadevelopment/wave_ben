@@ -214,6 +214,42 @@ describe BucketsController do
 
   end
 
+  describe "#watch" do
+    let(:user_bucket) { FactoryGirl.create(:user_bucket, :with_user) }
 
+    before do
+      allow(controller).to receive(:current_user) { user_bucket.user }
+    end
+
+    it "returns 201" do
+      post :watch, { bucket_id: user_bucket.id } 
+      expect(response).to have_http_status(201)
+    end
+
+    it "returns 404 when it doesn't exist" do
+      post :watch, { bucket_id: 500 }
+      expect(response).to have_http_status(404)
+    end
+
+  end
+
+  describe "#unwatch" do
+    let(:watcher) { FactoryGirl.create(:bucket_watcher) }
+
+    before do
+      allow(controller).to receive(:current_user) { watcher.user }
+    end
+    
+    it "returns 204" do
+      delete :unwatch, { bucket_id: watcher.watchable.id }
+      expect(response).to have_http_status(204)
+    end
+
+    it "returns 404 when it doesn't exist" do
+      delete :unwatch, { bucket_id: 500 }
+      expect(response).to have_http_status(404)
+    end
+
+  end
 
 end

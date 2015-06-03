@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   post 'bucket' => 'buckets#create'
   put 'bucket/:bucket_id' => 'buckets#update'
   delete 'bucket/:bucket_id' => 'buckets#destroy'
+  post 'bucket/:bucket_id/watch' => 'buckets#watch'
+  delete 'bucket/:bucket_id/watch' => 'buckets#unwatch'
 
   # Drop routes
   post 'bucket/:bucket_id/drop/' => 'drops#create'

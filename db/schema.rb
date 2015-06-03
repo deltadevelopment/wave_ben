@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150523211739) do
+ActiveRecord::Schema.define(version: 20150603175818) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(version: 20150523211739) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "tags_count", default: 1, null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "message"
+    t.integer  "user_id"
+    t.integer  "triggee_id"
+    t.integer  "trigger_id"
+    t.string   "trigger_type"
+    t.datetime "seen_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -97,6 +108,14 @@ ActiveRecord::Schema.define(version: 20150523211739) do
     t.integer  "bucket_id",   null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "watchers", force: :cascade do |t|
+    t.integer  "user_id",        null: false
+    t.integer  "watchable_id",   null: false
+    t.string   "watchable_type", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
 end

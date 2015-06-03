@@ -17,6 +17,10 @@ FactoryGirl.define do
     visibility :everyone  
   }
 
+  trait(:taggees){
+    visibility :taggees
+  }
+
   trait(:with_drop){
     after(:create) do |bucket|
       create(:drop, bucket: bucket, user: create(:user))
@@ -27,10 +31,6 @@ FactoryGirl.define do
     after(:create) do |bucket|
       build(:drop, bucket: bucket)
     end
-  }
-
-  trait(:taggees){
-    visibility :taggees
   }
 
   trait(:with_user){

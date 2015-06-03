@@ -6,6 +6,7 @@ describe Bucket do
   it { should have_many(:tags).dependent(:destroy) }
   it { should have_many(:drops).dependent(:destroy ) }
   it { should have_many(:votes) }
+  it { should have_many(:watchers).dependent(:destroy) }
 
   describe "title format" do
 

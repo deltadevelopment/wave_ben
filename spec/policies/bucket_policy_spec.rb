@@ -80,4 +80,35 @@ describe BucketPolicy do
     end
   end
 
+  permissions :buckets_for_user? do
+  
+    it "allows the owner to see all buckets"
+
+    it "does not show private buckets unless the requester is tagged"
+
+  end
+
+  permissions :watch? do
+    let(:user_bucket) { FactoryGirl.create(:user_bucket, :with_user) }
+    let(:private_bucket) { 
+      FactoryGirl.create(
+        :shared_bucket, 
+        :taggees, 
+        :with_taggee) 
+    }
+
+    it "allows the user to watch public buckets" do
+      expect(subject).to permit(User.new, user_bucket)
+    end
+
+    it "does not allow users to watch buckets hen can't see" do
+      expect(subject).to_not permit(user_bucket.user, private_bucket)
+    end
+
+    it "allows users to watch private buckets hen can see" do
+      expect(subject).to permit(private_bucket.tags[0], private_bucket)
+    end
+
+  end
+
 end

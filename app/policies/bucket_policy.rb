@@ -1,11 +1,7 @@
 class BucketPolicy < ApplicationPolicy
 
   def show?
-    if record.visibility == 'taggees'
-      user_is_owner_or_taggee?      
-    else
-      true
-    end
+    bucket_is_visible?
   end
   
   def create?
@@ -24,7 +20,19 @@ class BucketPolicy < ApplicationPolicy
     user_is_owner? 
   end
 
+  def watch?
+    bucket_is_visible?
+  end
+
   private
+
+  def bucket_is_visible?
+    if record.taggees?
+      user_is_owner_or_taggee?      
+    else
+      true
+    end
+  end
 
   def user_is_taggee?
     record.tags.pluck(:taggee_id).include?(user.id)

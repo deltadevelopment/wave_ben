@@ -1,8 +1,8 @@
 class UserSessionActions
   
   def initialize(user: nil, param: nil)
-    @user   = user
-    @param = param 
+    @user  = user
+    @param = param
   end
 
   def create!
@@ -11,7 +11,10 @@ class UserSessionActions
 
     if @user
       user_session = generate_session(@user, @param)
-      bucket = Bucket.where(bucket_type: Bucket.bucket_types[:user], user_id: @user.id).take!
+      bucket       = Bucket.where(
+        bucket_type:  Bucket.bucket_types[:user],
+        user_id:      @user.id
+      ).take!
 
       check_device_id_and_arn(user_session)
       
@@ -29,9 +32,9 @@ class UserSessionActions
     user_session = UserSession.find_or_create_by(user_id: user.id)
 
     user_session.update(
-      auth_token: generate_token,
-      device_id: param[:device_id],
-      device_type: param[:device_type]
+      auth_token:   generate_token,
+      device_id:    param[:device_id],
+      device_type:  param[:device_type]
     )
 
     user_session
@@ -42,9 +45,9 @@ class UserSessionActions
 
     unless arn == nil or @param[:device_id] == nil
       update_token_params = { 
-        arn: arn, 
-        device_id: @param[:device_id],
-        user_id: user_session.user_id
+        arn:        arn,
+        device_id:  @param[:device_id],
+        user_id:    user_session.user_id
       }
 
       add_device_id_sns(user_session, update_token_params)
