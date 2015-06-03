@@ -15,7 +15,7 @@ class UserSessionActions
 
       check_device_id_and_arn(user_session)
       
-      [user_session, bucket]
+      [user_session, bucket, @user]
 
     else
       nil

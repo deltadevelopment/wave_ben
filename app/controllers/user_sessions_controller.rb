@@ -2,7 +2,7 @@ class UserSessionsController < ApplicationController
   before_action :check_session, only: :destroy
 
   def create
-    user_session, bucket = UserSessionActions.new(param: login_params).create!
+    user_session, bucket, user = UserSessionActions.new(param: login_params).create!
 
     if user_session
       json_response 200,
@@ -11,6 +11,7 @@ class UserSessionsController < ApplicationController
         message: I18n.t('success.user_session_created'),
         data: {
           user_session: user_session.slice(:auth_token, :user_id),
+          user: user.slice(:username, :profile_picture_key), 
           bucket: bucket
         }
     else
