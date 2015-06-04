@@ -18,8 +18,8 @@ class BucketsController < ApplicationController
 
     bucket, drop = BucketActions.new(
       bucket: current_user.buckets.new(bucket_create_params),
-      params: params
-    ).create!(drop_create_params)
+      param: params.merge({drop: drop_create_params})
+    ).create!
 
     if bucket.persisted? && drop.persisted?
 
@@ -138,9 +138,19 @@ class BucketsController < ApplicationController
 
   def unwatch
     bucket = Bucket.find(params[:bucket_id])
+    watcher = Watcher.where(watchable: bucket, user: current_user).take!
 
-    # Use some sort of authorization
-    
+    authorize watcher 
+
+    watcher = WatcherActions.new(watcher: watcher).destroy!
+
+    if watcher.destroyed?
+      json_response 204,
+        success: true
+    else
+      raise CantDestroyError
+    end
+
   end
 
   private

@@ -60,6 +60,15 @@ class User < ActiveRecord::Base
     self.profile_picture_url = obj.presigned_url(:get, expires_in: 3600) 
   end
 
+  def notify(message)
+    unless self.sns_endpoint_arn == nil
+      pen = Aws::SNS::Resource.new.platform_endpoint(self.sns_endpoint_arn)
+      pen.publish(message: message)
+      return true
+    end
+    false
+  end
+
   protected 
 
   # Returns true if a phone number was entered

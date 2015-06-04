@@ -120,6 +120,23 @@ class DropsController < ApplicationController
 
   end
 
+  def unwatch
+    drop = Drop.find(params[:drop_id])
+    watcher = Watcher.where(watchable: drop, user: current_user).take!
+
+    authorize watcher
+
+    watcher = WatcherActions.new(watcher: watcher).destroy!
+
+    if watcher.destroyed?
+      json_response 204,
+        success: true
+    else
+      raise CantDestroyError
+    end
+
+  end
+
   private
 
   def create_params

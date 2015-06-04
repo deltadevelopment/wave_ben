@@ -1,20 +1,24 @@
 class BucketActions
 
-  def initialize(bucket: nil, params: nil)
+  def initialize(bucket: nil, param: nil)
     @bucket = bucket
-    @params = params
+    @param = param
   end
 
-  def create!(drop_create_params)
+  def create!
 
-    @bucket.save
+    @bucket.save!
+
+    WatcherActions.new(
+      watcher: Watcher.new(watchable: @bucket, user_id: @bucket.user_id)
+    ).create!
     
     drop = DropActions.new(
-      drop: Drop.new(drop_create_params.merge({
+      drop: Drop.new(@param[:drop].merge({
         user_id: @bucket.user_id,
         bucket_id: @bucket.id
       })),
-      param: @params[:drop]
+      param: @param[:drop]
     ).create!
 
     [@bucket, drop]

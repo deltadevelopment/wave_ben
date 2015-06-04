@@ -159,4 +159,23 @@ describe DropsController do
 
   end
 
+  describe "#unwatch" do
+    let(:watcher) { FactoryGirl.create(:drop_watcher) }
+
+    before do
+      allow(controller).to receive(:current_user) { watcher.user }
+    end
+    
+    it "returns 204" do
+      delete :unwatch, { drop_id: watcher.watchable.id }
+      expect(response).to have_http_status(204)
+    end
+
+    it "returns 404 when it doesn't exist" do
+      delete :unwatch, { drop_id: 500 }
+      expect(response).to have_http_status(404)
+    end
+
+  end
+
 end

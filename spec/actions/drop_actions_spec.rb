@@ -3,6 +3,19 @@ require 'rails_helper'
 describe DropActions do
 
   describe "#create!" do
+    let(:drop) { FactoryGirl.build(:drop, :with_shared_bucket) }
+    let(:param) {
+      { 
+        media_key: 'A'*64,
+        media_type: 0
+      }
+    }
+
+    it "adds a watcher drops you create" do
+      expect{
+        DropActions.new(drop: drop, param: param).create! 
+      }.to change(Watcher, :count).by(1)
+    end
 
     context "including tags in the caption" do
 
@@ -18,6 +31,7 @@ describe DropActions do
 #      end
 
     end
+
   
   end
 

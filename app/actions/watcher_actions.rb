@@ -6,7 +6,6 @@ class WatcherActions
   end
 
   def create!
-    
     if @watcher.valid? 
       @watcher.save
     end

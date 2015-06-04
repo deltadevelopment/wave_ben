@@ -16,7 +16,10 @@ class DropActions
       create_tags(parse_caption(@drop.caption))
     end
 
-    @drop.save
+    if @drop.save
+      WatcherActions.new(
+        watcher: Watcher.new(watchable: @drop, user: @drop.user)).create!
+    end
     
     @drop
   end
