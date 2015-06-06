@@ -11,7 +11,11 @@ FactoryGirl.define do
     }
     
     trait(:with_user_bucket) { 
-      association :bucket, factory: [:user_bucket, :with_user]
+      association :bucket, factory: [:user_bucket, :with_user_with_subscriber]
+    }
+
+    trait(:with_user_with_subscriber) {
+      association :user, factory: [:user, :with_subscriber]
     }
 
     trait(:day_old) {

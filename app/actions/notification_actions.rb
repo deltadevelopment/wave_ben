@@ -1,13 +1,13 @@
 class NotificationActions
 
-  def initialize(bucket: nil, param: nil)
-    @record = record
-    @param= param 
+  def initialize(notification: nil, param: nil)
+    @notification = notification
+    @param = param 
   end
 
-  def generate_notifications!
-    
-
+  def create!
+      
+    @notification.save!
 
   end
 

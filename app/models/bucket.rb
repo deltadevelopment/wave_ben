@@ -13,6 +13,8 @@ class Bucket < ActiveRecord::Base
 
   has_many :watchers, as: :watchable, dependent: :destroy
 
+  has_many :notifications, as: :trigger, dependent: :destroy
+
   has_many :votes
 
   validates :title, length: { in: 1..25, message: I18n.t('validation.title_length')}, if: :shared?
@@ -21,11 +23,11 @@ class Bucket < ActiveRecord::Base
 
   validate :user_bucket_cant_have_shared_bucket_attributes
 
-  private
-
   def user_bucket?
     bucket_type == 'user'
   end
+
+  private
 
   def user_bucket_cant_have_shared_bucket_attributes
     if bucket_type == 'user' 

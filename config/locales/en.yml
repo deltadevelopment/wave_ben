@@ -81,3 +81,6 @@ en:
     # Tag
     tag_string_format: "tag_string_format"
     tag_bucket_type_invalid: "tag_bucket_type_invalid"
+
+    # Notification
+    notification_message: "notification_message"

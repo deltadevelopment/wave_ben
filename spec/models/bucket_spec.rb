@@ -35,4 +35,13 @@ describe Bucket do
 
   end
 
+  describe "#user_bucket" do
+    let(:bucket) { FactoryGirl.create(:user_bucket) }
+
+    it "returns true for user buckets" do
+      expect(bucket.user_bucket?).to be(true)
+    end  
+
+  end
+
 end

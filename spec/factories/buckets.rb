@@ -37,6 +37,10 @@ FactoryGirl.define do
     user { create(:user) }
   }
 
+  trait(:with_user_with_subscriber){
+    user { create(:user, :with_subscriber) }
+  }
+
   trait(:with_taggee){
     after(:create) do |bucket|
       create(:usertag, taggable: bucket)

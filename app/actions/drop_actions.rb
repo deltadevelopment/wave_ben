@@ -19,6 +19,7 @@ class DropActions
     if @drop.save
       WatcherActions.new(
         watcher: Watcher.new(watchable: @drop, user: @drop.user)).create!
+      GenerateNotificationJob.perform_later(@drop, 'add', @drop.user)
     end
     
     @drop

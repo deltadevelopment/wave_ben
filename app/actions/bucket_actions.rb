@@ -12,6 +12,8 @@ class BucketActions
     WatcherActions.new(
       watcher: Watcher.new(watchable: @bucket, user_id: @bucket.user_id)
     ).create!
+
+    GenerateNotificationJob.perform_later(@bucket, 'add', @bucket.user)
     
     drop = DropActions.new(
       drop: Drop.new(@param[:drop].merge({
