@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605101042) do
+ActiveRecord::Schema.define(version: 20150607091957) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20150605101042) do
     t.integer  "tags_count", default: 1, null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "ripples", force: :cascade do |t|
     t.string   "message"
     t.integer  "user_id"
     t.integer  "triggee_id"

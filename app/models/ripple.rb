@@ -1,4 +1,4 @@
-class Notification < ActiveRecord::Base
+class Ripple < ActiveRecord::Base
 
   after_create :notify_user
 

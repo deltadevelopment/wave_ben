@@ -1,6 +1,6 @@
-class GenerateNotificationJob < ActiveJob::Base
+class GenerateRippleJob < ActiveJob::Base
 
-  queue_as :generate_notification
+  queue_as :generate_ripple
 
   def perform(record, action, originator)
 
@@ -13,8 +13,8 @@ class GenerateNotificationJob < ActiveJob::Base
       if !record.user_bucket?
 
         each_subscriber do |s|
-          NotificationActions.new(
-            notification: Notification.new(
+          RippleActions.new(
+            ripple: Ripple.new(
               message: "#{originator} created a new shared bucket!",
               trigger: record,
               triggee: originator,
@@ -29,8 +29,8 @@ class GenerateNotificationJob < ActiveJob::Base
       
       if record.bucket.user_bucket?
         each_subscriber do |s|
-          NotificationActions.new(
-            notification: Notification.new(
+          RippleActions.new(
+            ripple: Ripple.new(
               message: "#{originator} just added a drop to his bucket",
               trigger: record,
               triggee: originator,
@@ -53,9 +53,6 @@ class GenerateNotificationJob < ActiveJob::Base
     subscriptions.each do |s|
       yield s
     end
-  end
-
-  def create_notification(notification)
   end
 
 end

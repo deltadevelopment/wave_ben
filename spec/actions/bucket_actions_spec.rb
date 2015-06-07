@@ -30,6 +30,12 @@ describe BucketActions do
       }.to change(Watcher, :count).by(2) 
     end
 
+    it "queues a GenerateRippleJob" do
+      # TODO: .twice because DropActions also will call perform_later
+      expect(GenerateRippleJob).to receive(:perform_later).twice
+      BucketActions.new(bucket: bucket, param: param).create!
+    end
+
   end
 
 end

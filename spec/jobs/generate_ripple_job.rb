@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe GenerateNotificationJob do
+describe GenerateRippleJob do
 
   describe "#perform" do
     
@@ -9,10 +9,10 @@ describe GenerateNotificationJob do
 
       it "notifies subscribers of new shared buckets created" do
         expect{
-          GenerateNotificationJob.new.perform(
+          GenerateRippleJob.new.perform(
             bucket, :add, bucket.user.subscribers[0].user
           )
-        }.to change(Notification, :count).by(1)
+        }.to change(Ripple, :count).by(1)
       end 
     end
 
@@ -22,10 +22,10 @@ describe GenerateNotificationJob do
         drop = FactoryGirl.create(:drop, :with_user_with_subscriber, :with_user_bucket)
 
         expect{
-          GenerateNotificationJob.new.perform(
+          GenerateRippleJob.new.perform(
             drop, :add_drop_to_userbucket, drop.bucket.user
           )
-        }.to change(Notification, :count).by(1)
+        }.to change(Ripple, :count).by(1)
       end
 
     end

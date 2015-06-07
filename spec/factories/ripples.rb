@@ -1,14 +1,14 @@
 FactoryGirl.define do
-  factory :notification do
+  factory :ripple do
     user
     message "some_message"     
     association :triggee, factory: :user
     
-    factory(:drop_notification) do 
+    factory(:drop_ripple) do 
       association :trigger, factory: :drop
     end
 
-    factory(:bucket_notification) do 
+    factory(:bucket_ripple) do 
       association :trigger, factory: :shared_bucket
     end
 

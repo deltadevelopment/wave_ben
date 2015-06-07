@@ -17,6 +17,11 @@ describe DropActions do
       }.to change(Watcher, :count).by(1)
     end
 
+    it "queues a GenerateRippleJob" do
+      expect(GenerateRippleJob).to receive(:perform_later)
+      DropActions.new(drop: drop, param: param).create! 
+    end
+
     context "including tags in the caption" do
 
 #      it "parses the captions and calls create on each one" do
@@ -89,19 +94,22 @@ describe DropActions do
   end
 
   describe "#redrop!" do
-    
-   it "saves new redrops" do
-      drop = FactoryGirl.create(:drop, :with_shared_bucket)
-      bucket = FactoryGirl.create(:user_bucket, :with_user)
-
+    let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket) }
+    let(:bucket) { FactoryGirl.create(:user_bucket, :with_user) }
+ 
+    it "saves new redrops" do
       expect{
         DropActions.new(
           drop: drop,
           user: bucket.user
         ).redrop!
       }.to change(Drop, :count).by(1)
-   end 
+    end 
 
+    it "queues a GenerateRippleJob" do
+      expect(GenerateRippleJob).to receive(:perform_later)
+      DropActions.new(drop: drop, user: bucket.user).redrop!
+    end
 
   end
 
