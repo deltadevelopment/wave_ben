@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # Feed routes
-  get '/feed' => 'feed#show'
+  get '/feed' => 'feed#list'
 
   # User routes
   get 'user/generate_upload_url' => 'users#generate_upload_url'
@@ -41,6 +41,9 @@ Rails.application.routes.draw do
   # Tag routes
   post 'bucket/:bucket_id/tag' => 'tags#create'
   delete 'tag/:tag_id' => 'tags#destroy'
+
+  # Ripple routes
+  get 'ripples' => 'ripples#list'
 
   # Resque routes
   get 'jobs' => 'jobs#list'

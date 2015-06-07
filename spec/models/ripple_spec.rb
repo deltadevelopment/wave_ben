@@ -20,6 +20,17 @@ describe Ripple do
 
   end
 
+  describe ".get_ripples" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "updates seen_at" do
+      FactoryGirl.create_list(:bucket_ripple, 2, user: user)
+
+      ripples = Ripple.get_new_ripples(user)
+      expect(ripples[0].reload.seen_at).to_not be_nil
+    end
+  end
+
   describe "after_create callback" do
     let(:ripple) { FactoryGirl.build(:drop_ripple, pushable: true) }
     

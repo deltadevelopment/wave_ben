@@ -14,5 +14,3 @@ describe RippleActions do
   end
 
 end
-
-

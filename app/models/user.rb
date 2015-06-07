@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 
   has_many :votes, dependent: :destroy
 
+  has_many :ripples
+
   delegate :user_bucket, to: :buckets
 
   before_save :encrypt_password

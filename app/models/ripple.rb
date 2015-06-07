@@ -11,6 +11,14 @@ class Ripple < ActiveRecord::Base
   validates :message, 
     presence: { message: I18n.t('validation.notification_message') }
 
+  def self.get_new_ripples(user)
+    ripples = self.where(user: user, seen_at: nil)
+    rr = ripples.to_a
+    ripples.update_all(seen_at: DateTime.now)
+ 
+    rr
+  end
+
   private
 
   def notify_user

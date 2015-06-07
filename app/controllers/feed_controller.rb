@@ -1,7 +1,7 @@
 class FeedController < ApplicationController
 #  after_action :verify_authorized
 
-  def show
+  def list
     subscriptions = Subscription.where(user_id: current_user)
 
     subscription_ids = [current_user.id]
