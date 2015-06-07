@@ -43,6 +43,14 @@ describe TagActions do
         expect(tag.taggable.taggees?).to eql(true) 
       end
 
+      it "queues a GenerateRippleJob" do
+        expect(GenerateRippleJob).to receive(:perform_later)
+
+        TagActions.new(
+          tag: tag,
+          param: { tag_string: "@#{tag.taggee.username}"}
+        ).create!
+      end
     end
 
     it "creates new captions for drops" do

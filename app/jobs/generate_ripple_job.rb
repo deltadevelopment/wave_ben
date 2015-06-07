@@ -41,6 +41,22 @@ class GenerateRippleJob < ActiveJob::Base
         end
       end 
 
+    elsif record.is_a?(Tag)
+      if record.taggable.is_a?(Bucket)
+        message = "#{originator} just tagged you in a bucket!"
+      else
+        message = "#{originator} just tagged you in a drop!"
+      end
+
+      RippleActions.new(
+        ripple: Ripple.new(
+          message: message,
+          trigger: record,
+          triggee: originator,
+          user: record.taggee,
+          pushable: true
+        )
+      ).create!
     end
 
   end

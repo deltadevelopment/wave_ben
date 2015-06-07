@@ -5,7 +5,7 @@ class TagsController < ApplicationController
     bucket = Bucket.find(params[:bucket_id])
     tag = Tag.new(
       taggable: bucket,
-      tag_string: create_params[:tag_string]
+      tag_string: create_params[:tag_string],
     ) 
     
     # TODO Rewrite this to some other syntax

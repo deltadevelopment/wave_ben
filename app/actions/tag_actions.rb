@@ -19,6 +19,10 @@ class TagActions
       update_exipiry_and_counter_cache!
 
       @tag.save unless @tag.taggee.nil?
+
+      if @tag.taggee.is_a?(User)
+        GenerateRippleJob.perform_later(@tag, 'create_usertag', @tag.taggable.user) 
+      end
     end
 
     @tag

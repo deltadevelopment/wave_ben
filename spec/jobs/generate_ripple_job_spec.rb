@@ -30,6 +30,20 @@ describe GenerateRippleJob do
 
     end
 
+    context "when record is a tag" do
+
+      it "notifies the taggee when a usertag is added" do
+        tag = FactoryGirl.create(:usertag)
+
+        expect{
+          GenerateRippleJob.new.perform(
+            tag, :add_usertag, tag.taggable.user
+          )
+        }.to change(Ripple, :count).by(1)
+      end
+
+    end
+
   end
 
 end

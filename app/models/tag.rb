@@ -1,7 +1,8 @@
 class Tag < ActiveRecord::Base
   
   attr_accessor :tag_string
-  # TODO Add validation for tag_string
+
+  has_many :ripples, as: :trigger, dependent: :destroy
 
   belongs_to :taggable, polymorphic: true
   belongs_to :taggee, polymorphic: true

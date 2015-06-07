@@ -4,6 +4,7 @@ describe Tag do
 
   it { should belong_to(:taggee) }
   it { should belong_to(:taggable) }
+  it { should have_many(:ripples) }
 
   describe "tag_string format" do
 
