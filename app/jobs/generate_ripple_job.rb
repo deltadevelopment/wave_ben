@@ -15,7 +15,7 @@ class GenerateRippleJob < ActiveJob::Base
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
-              message: "#{originator} created a new shared bucket!",
+              message: "#{originator.username} created a new shared bucket!",
               trigger: record,
               triggee: originator,
               user: s.user,
@@ -31,7 +31,7 @@ class GenerateRippleJob < ActiveJob::Base
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
-              message: "#{originator} just added a drop to his bucket",
+              message: "#{originator.username} just added a drop to his bucket",
               trigger: record,
               triggee: originator,
               user: s.user,
@@ -43,9 +43,9 @@ class GenerateRippleJob < ActiveJob::Base
 
     elsif record.is_a?(Tag)
       if record.taggable.is_a?(Bucket)
-        message = "#{originator} just tagged you in a bucket!"
+        message = "#{originator.username} just tagged you in a bucket!"
       else
-        message = "#{originator} just tagged you in a drop!"
+        message = "#{originator.username} just tagged you in a drop!"
       end
 
       RippleActions.new(
