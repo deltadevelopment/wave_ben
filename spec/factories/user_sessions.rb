@@ -1,6 +1,8 @@
 FactoryGirl.define do
 
   factory :user_session do
+    user
+
     sequence(:auth_token) { |n| "a1f8e05fabf570d033531c8a4c8a8ae#{n}" }
 
     trait(:with_device_id) {  

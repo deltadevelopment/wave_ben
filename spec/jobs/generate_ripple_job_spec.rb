@@ -28,6 +28,18 @@ describe GenerateRippleJob do
         }.to change(Ripple, :count).by(1)
       end
 
+      it "notifies the owner of a shared bucket that a new drop 
+          has been added" do
+        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, :with_shared_bucket)
+
+        expect{
+          GenerateRippleJob.new.perform(
+            drop, :add_drop_to_shared_bucket, drop.user
+          )
+        }.to change(Ripple, :count).by(1)
+
+      end
+
     end
 
     context "when record is a tag" do

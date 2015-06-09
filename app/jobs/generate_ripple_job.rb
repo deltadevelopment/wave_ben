@@ -39,6 +39,16 @@ class GenerateRippleJob < ActiveJob::Base
             )
           ).create!
         end
+      else 
+        RippleActions.new(
+          ripple: Ripple.new(
+            message: "#{@originator.username} just added a drop to your shared bucket",
+            trigger: record,
+            triggee: @originator,
+            user: record.bucket.user,
+            pushable: true
+          )
+        ).create!
       end 
 
     elsif record.is_a?(Tag)

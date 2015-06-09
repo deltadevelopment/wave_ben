@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  after_action :verify_authorized, except: :create
+  after_action :verify_authorized, except: [:create, :get_user_by_auth_token]
 
   def show
     user = User.find(params[:user_id])
@@ -107,6 +107,19 @@ class UsersController < ApplicationController
           url: url.to_s,
           media_key: key
         }
+      }
+  end
+
+  # TODO: This _MUST_ be secured witha rate limiter
+  def get_user_by_auth_token
+    user = UserSession.find_by_auth_token!(params[:auth_token]).user
+
+    json_response 200,
+      success: true,
+      message_id: 'ok',
+      message: I18n.t('success.ok'),
+      data: {
+        user: user.slice(:id, :username)
       }
   end
 

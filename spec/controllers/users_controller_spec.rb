@@ -184,4 +184,20 @@ describe UsersController do
 
   end
 
+  describe "#get_user_by_auth_token" do
+    let(:user_session) { FactoryGirl.create(:user_session) }
+    
+    it "returns 200" do
+      get :get_user_by_auth_token, { auth_token: user_session.auth_token }
+      res = JSON.parse(response.body)
+      expect(res['data']['user']['username']).to eql(user_session.user.username)
+    end
+
+    it "returns 404 with non-existing auth-token" do
+      get :get_user_by_auth_token, { auth_token: 'A'*16 }
+      expect(response).to have_http_status(404)
+    end
+
+  end
+
 end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   delete 'user/:user_id' => 'users#destroy'
   put 'user/:user_id' => 'users#update'
   get 'user/:user_id/buckets' => 'buckets#buckets_for_user'
+  get 'user/by_auth_token/:auth_token' => 'users#get_user_by_auth_token'
 
   # Session routes
   post 'login' => 'user_sessions#create'
