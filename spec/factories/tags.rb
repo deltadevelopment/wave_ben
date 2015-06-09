@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :tag do
-    association :taggable, factory: :shared_bucket
+    association :taggable, factory: [:shared_bucket, :with_user]
 
     factory :tag_hashtag do
       tag_string "#random123"
