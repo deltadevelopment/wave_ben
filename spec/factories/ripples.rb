@@ -3,6 +3,7 @@ FactoryGirl.define do
     user
     message "some_message"     
     association :triggee, factory: :user
+    pushable false
     
     factory(:drop_ripple) do 
       association :trigger, factory: :drop

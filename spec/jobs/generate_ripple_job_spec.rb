@@ -5,7 +5,9 @@ describe GenerateRippleJob do
   describe "#perform" do
     
     context "when record is a shared bucket" do
-      let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user_with_subscriber) }
+      let(:bucket) { FactoryGirl.create(:shared_bucket, 
+                                        :with_user_with_subscriber)
+      }
 
       it "notifies subscribers of new shared buckets created" do
         expect{
@@ -19,7 +21,8 @@ describe GenerateRippleJob do
     context "when record is a drop" do
 
       it "notifies subscribers of new userdrops added" do
-        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, :with_user_bucket)
+        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, 
+                                  :with_user_bucket)
 
         expect{
           GenerateRippleJob.new.perform(
@@ -30,14 +33,14 @@ describe GenerateRippleJob do
 
       it "notifies the owner of a shared bucket that a new drop 
           has been added" do
-        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, :with_shared_bucket)
+        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, 
+                                  :with_shared_bucket)
 
         expect{
           GenerateRippleJob.new.perform(
             drop, :add_drop_to_shared_bucket, drop.user
           )
         }.to change(Ripple, :count).by(1)
-
       end
 
     end
