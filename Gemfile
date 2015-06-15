@@ -6,6 +6,8 @@ gem 'rails', '4.2.1'
 
 gem 'rails-api'
 
+gem 'puma'
+
 gem 'bcrypt' # For general encryption
 gem "active_model_serializers", '~> 0.9.0'
 gem 'pg'

@@ -141,6 +141,8 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
+    puma (2.11.3)
+      rack (>= 1.1, < 2.0)
     pundit (0.3.0)
       activesupport (>= 3.0.0)
     rack (1.6.0)
@@ -276,6 +278,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   pry-remote
+  puma
   pundit
   rails (= 4.2.1)
   rails-api
