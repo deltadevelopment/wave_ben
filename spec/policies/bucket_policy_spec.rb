@@ -81,10 +81,11 @@ describe BucketPolicy do
   end
 
   permissions :buckets_for_user? do
+    let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :with_taggee) }
   
-    it "allows the owner to see all buckets"
-
-    it "does not show private buckets unless the requester is tagged"
+    it "allows logged_in_users to get bucket feed for user" do
+      expect(subject).to permit(User.new, bucket)
+    end
 
   end
 

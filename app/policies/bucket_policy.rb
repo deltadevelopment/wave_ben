@@ -17,7 +17,7 @@ class BucketPolicy < ApplicationPolicy
   end
 
   def buckets_for_user?
-    user_is_owner? 
+    is_logged_in?
   end
 
   def watch?
