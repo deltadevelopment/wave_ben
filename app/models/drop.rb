@@ -22,7 +22,7 @@ class Drop < ActiveRecord::Base
 
   validates :thumbnail_key, length: { in: 60..120, message: I18n.t('validation.key_length')}, if: 'media_type==1'
 
-  validate :key_uniqueness
+  validate :key_uniqueness, on: :create
 
   validates :media_type, numericality: { message: I18n.t('validation.media_type_missing')}
 
