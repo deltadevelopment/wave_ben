@@ -11,16 +11,19 @@ class SubscriptionsController < ApplicationController
       message_id: 'ok',
       message: I18n.t('success.ok'),
       data: {
-        subscription: subscription
+        subscription: SubscriptionSerializer.new(subscription)
       }
   end
 
   def create
     user = User.find(params[:user_id])
+    subscribee = User.find(params[:subscribee_id])
+
     authorize Subscription.new(user: user)
 
-    subscribee = User.find(params[:subscribee_id])
-    subscription = Subscription.find_or_create_by(create_params)
+    subscription = SubscriptionActions.new(
+      subscription: Subscription.new(create_params)
+    ).create!
 
 
     if subscription.save
