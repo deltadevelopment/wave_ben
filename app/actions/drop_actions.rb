@@ -17,6 +17,7 @@ class DropActions
     end
 
     if @drop.save
+      @drop.bucket.update(updated_at: DateTime.now)
       WatcherActions.new(
         watcher: Watcher.new(watchable: @drop, user: @drop.user)).create!
       GenerateRippleJob.perform_later(@drop, 'add', @drop.user)

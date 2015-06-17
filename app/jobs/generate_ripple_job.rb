@@ -19,7 +19,8 @@ class GenerateRippleJob < ActiveJob::Base
               trigger: record,
               triggee: @originator,
               user: s.user,
-              pushable: true
+              pushable: true,
+              action: @action
             )
           ).create!
         end
@@ -35,7 +36,8 @@ class GenerateRippleJob < ActiveJob::Base
               trigger: record,
               triggee: @originator,
               user: s.user,
-              pushable: true
+              pushable: true,
+              action: @action
             )
           ).create!
         end
@@ -46,7 +48,8 @@ class GenerateRippleJob < ActiveJob::Base
             trigger: record,
             triggee: @originator,
             user: record.bucket.user,
-            pushable: true
+            pushable: true,
+            action: @action
           )
         ).create!
       end 
@@ -64,7 +67,8 @@ class GenerateRippleJob < ActiveJob::Base
           trigger: record,
           triggee: @originator,
           user: record.taggee,
-          pushable: true
+          pushable: true,
+          action: @action
         )
       ).create!
     elsif record.is_a?(Vote)
@@ -74,7 +78,8 @@ class GenerateRippleJob < ActiveJob::Base
           trigger: record,
           triggee: @originator,
           user: record.drop.user,
-          pushable: true
+          pushable: true,
+          action: @action
         )
       ).create!
     elsif record.is_a?(Subscription)
@@ -84,7 +89,8 @@ class GenerateRippleJob < ActiveJob::Base
           trigger: record,
           triggee: @originator,
           user: record.subscribee,
-          pushable: true
+          pushable: true,
+          action: @action
         )
       ).create!
     end

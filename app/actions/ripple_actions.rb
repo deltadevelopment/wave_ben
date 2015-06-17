@@ -12,6 +12,7 @@ class RippleActions
     ripple.triggee  = @ripple.triggee
     ripple.pushable = @ripple.pushable
     ripple.user     = @ripple.user
+    ripple.action   = @ripple.action
 
     ripple.save!
 

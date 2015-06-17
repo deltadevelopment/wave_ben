@@ -1,7 +1,7 @@
 class RipplesController < ApplicationController
 
   def list
-    ripples = Ripple.where(user: current_user)
+    ripples = Ripple.where(user: current_user).order(created_at: :desc)
 
     authorize ripples.take!
   
@@ -48,7 +48,7 @@ class RipplesController < ApplicationController
 
   def create_params
     params.require(:ripple).permit(:trigger_id, :trigger_type, :triggee_id, 
-                                   :user_id, :message, :pushable)
+                                   :user_id, :message, :pushable, :action)
   end
 
 end

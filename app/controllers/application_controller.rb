@@ -104,8 +104,8 @@ class ApplicationController < ActionController::API
   end
 
   def check_valid_authorization
-    return true if ENV['preshared_key'] != nil and 
-                   request.headers['X-AUTH-TOKEN'] == ENV['preshared_key']
+    return true if ENV['CHAT_API_KEY'] != nil and 
+                   request.headers['X-AUTH-TOKEN'] == ENV['CHAT_API_KEY']
 
     raise NotAuthenticatedError
   end
