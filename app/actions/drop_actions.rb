@@ -36,7 +36,9 @@ class DropActions
 
     vote.temperature = @param[:temperature]
     
-    vote.save
+    if vote.save
+      GenerateRippleJob.perform_later(vote, 'vote', vote.user)
+    end
 
     vote
 
