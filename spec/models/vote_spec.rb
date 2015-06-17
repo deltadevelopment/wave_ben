@@ -2,6 +2,11 @@ require 'rails_helper'
 
 describe Vote do
 
+  it { should belong_to(:user) }
+  it { should belong_to(:drop) }
+  it { should belong_to(:bucket) }
+  it { should have_many(:ripples).dependent(:destroy) }
+
   describe "temperature format" do
     let(:vote) { Vote.new(temperature: 50) }
     
