@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
   # Ripple routes
   get 'ripples' => 'ripples#list'
+  post 'ripples' => 'ripples#create'
 
   # Resque routes
   get 'jobs' => 'jobs#list'

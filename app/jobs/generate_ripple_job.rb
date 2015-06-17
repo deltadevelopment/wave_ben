@@ -67,7 +67,6 @@ class GenerateRippleJob < ActiveJob::Base
           pushable: true
         )
       ).create!
-
     elsif record.is_a?(Vote)
       RippleActions.new(
         ripple: Ripple.new(
@@ -75,6 +74,16 @@ class GenerateRippleJob < ActiveJob::Base
           trigger: record,
           triggee: @originator,
           user: record.drop.user,
+          pushable: true
+        )
+      ).create!
+    elsif record.is_a?(Subscription)
+      RippleActions.new(
+        ripple: Ripple.new(
+          message: "#{@originator.username} is now subscribing to you!",
+          trigger: record,
+          triggee: @originator,
+          user: record.subscribee,
           pushable: true
         )
       ).create!

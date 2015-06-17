@@ -40,4 +40,43 @@ describe RipplesController do
 
   end
 
+  describe "#create" do
+    let(:ripple) { FactoryGirl.create(:drop_ripple) }
+    let(:valid_params) do
+      { ripple: 
+        { user: ripple.user,
+          message: ripple.message,
+          pushable: ripple.pushable,
+          trigger_id: ripple.trigger_id,
+          trigger_type: ripple.trigger_type,
+          triggee_id: ripple.triggee_id
+        }
+      }
+    end
+
+    context "with proper credentials" do
+
+      before do
+        allow(controller).to receive(:check_valid_authorization) { true }
+      end
+
+      it "returns 201" do
+        post :create, valid_params
+        expect(response).to have_http_status(201)
+      end
+
+      it "returns 400 with invalid params" do
+        post :create, valid_params[:ripple].merge({message: nil})
+        expect(response).to have_http_status(400)
+      end
+
+    end
+
+    it "returns 401 without proper authorization" do
+      post :create, valid_params
+      expect(response).to have_http_status(401)
+    end
+
+  end
+
 end

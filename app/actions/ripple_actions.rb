@@ -15,6 +15,8 @@ class RippleActions
 
     ripple.save!
 
+    ripple
+
   end
 
 end
