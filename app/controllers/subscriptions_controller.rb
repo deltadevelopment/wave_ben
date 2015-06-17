@@ -10,9 +10,7 @@ class SubscriptionsController < ApplicationController
       success: true,
       message_id: 'ok',
       message: I18n.t('success.ok'),
-      data: {
-        subscription: SubscriptionSerializer.new(subscription)
-      }
+      data: SubscriptionSerializer.new(subscription)
   end
 
   def create
