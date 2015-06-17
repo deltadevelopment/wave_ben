@@ -67,6 +67,17 @@ class GenerateRippleJob < ActiveJob::Base
           pushable: true
         )
       ).create!
+
+    elsif record.is_a?(Vote)
+      RippleActions.new(
+        ripple: Ripple.new(
+          message: "#{@originator.username} set the temperature of your drop to #{@record.temperature}˚"
+          trigger: record,
+          triggee: @originator,
+          user: record.taggee,
+          pushable: true
+        )
+      ).create!
     end
 
   end
