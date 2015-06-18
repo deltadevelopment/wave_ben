@@ -29,8 +29,12 @@ class Ripple < ActiveRecord::Base
   def notify_user
     if pushable
       if user.ios?      
-        inner = { "aps": { "alert": "Test" } }.to_json
-        padded_message = '{ "APNS_SANDBOX": \"' + inner + '\" }'
+        inner = {
+          "aps": {
+            "alert": message
+          }
+        }
+        padded_message = { APNS_SANDBOX: inner }.to_json
       else
         padded_message = message
       end
