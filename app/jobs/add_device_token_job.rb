@@ -32,7 +32,7 @@ class AddDeviceTokenJob < ActiveJob::Base
 
     user = User.find(update_token_params[:user_id])
     
-    user.update(sns_endpoint_arn: new_endpoint_arn, device_type: update_token_params[:device_type])
+    user.update(sns_endpoint_arn: new_endpoint_arn)
   end
 
   private

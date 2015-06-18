@@ -37,6 +37,8 @@ class UserSessionActions
       device_type:  param[:device_type]
     )
 
+    user.update(device_type: param[:device_type])
+
     user_session
   end
 
