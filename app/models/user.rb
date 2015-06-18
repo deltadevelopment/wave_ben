@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :bucket, :profile_picture_url
 
+  enum device_type: [:ios, :android]
+
   has_one :user_session, dependent: :destroy
 
   has_many :buckets, dependent: :destroy
@@ -65,7 +67,7 @@ class User < ActiveRecord::Base
   def notify(message)
     unless self.sns_endpoint_arn == nil
       pen = Aws::SNS::Resource.new.platform_endpoint(self.sns_endpoint_arn)
-      pen.publish(message: message)
+      pen.publish(message: message, message_structure: 'json')
       return true
     end
     false

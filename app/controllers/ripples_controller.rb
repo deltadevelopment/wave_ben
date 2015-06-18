@@ -1,9 +1,9 @@
 class RipplesController < ApplicationController
 
   def list
-    ripples = Ripple.where(user: current_user).order(created_at: :desc)
+    ripples = Ripple.get_new_ripples(current_user)
 
-    authorize ripples.take!
+    authorize ripples[0]
   
     json_response 200,
       success: true,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617130442) do
+ActiveRecord::Schema.define(version: 20150618091223) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20150617130442) do
     t.integer  "subscribers_count",   default: 0, null: false
     t.integer  "subscriptions_count", default: 0, null: false
     t.string   "profile_picture_key"
+    t.integer  "device_type"
   end
 
   create_table "votes", force: :cascade do |t|
