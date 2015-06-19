@@ -6,28 +6,36 @@ gem 'rails', '4.2.1'
 
 gem 'rails-api'
 
-gem 'bcrypt' # For general encryption
-gem 'active_model_serializers', '~> 0.9.2' # For JSON generation
+gem 'puma'
 
-# Use sqlite3 as the database for Active Record
+gem 'bcrypt' # For general encryption
+gem "active_model_serializers", '~> 0.9.0'
 gem 'pg'
 
+# Authorization
+gem 'pundit'
+
 # Monitoring
-gem "bugsnag"
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', group: :production
+gem "skylight", group: :production
 
 # Heroku specific
 gem 'rails_12factor', group: :production
-gem 'rails_stdout_logging'
 
 # AWS SDK
 gem 'aws-sdk', '~> 2'
 
 gem 'resque', :require => 'resque/server'
+gem 'resque-scheduler'
+
+group :production do
+  gem 'rails_stdout_logging'
+end
 
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'rspec-mocks'
   gem 'json_spec'
   gem 'guard-rspec', :git => 'https://github.com/guard/guard-rspec.git'
   gem 'rb-readline', '~> 0.5.0'
@@ -37,6 +45,8 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-remote'
   gem 'rubocop'
+  gem 'guard-rubocop'
+  gem 'database_cleaner'
 end
 
 # To use ActiveModel has_secure_password

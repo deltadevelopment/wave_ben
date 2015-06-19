@@ -1,0 +1,17 @@
+require 'rails_helper'
+
+describe DeleteOldDropsJob do
+  let!(:drop) { FactoryGirl.create(:drop, :day_old) }
+
+  before{
+    Resque.inline = true  
+  }
+  
+  it "deletes old drops" do
+    FactoryGirl.create(:drop)
+    expect{
+      DeleteOldDropsJob.new.enqueue
+    }.to change(Drop, :count).by(-1) 
+  end
+
+end

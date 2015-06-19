@@ -29,5 +29,25 @@ guard :rspec, cmd: 'bundle exec rspec' do
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
+
 end
+
+# Tmux Notifications
+notification :tmux,
+  display_message: false,
+  timeout: 3,
+  color_location: false,
+
+  default_message_color: 'black',
+  success: 'colour150',
+  failure: 'colour174',
+  pending: 'colour179'
+
+# Rubocop
+#group :red_green_refactor, halt_on_fail: true do
+#
+#  guard :rubocop, cli: '--rails', keep_failed: true
+#
+#end
+#
 

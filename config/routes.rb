@@ -1,56 +1,56 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  # Feed routes
+  get '/feed' => 'feed#list'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  # User routes
+  get 'user/generate_upload_url' => 'users#generate_upload_url'
+  get 'user/:user_id' => 'users#show'
+  post 'register' => 'users#create'
+  delete 'user/:user_id' => 'users#destroy'
+  put 'user/:user_id' => 'users#update'
+  get 'user/:user_id/buckets' => 'buckets#buckets_for_user'
+  get 'user/by_auth_token/:auth_token' => 'users#get_user_by_auth_token'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # Session routes
+  post 'login' => 'user_sessions#create'
+  delete 'login' => 'user_sessions#destroy'
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  # Bucket routes
+  get 'bucket/:bucket_id/' => 'buckets#show'
+  post 'bucket' => 'buckets#create'
+  put 'bucket/:bucket_id' => 'buckets#update'
+  delete 'bucket/:bucket_id' => 'buckets#destroy'
+  post 'bucket/:bucket_id/watch' => 'buckets#watch'
+  delete 'bucket/:bucket_id/watch' => 'buckets#unwatch'
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  # Drop routes
+  post 'bucket/:bucket_id/drop/' => 'drops#create'
+  delete 'drop/:drop_id' => 'drops#destroy'
+  get 'drop/generate_upload_url' => 'drops#generate_upload_url'
+  post 'drop/:drop_id/redrop' => 'drops#redrop'
+  delete 'drop/:drop_id/watch' => 'drops#unwatch'
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  # Temperature routes
+  post 'drop/:drop_id/vote' => 'drops#vote'
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  # Subscriber routes
+  get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'
+  post 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#create'
+  delete 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#destroy'
+  get 'user/:user_id/subscriptions' => 'subscriptions#list'
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
+  # Tag routes
+  post 'bucket/:bucket_id/tag' => 'tags#create'
+  delete 'tag/:tag_id' => 'tags#destroy'
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  # Ripple routes
+  get 'ripples' => 'ripples#list'
+  post 'ripples' => 'ripples#create'
+
+  # Resque routes
+  get 'jobs' => 'jobs#list'
+
+  mount Resque::Server, :at => "/resque" 
+
 end

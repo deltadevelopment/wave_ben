@@ -18,6 +18,69 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
+en: 
+  error:
+    # General
+    validation_error: "You have made some errors, please correct them and try again"
+    bad_credentials: "The username and/or password is incorrect"
+    not_authenticated: "You are not logged in, or the session has expired. Please log in again"
+    not_authorized: "You are not authorized to access that resource"
+    parameter_missing: "A required parameter: `%{param}` is missing"
+    internal_server_error: "Internal Server Error"
+    record_not_found: "Oops! What you are looking for is not here"
+    
+  success:
+    # General
+    record_created: "record_created"
+    record_updated: "record_updated"
+    record_destroyed: "record_destroyed"
+    ok: "ok"
 
-en:
-  hello: "Hello world"
+    # User
+    user_created: "You have successfully created an account. Welcome!"
+    user_destroyed: "You have successfully deleted your account"
+    user_updated: "Your profile has been updated"
+
+    # Session
+    user_session_created: "You have been logged in"
+    user_session_destroyed: "You have been logged out"
+
+    # Drop
+    upload_url_generated: "Upload URL generated successfully"
+  validation:
+
+    # User
+    username_length: "validation_username_length"
+    username_alphanumeric: "validation_username_alphanumeric"
+    username_exists: "validation_username_exists"
+    display_name_length: "validation_display_name_length"
+    display_name_format: "validation_display_name_format"
+    password_length: "validation_password_length"
+    email_format: "validation_email_format"
+    email_exists: "validation_email_exists"
+    phone_number_numerical: "validation_phone_number_numerical"
+    phone_number_exists: "validation_phone_number_exists"
+
+    # Bucket
+    title_length: "validation_title_length"
+    when_datetime_format: "validation_when_datetime_format"
+    bucket_type: "validation_bucket_type"
+    description_length: "validation_description_length"
+    user_bucket_title_set: "user_bucket_title_set"
+    user_bucket_when_datetime: "user_bucket_when_datetime_set"
+    user_bucket_description_set: "user_bucket_description_set"
+
+    # Drop
+    key_length: "validation_key_length"
+    unique_key_exists: "validation_unique_key_exists"
+    parent_id_missing: "validation_parent_id_missing"
+    media_type_missing: "validation_media_type_missing"
+    temperature_must_be_between_0_100: 
+      "validation_temperature_must_be_between_0_100"
+
+    # Tag
+    tag_string_format: "tag_string_format"
+    tag_bucket_type_invalid: "tag_bucket_type_invalid"
+
+    # Notification
+    notification_message: "notification_message"
