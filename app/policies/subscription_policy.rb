@@ -4,6 +4,10 @@ class SubscriptionPolicy < ApplicationPolicy
     user_is_owner?  
   end 
 
+  def list?
+    user_is_owner?
+  end
+
   def create?
     user_is_owner?
   end

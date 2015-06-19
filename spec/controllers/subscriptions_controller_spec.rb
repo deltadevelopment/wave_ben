@@ -2,6 +2,30 @@ require 'rails_helper'
 
 describe SubscriptionsController do
 
+  describe "#list" do
+    let(:user) { FactoryGirl.create(:user, :with_subscription) }
+    let(:valid_params) { { user_id: user.id } }
+
+    context "with proper credentials" do
+
+      before do
+        allow(controller).to receive(:current_user) { user }
+      end
+
+      it "returns 200" do
+        get :list, valid_params
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+    it "returns 401" do
+      get :list, valid_params
+      expect(response).to have_http_status(401)
+    end
+
+  end
+
   describe "#create" do
     let(:user) { FactoryGirl.create(:user) }
     let(:subscribee) { FactoryGirl.create(:user) }

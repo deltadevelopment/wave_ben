@@ -19,6 +19,12 @@ FactoryGirl.define do
       end
     }
 
+    trait(:with_subscription){
+      after(:create) do |user|
+        create(:subscription, user: user)
+      end
+    }
+
     trait(:logged_in) { user_session { create(:user_session) } }
     trait(:logged_in_with_device_id) { user_session { create(:user_session, :with_device_id) } }
   end

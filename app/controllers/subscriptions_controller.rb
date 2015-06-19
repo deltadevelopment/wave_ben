@@ -13,6 +13,22 @@ class SubscriptionsController < ApplicationController
       data: SubscriptionSerializer.new(subscription)
   end
 
+  def list
+    subscriptions = Subscription.where(user_id: params[:user_id])
+
+    authorize subscriptions.take!
+    
+    json_response 200,
+      success: true,
+      message_id: 'ok',
+      message: I18n.t('success.ok'),
+      data: ActiveModel::ArraySerializer.new(
+        subscriptions,
+        each_serializer: SubscriptionSerializer,
+        root: "subscriptions"
+      )
+  end
+
   def create
     user = User.find(params[:user_id])
     subscribee = User.find(params[:subscribee_id])

@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'
   post 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#create'
   delete 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#destroy'
+  get 'user/:user_id/subscriptions' => 'subscriptions#list'
 
   # Tag routes
   post 'bucket/:bucket_id/tag' => 'tags#create'
