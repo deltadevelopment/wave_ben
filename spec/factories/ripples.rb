@@ -1,21 +1,19 @@
 FactoryGirl.define do
   factory :ripple do
     user
-    message "some_message"     
-    association :triggee, factory: :user
-    pushable false
     
     factory(:drop_ripple) do 
-      association :trigger, factory: :drop
+      association :interaction, factory: :drop_interaction
     end
 
     factory(:bucket_ripple) do 
-      association :trigger, factory: :shared_bucket
+      association :interaction, factory: :bucket_interaction
     end
 
     trait(:seen){
       seen_at DateTime.now
     }
+
   end
 
 end

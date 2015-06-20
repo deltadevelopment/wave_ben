@@ -10,7 +10,7 @@ class Drop < ActiveRecord::Base
   has_many :watchers, as: :watchable, dependent: :destroy
 
   # Should this be dependent destroy?
-  has_many :ripples, as: :trigger, dependent: :destroy
+  has_many :interactions, as: :topic, dependent: :destroy
 
   has_many :votes, dependent: :destroy
 

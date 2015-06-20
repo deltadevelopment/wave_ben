@@ -13,7 +13,7 @@ class Bucket < ActiveRecord::Base
 
   has_many :watchers, as: :watchable, dependent: :destroy
 
-  has_many :ripples, as: :trigger, dependent: :destroy
+  has_many :interaction, as: :topic, dependent: :destroy
 
   has_many :votes
 

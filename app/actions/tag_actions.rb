@@ -20,8 +20,16 @@ class TagActions
 
       @tag.save unless @tag.taggee.nil?
 
+      # TODO: Could this be generalized into serving both
+      #       UserTags and BucketTags?
       if @tag.taggee.is_a?(User)
-        GenerateRippleJob.perform_later(@tag, 'create_usertag', @tag.taggable.user) 
+        InteractionActions.new(
+          interaction: Interaction.new(
+            user: @tag.taggable.user,
+            topic: @tag,
+            action: "create"
+          )
+        ).create!
       end
     end
 

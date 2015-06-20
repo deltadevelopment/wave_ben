@@ -17,9 +17,10 @@ describe DropActions do
       }.to change(Watcher, :count).by(1)
     end
 
-    it "queues a GenerateRippleJob" do
-      expect(GenerateRippleJob).to receive(:perform_later)
-      DropActions.new(drop: drop, param: param).create! 
+    it "saves an interaction" do
+      expect{
+        DropActions.new(drop: drop, param: param).create! 
+      }.to change(Interaction, :count).by(1)
     end
 
     context "including tags in the caption" do
@@ -73,6 +74,16 @@ describe DropActions do
 
       end
 
+      it "saves an interaction" do
+        expect{
+          DropActions.new(
+            drop: drop, 
+            param: { temperature: 50 },
+            user: drop.bucket.user
+          ).vote! 
+        }.to change(Interaction, :count).by(1)
+      end
+
       context "when voting on a re-drop" do
         let(:redrop) { FactoryGirl.create(
           :drop, 
@@ -106,9 +117,10 @@ describe DropActions do
       }.to change(Drop, :count).by(1)
     end 
 
-    it "queues a GenerateRippleJob" do
-      expect(GenerateRippleJob).to receive(:perform_later)
-      DropActions.new(drop: drop, user: bucket.user).redrop!
+    it "saves an interaction" do
+      expect{
+        DropActions.new(drop: drop, user: bucket.user).redrop! 
+      }.to change(Interaction, :count).by(1)
     end
 
   end

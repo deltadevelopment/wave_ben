@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   has_many :votes, dependent: :destroy
 
-  has_many :ripples
+  has_many :ripples, dependent: :destroy
 
   delegate :user_bucket, to: :buckets
 

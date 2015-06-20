@@ -16,9 +16,13 @@ class SubscriptionActions
       return @subscription
     else
       if @subscription.save
-        GenerateRippleJob.perform_later(
-          @subscription, 'create', @subscription.user
-        )
+        InteractionActions.new(
+          interaction: Interaction.new(
+            user: @subscription.user,
+            topic: @subscription,
+            action: "create"
+          )
+        ).create!
       end
     end
 
