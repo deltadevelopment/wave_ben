@@ -20,7 +20,7 @@ class SubscriptionActions
           interaction: Interaction.new(
             user: @subscription.user,
             topic: @subscription,
-            action: "create"
+            action: "create_subscription"
           )
         ).create!
       end

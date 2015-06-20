@@ -17,7 +17,7 @@ class BucketActions
       interaction: Interaction.new(
         user: @bucket.user,
         topic: @bucket,
-        action: "create"
+        action: "create_bucket"
       )
     ).create!
 

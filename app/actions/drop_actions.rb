@@ -18,13 +18,16 @@ class DropActions
 
     if @drop.save
       @drop.bucket.update(updated_at: DateTime.now)
+
       WatcherActions.new(
         watcher: Watcher.new(watchable: @drop, user: @drop.user)).create!
       InteractionActions.new(
         interaction: Interaction.new(
           user: @drop.user,
           topic: @drop,
-          action: "create"
+          action: 
+            @drop.bucket.user_bucket? ? 
+              "create_drop_user_bucket" : "create_drop_shared_bucket"
         )
       ).create!
     end
@@ -48,7 +51,7 @@ class DropActions
           interaction: Interaction.new(
             user: vote.user,
             topic: vote,
-            action: "create"
+            action: "create_vote"
           )
         ).create!
     end
@@ -75,7 +78,7 @@ class DropActions
       interaction: Interaction.new(
         user: @user,
         topic: drop,
-        action: "redrop"
+        action: "create_redrop"
       )
     ).create!
 

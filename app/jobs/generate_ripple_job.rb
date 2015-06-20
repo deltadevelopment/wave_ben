@@ -3,7 +3,6 @@ class GenerateRippleJob < ActiveJob::Base
   queue_as :generate_ripple
 
   def perform(record)
-
     @topic = record.topic
     
     if @topic.is_a?(Bucket) 
