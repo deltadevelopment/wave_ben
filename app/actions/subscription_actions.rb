@@ -17,7 +17,7 @@ class SubscriptionActions
     else
       if @subscription.save
         GenerateRippleJob.perform_later(
-          @subscription, 'create_subscription', @subscription.user
+          @subscription, 'create', @subscription.user
         )
       end
     end

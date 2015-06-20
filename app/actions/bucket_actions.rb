@@ -13,7 +13,7 @@ class BucketActions
       watcher: Watcher.new(watchable: @bucket, user_id: @bucket.user_id)
     ).create!
 
-    GenerateRippleJob.perform_later(@bucket, 'create_bucket', @bucket.user)
+    GenerateRippleJob.perform_later(@bucket, 'create', @bucket.user)
     
     drop = DropActions.new(
       drop: Drop.new(@param[:drop].merge({
