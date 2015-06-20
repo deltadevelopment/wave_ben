@@ -109,6 +109,8 @@ describe DropsController do
 
   describe "#vote" do
     let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket, :with_user) }
+    let(:user) { FactoryGirl.create(:user) }
+
     let(:valid_params) {
       { drop_id: drop.id,
         vote: {
@@ -117,8 +119,7 @@ describe DropsController do
       }
     }
 
-    before { allow(controller).to receive(:current_user) { drop.user }
-    }
+    before { allow(controller).to receive(:current_user) { user } }
 
     it "returns 201" do
       post :vote, valid_params
