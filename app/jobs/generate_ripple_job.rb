@@ -32,12 +32,14 @@ class GenerateRippleJob < ActiveJob::Base
         end
       else 
         each_watcher do |s|
-          RippleActions.new(
-            ripple: Ripple.new(
-              interaction: record,
-              user: s.user
-            )
-          ).create!
+          unless record.user == s.user
+            RippleActions.new(
+              ripple: Ripple.new(
+                interaction: record,
+                user: s.user
+              )
+            ).create!
+          end
         end
       end 
 
