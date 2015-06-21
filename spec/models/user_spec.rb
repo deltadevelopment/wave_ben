@@ -135,4 +135,19 @@ describe User do
 
   end
 
+  describe "#get_unread_count" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "should returns 2 when I have 2 unseen ripples" do
+      FactoryGirl.create(:drop_ripple, user: user)
+      FactoryGirl.create(:drop_ripple, user: user)
+      expect(user.get_unseen_ripple_count).to eql(2)
+    end
+
+    it "should return 0 when I have 0 unseen ripples" do
+      expect(user.get_unseen_ripple_count).to eql(0)
+    end
+
+  end
+
 end

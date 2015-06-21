@@ -73,6 +73,11 @@ class User < ActiveRecord::Base
     false
   end
 
+  def get_unseen_ripple_count
+    ripples = Ripple.where(user_id: self.id, seen_at: nil).select("COUNT(ripples.id) AS total, ripples.id")
+    ripples.first.total
+  end
+
   protected 
 
   # Returns true if a phone number was entered

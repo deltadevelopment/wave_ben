@@ -30,11 +30,13 @@ class Ripple < ActiveRecord::Base
 
   def notify_user
     message = generate_message
+    badge = user.get_unseen_ripple_count
 
     if user.ios?      
       inner = {
         "aps": {
-          "alert": message
+          "alert": message,
+          "badge": badge
         }
       }.to_json
       padded_message = { APNS_SANDBOX: inner }.to_json
