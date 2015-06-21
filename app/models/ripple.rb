@@ -6,7 +6,12 @@ class Ripple < ActiveRecord::Base
 
   belongs_to :user
 
-  private
+  def generate_message
+    I18n.t "notification.#{interaction.action}",
+      username: interaction.user.username,
+      bucket_title: interaction.topic.class.method_defined?(:title) ? interaction.topic.title : nil,
+      temperature: interaction.topic.class.method_defined?(:temperature) ? interaction.topic.temperature : nil
+  end
 
   # TODO: Possible optimization handle this in the db
   def self.get_new_ripples(user)
@@ -20,6 +25,8 @@ class Ripple < ActiveRecord::Base
  
     rr
   end
+
+  private
 
   def notify_user
     message = generate_message
@@ -41,13 +48,6 @@ class Ripple < ActiveRecord::Base
     end
 
     user.notify(padded_message)
-  end
-
-  def generate_message
-    I18n.t "notification.#{interaction.action}",
-      username: interaction.user.username,
-      bucket_title: interaction.topic.class.method_defined?(:title) ? interaction.topic.title : nil,
-      temperature: interaction.topic.class.method_defined?(:temperature) ? interaction.topic.temperature : nil
   end
 
 end
