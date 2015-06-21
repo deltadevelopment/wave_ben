@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   end
 
   def get_unseen_ripple_count
-    ripples = Ripple.where(user_id: self.id, seen_at: nil).select("COUNT(ripples.id) AS total, ripples.id")
+    ripples = Ripple.where(user_id: self.id, seen_at: nil).select("COUNT(ripples.id) AS total, ripples.id").group(:id)
     ripples.first.total
   end
 
