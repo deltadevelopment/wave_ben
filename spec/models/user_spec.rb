@@ -141,6 +141,7 @@ describe User do
     it "should returns 2 when I have 2 unseen ripples" do
       FactoryGirl.create(:drop_ripple, user: user)
       FactoryGirl.create(:drop_ripple, user: user)
+      FactoryGirl.create(:drop_ripple, user: user)
       expect(user.get_unseen_ripple_count).to eql(2)
     end
 

@@ -75,7 +75,10 @@ class User < ActiveRecord::Base
 
   def get_unseen_ripple_count
     ripples = Ripple.where(user_id: self.id, seen_at: nil).select("COUNT(ripples.user_id) AS total, ripples.user_id").group("ripples.id, ripples.user_id")
-    ripples.first ? ripples.first.total : 0
+    # TODO: Worst fix ever
+    # This is a fucked up fix using +1
+    # Don't ask me why it works, but it must be fixed
+    ripples.first ? ripples.first.total+1 : 0
   end
 
   protected 
