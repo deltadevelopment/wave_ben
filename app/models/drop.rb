@@ -14,7 +14,7 @@ class Drop < ActiveRecord::Base
 
   has_many :votes, dependent: :destroy
 
-  has_many :redrops, class_name: "Drop", foreign_key: "drop_id"
+  has_many :redrops, class_name: "Drop", foreign_key: "drop_id", dependent: :destroy
 
   belongs_to :original_drop, class_name: "Drop", foreign_key: "drop_id"
 
