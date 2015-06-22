@@ -72,7 +72,7 @@ class DropActions
       bucket_id: @user.user_bucket.take!.id,
       user_id: @user.id,
       temperature: -1,
-      drop_id: @drop.id
+      drop_id: @drop.drop_id.nil? ? @drop.id : @drop.drop_id
     )
     
     drop.save

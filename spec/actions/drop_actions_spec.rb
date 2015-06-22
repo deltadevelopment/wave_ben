@@ -123,6 +123,12 @@ describe DropActions do
       }.to change(Interaction, :count).by(1)
     end
 
+    it "retains the original parent id when re-dropping a re-drop" do
+      redrop = FactoryGirl.create(:drop, :as_redrop)
+      redrop_redrop = DropActions.new(drop: redrop, user: bucket.user).redrop!
+      expect(redrop_redrop.drop_id).to eql(redrop.drop_id)
+    end
+
   end
 
 end
