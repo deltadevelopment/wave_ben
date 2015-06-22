@@ -1,6 +1,6 @@
 class Interaction < ActiveRecord::Base
 
-  has_many :ripples
+  has_many :ripples, dependent: :destroy
 
   belongs_to :user
   
