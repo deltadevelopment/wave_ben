@@ -1,6 +1,8 @@
 class DropSerializer < ActiveModel::Serializer
   attributes :id, :media_key, :temperature, :media_type, :media_url, :thumbnail_key, :thumbnail_url, :bucket_id, :drop_id, :originator
 
+  has_one :user
+
   def originator
     if object.drop_id?
       return object.original_drop.user
