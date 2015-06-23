@@ -5,7 +5,7 @@ class DropSerializer < ActiveModel::Serializer
 
   def originator
     if object.drop_id?
-      return object.original_drop.user
+      return object.original_drop.user.remove_unsafe_keys
     end
     nil
   end

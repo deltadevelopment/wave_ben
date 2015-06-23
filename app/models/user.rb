@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
     ripples.count
   end
 
+  def remove_unsafe_keys
+    self.slice('id', 'display_name', 'username', 'email', 'phone_number')
+  end
+
   protected 
 
   # Returns true if a phone number was entered
