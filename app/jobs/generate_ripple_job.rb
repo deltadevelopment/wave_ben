@@ -21,7 +21,14 @@ class GenerateRippleJob < ActiveJob::Base
       end
     elsif @topic.is_a?(Drop)
       
-      if @topic.bucket.user_bucket?
+      if !@topic.drop_id.nil?
+        RippleActions.new(
+          ripple: Ripple.new(
+            interaction: record,
+            user: @topic.drop_id.user
+          )
+        ).create!
+      elsif @topic.bucket.user_bucket?
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
