@@ -77,6 +77,8 @@ class DropActions
     
     drop.save
 
+    drop.bucket.update(updated_at: DateTime.now)
+
     InteractionActions.new(
       interaction: Interaction.new(
         user: @user,
