@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
   end
 
   def remove_unsafe_keys
-    self.slice('id', 'display_name', 'username', 'email', 'phone_number')
+    self.slice('id', 'display_name', 'username', 'email', 'phone_number', 'profile_picture_key')
   end
 
   protected 

@@ -5,7 +5,8 @@ class DropSerializer < ActiveModel::Serializer
 
   def originator
     if object.drop_id?
-      return object.original_drop.user.remove_unsafe_keys
+      # return object.original_drop.user.remove_unsafe_keys
+      return UserSerializer.new(object.original_drop.user, root: false)
     end
     nil
   end

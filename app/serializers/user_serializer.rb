@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
 
-  attributes :id, :username, :subscribers_count, :profile_picture_url
+  attributes :id, :username, :subscribers_count, :profile_picture_url, :profile_picture_key
 
   def profile_picture_url
     if object.profile_picture_key
