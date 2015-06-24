@@ -17,6 +17,5 @@ class TagSerializer < ActiveModel::Serializer
   def drops
     Drop.where(bucket_id: object.id).order(created_at: :desc)
   end
-end
 
 end
