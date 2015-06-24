@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'user/:user_id/subscriptions' => 'subscriptions#list'
 
   # Tag routes
+  get 'bucket/:bucket_id/tags' => 'tags#list'
   post 'bucket/:bucket_id/tag' => 'tags#create'
   delete 'tag/:tag_id' => 'tags#destroy'
 
