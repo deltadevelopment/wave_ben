@@ -78,8 +78,8 @@ class DropsController < ApplicationController
     if vote.persisted?
       json_response 201,
         success: true,
-        message_id: 'resource_created',
-        message: I18n.t('success.resource_created'),
+        message_id: 'record_created',
+        message: I18n.t('success.record_created'),
         data: {
           vote: vote
         }
@@ -109,8 +109,8 @@ class DropsController < ApplicationController
     if drop.persisted?
       json_response 201,
         success: true,
-        message_id: 'resource_created',
-        message: I18n.t('success.resource_created'),
+        message_id: 'record_created',
+        message: I18n.t('success.record_created'),
         data: {
           drop: drop
         }

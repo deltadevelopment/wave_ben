@@ -46,16 +46,15 @@ class DropActions
 
     vote.temperature = @param[:temperature]
     
-    # You cant vote on your own drops 
-    if vote.drop.user != vote.user
-      if vote.save
-          InteractionActions.new(
-            interaction: Interaction.new(
-              user: vote.user,
-              topic: vote,
-              action: "create_vote"
-            )
-          ).create!
+    if vote.save
+      if vote.drop.user != vote.user
+        InteractionActions.new(
+          interaction: Interaction.new(
+            user: vote.user,
+            topic: vote,
+            action: "create_vote"
+          )
+        ).create!
       end
     end
 
