@@ -1,5 +1,7 @@
 class TagSerializer < ActiveModel::Serializer
   attributes :id, :taggee_id, :taggee_type, :taggable_id, :taggable_type, :taggee
+
+  has_one :taggable
   
   def taggee
     if object.taggee_type == "User"
