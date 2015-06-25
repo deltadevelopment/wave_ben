@@ -7,23 +7,19 @@ class SubscriptionActions
 
   def create!
     
-    record_exists = Subscription.exists?(
-      user_id:        @subscription.user_id,
-      subscribee_id:  @subscription.subscribee_id
+    subcription = Subscription.find_or_initialize_by(
+      user_id: @subscription.user_id,
+      subscribee_id: @subscription.subscribee_id
     )
 
-    if record_exists
-      return @subscription
-    else
-      if @subscription.save
-        InteractionActions.new(
-          interaction: Interaction.new(
-            user: @subscription.user,
-            topic: @subscription,
-            action: "create_subscription"
-          )
-        ).create!
-      end
+    if @subscription.save
+      InteractionActions.new(
+        interaction: Interaction.new(
+          user: @subscription.user,
+          topic: @subscription,
+          action: "create_subscription"
+        )
+      ).create!
     end
 
     @subscription
