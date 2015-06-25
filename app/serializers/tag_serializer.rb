@@ -1,9 +1,14 @@
 class TagSerializer < ActiveModel::Serializer
-  attributes :id, :taggee_id, :taggee_type, :taggable_id, :taggable_type, :user
+  attributes :id, :taggee_id, :taggee_type, :taggable_id, :taggable_type, :user, :taggee
 
   def user
+    return UserSerializer.new(object.taggable.user, root: false)
+    nil
+  end
+
+  def taggee
     if object.taggee_type == "User"
-      return UserSerializer.new(object.taggable.user, root: false)
+      return UserSerializer.new(object.taggee.user, root: false)
     end
     nil
   end
