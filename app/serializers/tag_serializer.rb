@@ -8,7 +8,7 @@ class TagSerializer < ActiveModel::Serializer
 
   def taggee
     if object.taggee_type == "User"
-      return UserSerializer.new(object.taggee.user, root: false)
+      return UserSerializer.new(object.taggee, root: false)
     end
     nil
   end
