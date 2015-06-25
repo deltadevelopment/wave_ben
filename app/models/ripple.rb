@@ -36,8 +36,7 @@ class Ripple < ActiveRecord::Base
       inner = {
         "aps": {
           "alert": message,
-          "badge": badge,
-          "data": generate_push_notification_data 
+          "badge": badge
         }.to_json
       }
       padded_message = { APNS_SANDBOX: inner }.to_json
