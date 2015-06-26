@@ -11,7 +11,7 @@ class UserSessionsController < ApplicationController
         message: I18n.t('success.user_session_created'),
         data: {
           user_session: user_session.slice(:auth_token, :user_id),
-          user: user.slice(:username, :profile_picture_key), 
+          user: UserSerializer.new(user, root: false),
           bucket: bucket
         }
     else
