@@ -27,7 +27,7 @@ class TagActions
           interaction: Interaction.new(
             user: @tag.taggable.user,
             topic: @tag,
-            action: "create_tag_drop"
+            action: @tag.taggable.is_a?(Drop) ? "create_tag_drop" : "create_tag_bucket"
           )
         ).create!
       end
