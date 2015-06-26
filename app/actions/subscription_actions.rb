@@ -12,7 +12,14 @@ class SubscriptionActions
       subscribee_id: @subscription.subscribee_id
     )
 
-    if @subscription.save
+    if @subscription.user_id == @subscription.subscribee_id
+      @subscription.errors.add(
+        :user_id,
+        "cannot be the same as subscribee_id"
+      )
+    end
+
+    if @subscription.errors.empty? && @subscription.save
       InteractionActions.new(
         interaction: Interaction.new(
           user: @subscription.user,
