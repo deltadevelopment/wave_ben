@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150618091223) do
+ActiveRecord::Schema.define(version: 20150620130521) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -45,17 +45,21 @@ ActiveRecord::Schema.define(version: 20150618091223) do
     t.integer  "tags_count", default: 1, null: false
   end
 
-  create_table "ripples", force: :cascade do |t|
-    t.string   "message"
+  create_table "interactions", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "triggee_id"
-    t.integer  "trigger_id"
-    t.string   "trigger_type"
-    t.datetime "seen_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "pushable",     default: false
+    t.integer  "topic_id"
+    t.string   "topic_type"
     t.string   "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ripples", force: :cascade do |t|
+    t.integer  "interaction_id"
+    t.integer  "user_id"
+    t.datetime "seen_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "subscriptions", force: :cascade do |t|

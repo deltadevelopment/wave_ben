@@ -33,6 +33,7 @@ group :production do
 end
 
 group :development, :test do
+  gem 'foreman'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rspec-mocks'

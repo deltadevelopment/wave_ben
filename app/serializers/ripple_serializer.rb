@@ -1,6 +1,9 @@
 class RippleSerializer < ActiveModel::Serializer
-  attributes :id, :message, :trigger_id, :trigger_type, :triggee_id , :created_at
+  attributes :id, :interaction_id, :user_id, :message
 
-  has_one :trigger
-  has_one :triggee
+  has_one :interaction
+
+  def message
+    object.generate_message 
+  end
 end

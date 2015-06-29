@@ -18,9 +18,18 @@ class DropActions
 
     if @drop.save
       @drop.bucket.update(updated_at: DateTime.now)
+
       WatcherActions.new(
         watcher: Watcher.new(watchable: @drop, user: @drop.user)).create!
-      GenerateRippleJob.perform_later(@drop, 'add', @drop.user)
+      InteractionActions.new(
+        interaction: Interaction.new(
+          user: @drop.user,
+          topic: @drop,
+          action: 
+            @drop.bucket.user_bucket? ? 
+              "create_drop_user_bucket" : "create_drop_shared_bucket"
+        )
+      ).create!
     end
     
     @drop
@@ -38,7 +47,15 @@ class DropActions
     vote.temperature = @param[:temperature]
     
     if vote.save
-      GenerateRippleJob.perform_later(vote, 'vote', vote.user)
+      if vote.drop.user != vote.user
+        InteractionActions.new(
+          interaction: Interaction.new(
+            user: vote.user,
+            topic: vote,
+            action: "create_vote"
+          )
+        ).create!
+      end
     end
 
     vote
@@ -54,12 +71,20 @@ class DropActions
       bucket_id: @user.user_bucket.take!.id,
       user_id: @user.id,
       temperature: -1,
-      drop_id: @drop.id
+      drop_id: @drop.drop_id.nil? ? @drop.id : @drop.drop_id
     )
     
     drop.save
 
-    GenerateRippleJob.perform_later(@drop, 'redrop_drop', @user)
+    drop.bucket.update(updated_at: DateTime.now)
+
+    InteractionActions.new(
+      interaction: Interaction.new(
+        user: @user,
+        topic: drop,
+        action: "create_redrop"
+      )
+    ).create!
 
     drop
   end

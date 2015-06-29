@@ -31,17 +31,12 @@ class UserSessionActions
   def generate_session(user, param)
     user_session = UserSession.find_or_create_by(user_id: user.id)
 
-    user_session.update(
-      auth_token:   generate_token,
-      device_id:    param[:device_id],
-      device_type:  param[:device_type]
-    )
-
-    user.update(device_type: param[:device_type])
+    user_session.update(auth_token: generate_token)
 
     user_session
   end
 
+  # Checks that device_id and device_type is set and exists
   def check_device_id_and_arn(user_session)
     arn = get_arn(@param[:device_type])
 
@@ -53,14 +48,22 @@ class UserSessionActions
       }
 
       add_device_id_sns(user_session, update_token_params)
-
+      user_session.update(
+        device_id:    @param[:device_id],
+        device_type:  @param[:device_type]
+      )
+      user_session.user.update(device_type: @param[:device_type])
     end
 
   end
 
+  # Check if the device_id is in use and pass the information to the job
+  # that will handle the adding to AWS
   def add_device_id_sns(user_session, update_token_params)
     device_id_in_use = UserSession.device_id_in_use(user_session)
 
+    # If the device_id is attached to a user in the db
+    # we pass that device id to the worker and clear it from the db
     if !device_id_in_use.nil?
       AddDeviceTokenJob.perform_later(update_token_params, device_id_in_use.user.sns_endpoint_arn)
       reset_session_and_user_with_device_id(device_id_in_use)
@@ -82,6 +85,7 @@ class UserSessionActions
     auth_token 
   end
 
+  # Return the ARN on the basis of which device type the user has
   def get_arn(device_type)
     case device_type
     when 'ios'

@@ -1,4 +1,4 @@
 require 'rails_helper'
 
-describe RippleActions do
+describe Interaction do
 end

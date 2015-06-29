@@ -11,6 +11,7 @@ describe User do
   it { should have_many(:subscribers).dependent(:destroy) }
   it { should have_many(:subscribees).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:ripples).dependent(:destroy) }
 
   describe "test the tests" do
     it "initializes a valid user" do
@@ -130,6 +131,21 @@ describe User do
       existing_user = FactoryGirl.create(:user)
       expect(existing_user.password_hash).not_to be_nil
       expect(existing_user.password_salt).not_to be_nil
+    end
+
+  end
+
+  describe "#get_unread_count" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "should returns 2 when I have 2 unseen ripples" do
+      FactoryGirl.create(:drop_ripple, user: user)
+      FactoryGirl.create(:drop_ripple, user: user)
+      expect(user.get_unseen_ripple_count).to eql(2)
+    end
+
+    it "should return 0 when I have 0 unseen ripples" do
+      expect(user.get_unseen_ripple_count).to eql(0)
     end
 
   end

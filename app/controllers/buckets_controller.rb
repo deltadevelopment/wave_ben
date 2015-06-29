@@ -10,7 +10,7 @@ class BucketsController < ApplicationController
       success: true,
       message: I18n.t('success.ok'),
       message_id: 'ok',
-      data: BucketSerializer.new(bucket)
+      data: BucketSerializer.new(bucket, scope: current_user)
   end
 
   def create

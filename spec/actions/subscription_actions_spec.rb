@@ -18,10 +18,10 @@ describe SubscriptionActions do
       }.to change(Subscription, :count).by(0)
     end
 
-    it "queues a GenerateRippleJob" do
-      expect(GenerateRippleJob).to receive(:perform_later)
-
-      SubscriptionActions.new(subscription: subscription).create!
+    it "saves an interaction" do
+      expect{
+        SubscriptionActions.new(subscription: subscription).create!
+      }.to change(Interaction, :count).by(1)
     end
 
   end

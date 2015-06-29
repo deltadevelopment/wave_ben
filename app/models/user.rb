@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   has_many :votes, dependent: :destroy
 
-  has_many :ripples
+  has_many :ripples, dependent: :destroy
 
   delegate :user_bucket, to: :buckets
 
@@ -71,6 +71,16 @@ class User < ActiveRecord::Base
       return true
     end
     false
+  end
+
+  def get_unseen_ripple_count
+    # TODO: Should be rewritten to use SELECT COUNT
+    ripples = Ripple.where(user_id: self.id, seen_at: nil).select("ripples.id")
+    ripples.count
+  end
+
+  def remove_unsafe_keys
+    self.slice('id', 'display_name', 'username', 'email', 'phone_number', 'profile_picture_key')
   end
 
   protected 

@@ -41,12 +41,17 @@ Rails.application.routes.draw do
   get 'user/:user_id/subscriptions' => 'subscriptions#list'
 
   # Tag routes
+  get 'bucket/:bucket_id/tags' => 'tags#list'
   post 'bucket/:bucket_id/tag' => 'tags#create'
   delete 'tag/:tag_id' => 'tags#destroy'
 
   # Ripple routes
   get 'ripples' => 'ripples#list'
   post 'ripples' => 'ripples#create'
+
+  # Search routes
+  post 'search/:resource_type/:search_string/:offset' => 'search#search'
+  post 'search/:resource_type/:search_string' => 'search#search'
 
   # Resque routes
   get 'jobs' => 'jobs#list'

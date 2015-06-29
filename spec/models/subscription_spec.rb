@@ -4,7 +4,7 @@ describe Subscription do
    
   it { should belong_to(:user) }
   it { should belong_to(:subscribee) }
-  it { should have_many(:ripples).dependent(:destroy) }
+  it { should have_many(:interactions).dependent(:destroy) }
 
   describe "counter cache" do
     let(:user) { FactoryGirl.create(:user) }

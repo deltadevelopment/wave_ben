@@ -2,95 +2,73 @@ class GenerateRippleJob < ActiveJob::Base
 
   queue_as :generate_ripple
 
-  def perform(record, action, originator)
-
-    @record = record
-    @action = action
-    @originator = originator
+  def perform(record)
+    @topic = record.topic
     
-    if record.is_a?(Bucket) 
+    if @topic.is_a?(Bucket) 
        
-      if !record.user_bucket?
+      if !@topic.user_bucket?
 
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
-              message: "#{@originator.username} created a new shared bucket #{@record.title}",
-              trigger: record,
-              triggee: @originator,
-              user: s.user,
-              pushable: true,
-              action: @action
+              interaction: record,
+              user: s.user
             )
           ).create!
         end
 
       end
-    elsif record.is_a?(Drop)
+    elsif @topic.is_a?(Drop)
       
-      if record.bucket.user_bucket?
+      if !@topic.drop_id.nil?
+        RippleActions.new(
+          ripple: Ripple.new(
+            interaction: record,
+            user: @topic.drop_id.user
+          )
+        ).create!
+      elsif @topic.bucket.user_bucket?
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
-              message: "#{@originator.username} just added a drop to his bucket",
-              trigger: record,
-              triggee: @originator,
-              user: s.user,
-              pushable: true,
-              action: @action
+              interaction: record,
+              user: s.user
             )
           ).create!
         end
       else 
-        RippleActions.new(
-          ripple: Ripple.new(
-            message: "#{@originator.username} just added a drop to #{@record.bucket.title}",
-            trigger: record,
-            triggee: @originator,
-            user: record.bucket.user,
-            pushable: true,
-            action: @action
-          )
-        ).create!
+        each_watcher do |s|
+          unless record.user == s.user
+            RippleActions.new(
+              ripple: Ripple.new(
+                interaction: record,
+                user: s.user
+              )
+            ).create!
+          end
+        end
       end 
 
-    elsif record.is_a?(Tag)
-      if record.taggable.is_a?(Bucket)
-        message = "#{@originator.username} just tagged you in a bucket!"
-      else
-        message = "#{@originator.username} just tagged you in a drop!"
-      end
-
+    elsif @topic.is_a?(Tag)
       RippleActions.new(
         ripple: Ripple.new(
-          message: message,
-          trigger: record,
-          triggee: @originator,
-          user: record.taggee,
-          pushable: true,
-          action: @action
+          interaction: record,
+          user: @topic.taggee
         )
       ).create!
-    elsif record.is_a?(Vote)
+    elsif @topic.is_a?(Vote)
       RippleActions.new(
         ripple: Ripple.new(
-          message: "#{@originator.username} set the temperature of your drop to #{@record.temperature} degrees!",
-          trigger: record,
-          triggee: @originator,
-          user: record.drop.user,
-          pushable: true,
-          action: @action
+          interaction: record,
+          user: @topic.drop.user
         )
       ).create!
-    elsif record.is_a?(Subscription)
+    elsif @topic.is_a?(Subscription)
       RippleActions.new(
         ripple: Ripple.new(
-          message: "#{@originator.username} is now subscribing to you!",
-          trigger: record,
-          triggee: @originator,
-          user: record.subscribee,
-          pushable: true,
-          action: @action
+          interaction: record,
+          user: @topic.subscribee
         )
       ).create!
     end
@@ -100,9 +78,17 @@ class GenerateRippleJob < ActiveJob::Base
   private
 
   def each_subscriber
-    subscriptions = Subscription.where(subscribee: @record.user)
+    subscriptions = Subscription.where(subscribee: @topic.user)
 
     subscriptions.each do |s|
+      yield s
+    end
+  end
+  
+  def each_watcher
+    watchers = Watcher.where(watchable: @topic.bucket)
+
+    watchers.each do |s|
       yield s
     end
   end

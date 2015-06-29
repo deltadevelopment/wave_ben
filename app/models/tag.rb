@@ -2,7 +2,7 @@ class Tag < ActiveRecord::Base
   
   attr_accessor :tag_string
 
-  has_many :ripples, as: :trigger, dependent: :destroy
+  has_many :interactions, as: :topic, dependent: :destroy
 
   belongs_to :taggable, polymorphic: true
   belongs_to :taggee, polymorphic: true

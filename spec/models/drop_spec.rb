@@ -7,7 +7,7 @@ describe Drop do
   it { should have_many(:tags).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:watchers).dependent(:destroy) }
-  it { should have_many(:ripples).dependent(:destroy) }
+  it { should have_many(:interactions).dependent(:destroy) }
 
   let(:bucket) { FactoryGirl.create(:user_bucket, :with_drop) }
   let(:drop) { FactoryGirl.build(:drop, :with_user_bucket) }

@@ -39,8 +39,7 @@ class SubscriptionsController < ApplicationController
       subscription: Subscription.new(create_params)
     ).create!
 
-
-    if subscription.save
+    if subscription.persisted?
         json_response 201,
           success: true,
           message_id: 'record_created',
@@ -49,7 +48,16 @@ class SubscriptionsController < ApplicationController
             subscription: subscription
           }
     else
-      raise CantSaveError
+      unless subscription.errors.empty?
+        json_response 400,
+          success: false,
+          message_id: 'validation_error',
+          message: I18n.t('error.validation_error'),
+          data: { error: subscription.errors }
+      else
+        raise CantSaveError
+      end
+
     end
 
   end

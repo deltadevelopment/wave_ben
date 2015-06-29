@@ -1,5 +1,9 @@
 class TagPolicy < ApplicationPolicy
 
+  def list?
+    is_logged_in?
+  end
+
   def create?
     user_is_owner?
   end

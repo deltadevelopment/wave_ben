@@ -12,7 +12,11 @@ describe GenerateRippleJob do
       it "notifies subscribers of new shared buckets created" do
         expect{
           GenerateRippleJob.new.perform(
-            bucket, :add, bucket.user.subscribers[0].user
+            Interaction.create( 
+              user: bucket.user,
+              topic: bucket,
+              action: "create"
+            )
           )
         }.to change(Ripple, :count).by(1)
       end 
@@ -26,19 +30,26 @@ describe GenerateRippleJob do
 
         expect{
           GenerateRippleJob.new.perform(
-            drop, :add_drop_to_userbucket, drop.bucket.user
+            Interaction.create( 
+              user: drop.user,
+              topic: drop,
+              action: "create"
+            )
           )
         }.to change(Ripple, :count).by(1)
       end
 
-      it "notifies the owner of a shared bucket that a new drop 
+      it "notifies the watcher of a shared bucket that a new drop 
           has been added" do
-        drop = FactoryGirl.create(:drop, :with_user_with_subscriber, 
-                                  :with_shared_bucket)
+        bucket = FactoryGirl.create(:shared_bucket, :with_drop, :with_watcher)
 
         expect{
           GenerateRippleJob.new.perform(
-            drop, :add_drop_to_shared_bucket, drop.user
+            Interaction.create( 
+              user: bucket.drops[0].user,
+              topic: bucket.drops[0],
+              action: "create"
+            )
           )
         }.to change(Ripple, :count).by(1)
       end
@@ -52,13 +63,52 @@ describe GenerateRippleJob do
 
         expect{
           GenerateRippleJob.new.perform(
-            tag, :add_usertag, tag.taggable.user
+            Interaction.create( 
+              user: FactoryGirl.create(:user),
+              topic: tag,
+              action: "create"
+            )
           )
         }.to change(Ripple, :count).by(1)
       end
 
     end
 
+    context "when record is a vote" do
+
+      it "notifies the owner of a drop when a vote is cast" do
+        vote = FactoryGirl.create(:vote)
+
+        expect{
+          GenerateRippleJob.new.perform(
+            Interaction.create( 
+              user: vote.user,
+              topic: vote,
+              action: "create"
+            )
+          )
+        }.to change(Ripple, :count).by(1)
+      end
+
+    end
+
+    context "when record is a subscriber" do
+
+      it "notifies the subscribee when a subscription is created" do
+        subscription = FactoryGirl.create(:subscription)
+
+        expect{
+          GenerateRippleJob.new.perform(
+            Interaction.create( 
+              user: subscription.user,
+              topic: subscription,
+              action: "create"
+            )
+          )
+        }.to change(Ripple, :count).by(1)
+      end
+
+    end
   end
 
 end
