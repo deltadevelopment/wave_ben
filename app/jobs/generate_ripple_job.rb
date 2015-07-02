@@ -4,9 +4,10 @@ class GenerateRippleJob < ActiveJob::Base
 
   def perform(record)
     @topic = record.topic
-    
-    if @topic.is_a?(Bucket) 
-       
+
+    # TODO: Rewrite using switch-statement
+    if @topic.is_a?(Bucket)
+
       if !@topic.user_bucket?
 
         each_subscriber do |s|
@@ -20,7 +21,7 @@ class GenerateRippleJob < ActiveJob::Base
 
       end
     elsif @topic.is_a?(Drop)
-      
+
       if !@topic.drop_id.nil?
         RippleActions.new(
           ripple: Ripple.new(
@@ -37,7 +38,7 @@ class GenerateRippleJob < ActiveJob::Base
             )
           ).create!
         end
-      else 
+      else
         each_watcher do |s|
           unless record.user == s.user
             RippleActions.new(
@@ -48,7 +49,7 @@ class GenerateRippleJob < ActiveJob::Base
             ).create!
           end
         end
-      end 
+      end
 
     elsif @topic.is_a?(Tag)
       RippleActions.new(
@@ -84,7 +85,7 @@ class GenerateRippleJob < ActiveJob::Base
       yield s
     end
   end
-  
+
   def each_watcher
     watchers = Watcher.where(watchable: @topic.bucket)
 

@@ -47,6 +47,8 @@ class DropActions
     vote.temperature = @param[:temperature]
     
     if vote.save
+      # Check if the user is the owner 
+      # so that we do not generate a notification
       if vote.drop.user != vote.user
         InteractionActions.new(
           interaction: Interaction.new(
