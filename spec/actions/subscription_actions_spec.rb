@@ -24,6 +24,12 @@ describe SubscriptionActions do
       }.to change(Interaction, :count).by(1)
     end
 
+    it "does not save records with errors" do
+      expect{
+        SubscriptionActions.new(subscription: Subscription.new(user_id: 1))
+      }.to change(Subscription, :count).by(0)
+    end
+
   end
 
 end
