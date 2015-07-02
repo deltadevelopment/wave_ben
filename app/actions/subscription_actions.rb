@@ -19,7 +19,7 @@ class SubscriptionActions
       )
     end
 
-    if subscription.errors.empty? && subscription.save
+    if subscription.valid? && subscription.save
       InteractionActions.new(
         interaction: Interaction.new(
           user: subscription.user,
