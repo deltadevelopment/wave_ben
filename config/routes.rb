@@ -53,6 +53,9 @@ Rails.application.routes.draw do
   post 'search/:resource_type/:search_string/:offset' => 'search#search'
   post 'search/:resource_type/:search_string' => 'search#search'
 
+  # Interaction routes
+  post 'interaction' => 'interactions#create'
+
   # Resque routes
   get 'jobs' => 'jobs#list'
 
