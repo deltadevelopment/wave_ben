@@ -11,6 +11,16 @@ class Tag < ActiveRecord::Base
 
   validate :bucket_type_cant_be_user_bucket
 
+  validate :taggee_cant_be_owner
+
+  private
+
+  def taggee_cant_be_owner
+    if self.taggable.is_a?(Bucket) && self.taggee == self.taggable.user
+      errors.add(:user, I18n.t('validation.taggee_cant_be_owner'))
+    end
+  end
+
   def bucket_type_cant_be_user_bucket
     if self.taggable.is_a?(Bucket) && self.taggable.bucket_type == 'user'
       errors.add(:bucket_type, I18n.t('validation.tag_bucket_type_invalid'))

@@ -81,6 +81,10 @@ en:
     # Tag
     tag_string_format: "tag_string_format"
     tag_bucket_type_invalid: "tag_bucket_type_invalid"
+    taggee_cant_be_owner: "taggee_cant_be_owner"
+
+    # Subscription
+    subscribee_cant_be_user: "subscribee_cant_be_user"
 
   notification:
     notification_message: "notification_message"
