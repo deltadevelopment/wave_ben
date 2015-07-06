@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   delete 'bucket/:bucket_id' => 'buckets#destroy'
   post 'bucket/:bucket_id/watch' => 'buckets#watch'
   delete 'bucket/:bucket_id/watch' => 'buckets#unwatch'
+  post 'bucket/:bucket_id/watchers' => 'buckets#list_watchers'
 
   # Drop routes
   post 'bucket/:bucket_id/drop/' => 'drops#create'
@@ -52,6 +53,9 @@ Rails.application.routes.draw do
   # Search routes
   post 'search/:resource_type/:search_string/:offset' => 'search#search'
   post 'search/:resource_type/:search_string' => 'search#search'
+
+  # Interaction routes
+  post 'interaction' => 'interactions#create'
 
   # Resque routes
   get 'jobs' => 'jobs#list'

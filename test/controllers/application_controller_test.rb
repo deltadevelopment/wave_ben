@@ -1,0 +1,2 @@
+describe ApplicationController do
+end

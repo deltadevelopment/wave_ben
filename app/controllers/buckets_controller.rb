@@ -91,23 +91,6 @@ class BucketsController < ApplicationController
       data: { bucket: bucket } 
   end
 
-  def buckets_for_user
-    user = User.find(params[:user_id])
-    buckets = Bucket.where(user_id: user.id)
-    
-    authorize buckets[0]
-
-    json_response 200,
-      success: true,
-      message: I18n.t('success.ok'),
-      message_id: 'ok',
-      data: ActiveModel::ArraySerializer.new(
-        buckets,
-        each_serializer: FeedSerializer,
-        root: "buckets"
-      )
-  end
-
   def watch
     bucket = Bucket.find(params[:bucket_id])
 
@@ -153,7 +136,53 @@ class BucketsController < ApplicationController
 
   end
 
+  def list_watchers
+    bucket = Bucket.find(params[:bucket_id])
+    watchers = Watcher.where(watchable: bucket, user: current_user)
+    
+    # TODO: IMPLEMENT AUTHORIZATION HERE!
+    authorize watchers.take!
+
+    json_response 200,
+      success: true,
+      message: I18n.t('success.ok'),
+      message_id: 'ok',
+      data: ActiveModel::ArraySerializer.new(
+        watchers,
+        each_serializer: WatcherSerializer,
+        root: "watchers"
+      )
+  end
+
+  def buckets_for_user
+    user = User.find(params[:user_id])
+    buckets = Bucket.where(user_id: user.id)
+
+    authorize buckets.take!
+
+    buckets = remove_inacessible_tagged_buckets(buckets)
+    
+    json_response 200,
+      success: true,
+      message: I18n.t('success.ok'),
+      message_id: 'ok',
+      data: ActiveModel::ArraySerializer.new(
+        buckets,
+        each_serializer: FeedSerializer,
+        root: "buckets"
+      )
+  end
+  
   private
+
+  def remove_inacessible_tagged_buckets(buckets)
+    buckets.select { |b| user_is_taggee_or_owner(b) }
+  end
+
+  def user_is_taggee_or_owner(bucket)
+    bucket.everyone? || current_user == bucket.user || 
+      bucket.tags.where(taggee: current_user).take
+  end
 
   def bucket_create_params
     params.require(:bucket).permit(

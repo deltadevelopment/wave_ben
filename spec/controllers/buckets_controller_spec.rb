@@ -252,4 +252,38 @@ describe BucketsController do
 
   end
 
+  describe "#buckets_for_user" do
+    let(:user) { FactoryGirl.create(:user, :with_bucket) }
+    let(:user2) { FactoryGirl.create(:user) }
+
+    before do
+      allow(controller).to receive(:current_user) { user2 }
+    end
+  
+    it "returns 200" do
+      get :buckets_for_user, { user_id: user.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "does not return private buckets you arent tagged in" do
+      FactoryGirl.create(:shared_bucket, :taggees, user: user)
+
+      get :buckets_for_user, { user_id: user.id }
+
+      res = JSON.parse(response.body)
+      expect(res['data']['buckets'].length).to eq(1)
+    end
+
+    it "returns private buckets you are tagged in" do
+      bucket = FactoryGirl.create(:shared_bucket, :taggees, user: user)
+      FactoryGirl.create(:usertag, taggee: user2, taggable: bucket)
+
+      get :buckets_for_user, { user_id: user.id }
+
+      res = JSON.parse(response.body)
+      expect(res['data']['buckets'].length).to eq(2)
+    end
+    
+  end
+
 end

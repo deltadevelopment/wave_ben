@@ -13,7 +13,12 @@ class TagActions
       set_taggee(tag_string, is_hashtag)
 
       if @tag.taggable.is_a?(Bucket) && !is_hashtag
-        @tag.taggable.visibility = :taggees
+        if @tag.taggable.everyone?
+          change_bucket_visibility
+          change_watchers
+        else
+
+        end
       end
 
       update_exipiry_and_counter_cache!
@@ -21,7 +26,7 @@ class TagActions
       @tag.save unless @tag.taggee.nil?
 
       # TODO: Could this be generalized into serving both
-      #       UserTags and BucketTags?
+      # UserTags and BucketTags?
       if @tag.taggee.is_a?(User)
         InteractionActions.new(
           interaction: Interaction.new(
@@ -49,6 +54,20 @@ class TagActions
   end
 
   private
+
+  def change_bucket_visibility
+    @tag.taggable.visibility = :taggees
+    @tag.taggable.save
+  end
+
+  # Delete all the current watchers, and adds the owner and the newly created
+  # taggee
+  def change_watchers
+    @tag.taggable.watchers.each(&:destroy)
+    @tag.taggable.watchers.create(user: @tag.taggable.user)
+    @tag.taggable.watchers.create(user: @tag.taggee)
+  end
+  
 
   def has_taggees(taggable)
     taggable.tags.count > 0 

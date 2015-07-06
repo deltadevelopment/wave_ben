@@ -5,4 +5,14 @@ class Subscription < ActiveRecord::Base
 
   has_many :interactions, as: :topic, dependent: :destroy
 
+  validate :subscribee_cant_be_user 
+
+  private
+
+  def subscribee_cant_be_user
+    if subscribee == user
+      errors.add(:user, I18n.t('validation.subscribee_cant_be_user'))
+    end
+  end
+
 end

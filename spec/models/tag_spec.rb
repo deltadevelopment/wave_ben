@@ -87,10 +87,22 @@ describe Tag do
         expect(tag).to be_valid
       end
 
+    end
+
+    context "when tagging yourself" do
+      let(:tag) { FactoryGirl.build(:usertag) }
+
+      it "tests the tests" do
+        expect(tag).to be_valid
+      end
+      
+      it "wont allow you to tag yourself" do
+        tag.taggee = tag.taggable.user
+        expect(tag).to_not be_valid
+      end
 
     end
 
   end
-
 
 end

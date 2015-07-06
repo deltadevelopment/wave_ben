@@ -40,7 +40,7 @@ describe TagActions do
           param: { tag_string: "@#{tag.taggee.username}"}
         ).create!
 
-        expect(tag.taggable.taggees?).to eql(true) 
+        expect(tag.taggable.reload.taggees?).to eql(true) 
       end
 
       it "saves an interaction" do
@@ -50,6 +50,25 @@ describe TagActions do
             param: { tag_string: "@#{tag.taggee.username}"}
           ).create!
         }.to change(Interaction, :count).by(1)
+      end
+
+      it "deletes the current watchers" do
+        FactoryGirl.create(:watcher, watchable: tag.taggable)
+        TagActions.new(
+          tag: tag,
+          param: { tag_string: "@#{tag.taggee.username}"}
+        ).create!
+        # 2 because the owner and the taggee now watches it too
+        expect(tag.taggable.watchers.count).to eql(2)
+      end
+
+      it "haves the user and the owner Watch the bucket" do
+        expect{
+          TagActions.new(
+            tag: tag,
+            param: { tag_string: "@#{tag.taggee.username}"}
+          ).create!
+        }.to change(Watcher, :count).by(2)
       end
     end
 
