@@ -14,6 +14,7 @@ class TagActions
 
       if @tag.taggable.is_a?(Bucket) && !is_hashtag
         @tag.taggable.visibility = :taggees
+        @tag.taggable.save
       end
 
       update_exipiry_and_counter_cache!
@@ -21,7 +22,7 @@ class TagActions
       @tag.save unless @tag.taggee.nil?
 
       # TODO: Could this be generalized into serving both
-      #       UserTags and BucketTags?
+      # UserTags and BucketTags?
       if @tag.taggee.is_a?(User)
         InteractionActions.new(
           interaction: Interaction.new(

@@ -40,7 +40,7 @@ describe TagActions do
           param: { tag_string: "@#{tag.taggee.username}"}
         ).create!
 
-        expect(tag.taggable.taggees?).to eql(true) 
+        expect(tag.taggable.reload.taggees?).to eql(true) 
       end
 
       it "saves an interaction" do
