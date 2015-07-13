@@ -109,6 +109,7 @@ describe GenerateRippleJob do
       end
 
     end
+    
   end
 
 end

@@ -5,11 +5,9 @@ class GenerateRippleJob < ActiveJob::Base
   def perform(record)
     @topic = record.topic
 
-    # TODO: Rewrite using switch-statement
     if @topic.is_a?(Bucket)
 
       if !@topic.user_bucket?
-
         each_subscriber do |s|
           RippleActions.new(
             ripple: Ripple.new(
@@ -18,8 +16,8 @@ class GenerateRippleJob < ActiveJob::Base
             )
           ).create!
         end
-
       end
+
     elsif @topic.is_a?(Drop)
 
       if !@topic.drop_id.nil?

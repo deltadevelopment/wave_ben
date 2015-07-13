@@ -31,7 +31,7 @@ class InteractionsController < ApplicationController
   private
 
   def create_params
-    params.require(:interaction).permit(:user_id, :topic_id, :topic_type, :action)
+    params.require(:interaction).permit(:user_id, :topic_id, :topic_type, :action, :users_watching)
   end
 
 end
