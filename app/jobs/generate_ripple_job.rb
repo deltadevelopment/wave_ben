@@ -2,7 +2,8 @@ class GenerateRippleJob < ActiveJob::Base
 
   queue_as :generate_ripple
 
-  def perform(record)
+  def perform(*args)
+    record = args[0]
     @topic = record.topic
 
     case record.action
@@ -73,7 +74,7 @@ class GenerateRippleJob < ActiveJob::Base
       ).create!
     when "create_chat_message"
       each_watcher do |w|
-        if !record.users_watching.include?(w.user.id)
+        if !args[1]["users_watching"].include?(w.user.id)
           RippleActions.new(
             ripple: Ripple.new(
               interaction: record,
