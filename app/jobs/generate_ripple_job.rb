@@ -73,7 +73,7 @@ class GenerateRippleJob < ActiveJob::Base
       ).create!
     when "create_chat_message"
       each_watcher do |w|
-        if !record.users_watching.include?(w.user.id)
+        if !record.users_watching.to_a.include?(w.user.id)
           RippleActions.new(
             ripple: Ripple.new(
               interaction: record,
