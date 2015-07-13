@@ -10,6 +10,8 @@ class InteractionsController < ApplicationController
       param: create_params
     ).create!
 
+    binding.pry
+
     if interaction.persisted?
        json_response 201,
         success: true,
@@ -34,7 +36,7 @@ class InteractionsController < ApplicationController
   private
 
   def create_params
-    params.require(:interaction).permit(:user_id, :topic_id, :topic_type, :action, :users_watching)
+    params.require(:interaction).permit(:user_id, :topic_id, :topic_type, :action, :users_watching => [])
   end
 
 end
