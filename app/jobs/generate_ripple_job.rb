@@ -5,71 +5,83 @@ class GenerateRippleJob < ActiveJob::Base
   def perform(record)
     @topic = record.topic
 
-    if @topic.is_a?(Bucket)
+    case record.action
 
-      if !@topic.user_bucket?
-        each_subscriber do |s|
-          RippleActions.new(
-            ripple: Ripple.new(
-              interaction: record,
-              user: s.user
-            )
-          ).create!
-        end
-      end
-
-    elsif @topic.is_a?(Drop)
-
-      if !@topic.drop_id.nil?
+    when "create_bucket"
+      each_subscriber do |s|
         RippleActions.new(
           ripple: Ripple.new(
             interaction: record,
-            user: @topic.drop_id.user
+            user: s.user
           )
         ).create!
-      elsif @topic.bucket.user_bucket?
-        each_subscriber do |s|
-          RippleActions.new(
-            ripple: Ripple.new(
-              interaction: record,
-              user: s.user
-            )
-          ).create!
-        end
-      else
-        each_watcher do |s|
-          unless record.user == s.user
-            RippleActions.new(
-              ripple: Ripple.new(
-                interaction: record,
-                user: s.user
-              )
-            ).create!
-          end
-        end
       end
-
-    elsif @topic.is_a?(Tag)
-      RippleActions.new(
-        ripple: Ripple.new(
-          interaction: record,
-          user: @topic.taggee
-        )
-      ).create!
-    elsif @topic.is_a?(Vote)
-      RippleActions.new(
-        ripple: Ripple.new(
-          interaction: record,
-          user: @topic.drop.user
-        )
-      ).create!
-    elsif @topic.is_a?(Subscription)
+    when "create_subscription"
       RippleActions.new(
         ripple: Ripple.new(
           interaction: record,
           user: @topic.subscribee
         )
       ).create!
+    when "create_drop_user_bucket"
+      each_subscriber do |s|
+        RippleActions.new(
+          ripple: Ripple.new(
+            interaction: record,
+            user: s.user
+          )
+        ).create!
+      end
+    when "create_drop_shared_bucket"
+      each_watcher do |s|
+        unless record.user == s.user
+          RippleActions.new(
+            ripple: Ripple.new(
+              interaction: record,
+              user: s.user
+            )
+          ).create!
+        end
+      end
+    when "create_redrop"
+      RippleActions.new(
+        ripple: Ripple.new(
+          interaction: record,
+          user: @topic.drop_id.user
+        )
+      ).create!
+    when "create_vote"
+      RippleActions.new(
+        ripple: Ripple.new(
+          interaction: record,
+          user: @topic.drop.user
+        )
+      ).create!
+    when "create_tag_drop"
+      RippleActions.new(
+        ripple: Ripple.new(
+          interaction: record,
+          user: @topic.taggee
+        )
+      ).create!
+    when "create_tag_bucket"
+      RippleActions.new(
+        ripple: Ripple.new(
+          interaction: record,
+          user: @topic.taggee
+        )
+      ).create!
+    when "create_chat_message"
+      each_watcher do |w|
+        if !record.users_watching.include?(w.user.id)
+          RippleActions.new(
+            ripple: Ripple.new(
+              interaction: record,
+              user: w.user
+            )
+          ).create!
+        end
+      end
     end
 
   end
@@ -85,7 +97,10 @@ class GenerateRippleJob < ActiveJob::Base
   end
 
   def each_watcher
-    watchers = Watcher.where(watchable: @topic.bucket)
+    # TODO: Temporary fix
+    watchers = @topic.is_a?(Drop) ? 
+      Watcher.where(watchable: @topic.bucket) : Watcher.where(watchable: @topic)
+
 
     watchers.each do |s|
       yield s

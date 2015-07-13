@@ -5,7 +5,10 @@ class InteractionsController < ApplicationController
 
     check_valid_authorization
 
-    interaction = InteractionActions.new(interaction: interaction).create!
+    interaction = InteractionActions.new(
+      interaction: interaction,
+      param: create_params
+    ).create!
 
     if interaction.persisted?
        json_response 201,

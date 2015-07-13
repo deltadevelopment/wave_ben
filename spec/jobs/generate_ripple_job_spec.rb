@@ -15,7 +15,7 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: bucket.user,
               topic: bucket,
-              action: "create"
+              action: "create_bucket"
             )
           )
         }.to change(Ripple, :count).by(1)
@@ -33,7 +33,7 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: drop.user,
               topic: drop,
-              action: "create"
+              action: "create_drop_user_bucket"
             )
           )
         }.to change(Ripple, :count).by(1)
@@ -48,7 +48,7 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: bucket.drops[0].user,
               topic: bucket.drops[0],
-              action: "create"
+              action: "create_drop_shared_bucket"
             )
           )
         }.to change(Ripple, :count).by(1)
@@ -66,7 +66,7 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: FactoryGirl.create(:user),
               topic: tag,
-              action: "create"
+              action: "create_tag_drop"
             )
           )
         }.to change(Ripple, :count).by(1)
@@ -84,7 +84,7 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: vote.user,
               topic: vote,
-              action: "create"
+              action: "create_vote"
             )
           )
         }.to change(Ripple, :count).by(1)
@@ -102,11 +102,35 @@ describe GenerateRippleJob do
             Interaction.create( 
               user: subscription.user,
               topic: subscription,
-              action: "create"
+              action: "create_subscription"
             )
           )
         }.to change(Ripple, :count).by(1)
       end
+
+    end
+
+    context "when posting a chat message" do
+      let(:bucket) { FactoryGirl.create(:shared_bucket, :with_watcher) }
+
+      it "only notifies those that are not watching" do
+        user = FactoryGirl.create(:user)
+        watcher = FactoryGirl.create(:bucket_watcher, watchable: bucket)
+        FactoryGirl.create(:bucket_watcher, watchable: bucket)
+
+        expect{
+          GenerateRippleJob.new.perform(
+            Interaction.create( 
+              user: user,
+              topic: bucket,
+              action: "create_chat_message",
+              users_watching: [watcher.user.id]
+            )
+          )
+          # The owner, and a separate watcher = 2
+        }.to change(Ripple, :count).by(2)
+      end
+
 
     end
     
