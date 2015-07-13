@@ -125,7 +125,7 @@ describe GenerateRippleJob do
               topic: bucket,
               action: "create_chat_message",
             ),
-            { "users_watching": [watcher.user.id] }
+            { "users_watching" => [watcher.user.id] }
           )
           # The owner, and a separate watcher = 2
         }.to change(Ripple, :count).by(2)

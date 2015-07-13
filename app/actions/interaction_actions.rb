@@ -6,7 +6,6 @@ class InteractionActions
   end
 
   def create!
-
     if @interaction.save!
       GenerateRippleJob.perform_later(@interaction, @param)
     end
