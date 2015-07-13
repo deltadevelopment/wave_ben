@@ -10,8 +10,6 @@ class InteractionsController < ApplicationController
       param: create_params
     ).create!
 
-    binding.pry
-
     if interaction.persisted?
        json_response 201,
         success: true,
