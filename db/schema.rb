@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620130521) do
+ActiveRecord::Schema.define(version: 20150714100309) do
 
   create_table "buckets", force: :cascade do |t|
     t.integer  "bucket_type", default: 0
@@ -28,12 +28,14 @@ ActiveRecord::Schema.define(version: 20150620130521) do
     t.string   "caption"
     t.integer  "bucket_id"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "temperature",   default: 25, null: false
-    t.integer  "media_type",    default: 0,  null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "temperature",     default: 25, null: false
+    t.integer  "media_type",      default: 0,  null: false
     t.string   "thumbnail_key"
     t.integer  "drop_id"
+    t.integer  "vote_zero_count", default: 0
+    t.integer  "vote_one_count",  default: 0
   end
 
   create_table "hashtags", force: :cascade do |t|
@@ -109,12 +111,12 @@ ActiveRecord::Schema.define(version: 20150620130521) do
   end
 
   create_table "votes", force: :cascade do |t|
-    t.integer  "temperature"
-    t.integer  "user_id",     null: false
-    t.integer  "drop_id",     null: false
-    t.integer  "bucket_id",   null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "vote"
+    t.integer  "user_id",    null: false
+    t.integer  "drop_id",    null: false
+    t.integer  "bucket_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "watchers", force: :cascade do |t|

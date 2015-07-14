@@ -75,8 +75,8 @@ en:
     unique_key_exists: "validation_unique_key_exists"
     parent_id_missing: "validation_parent_id_missing"
     media_type_missing: "validation_media_type_missing"
-    temperature_must_be_between_0_100: 
-      "validation_temperature_must_be_between_0_100"
+    vote_must_be_between_0_1: 
+      "validation_vote_must_be_between_0_1"
 
     # Tag
     tag_string_format: "tag_string_format"
@@ -97,7 +97,7 @@ en:
       "%{username} has added a drop to %{bucket_title}"
     create_redrop: "%{username} has re-dropped your drop"
     create_vote: 
-      "%{username} has set the temperature of your drop to %{temperature}"
+      "%{username} has cast the vote %{vote} on your drop"
     create_tag_drop: "%{username} has tagged you in a drop"
     create_tag_bucket: "%{username} has tagged you in %{bucket_title}"
     create_chat_message: "%{username} has written something in %{bucket_title}"

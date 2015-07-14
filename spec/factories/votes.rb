@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :vote do
     user
-    drop
+    association :drop, factory: [:drop, :with_shared_bucket]
     association :bucket, factory: :user_bucket
-    temperature 50
+    vote 1
   end
 
 end

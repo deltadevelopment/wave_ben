@@ -114,7 +114,7 @@ describe DropsController do
     let(:valid_params) {
       { drop_id: drop.id,
         vote: {
-          temperature: 50
+          vote: 1
         }
       }
     }
@@ -131,8 +131,8 @@ describe DropsController do
       expect(response).to have_http_status(404)
     end
 
-    it "returns 400 without a temperature" do
-      valid_params[:vote].delete(:temperature)
+    it "returns 400 without a vote" do
+      valid_params[:vote].delete(:vote)
       post :vote, valid_params
       expect(response).to have_http_status(400)
     end
@@ -175,6 +175,46 @@ describe DropsController do
     it "returns 404 when it doesn't exist" do
       delete :unwatch, { drop_id: 500 }
       expect(response).to have_http_status(404)
+    end
+
+  end
+
+  describe "#show_votes" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:vote) { FactoryGirl.create(:vote) }
+    let(:drop) { FactoryGirl.create(:drop, :with_shared_bucket) }
+    let(:valid_params) do
+      { vote: { vote: 1 },
+        drop_id: vote.drop.id
+      }
+    end
+
+    before do
+      allow(controller).to receive(:current_user) { user }
+    end
+
+    it "returns 200" do
+      get :show_votes, valid_params
+      expect(response).to have_http_status(200)
+    end
+
+    it "returns 404 for drops that do not exist" do
+      get :show_votes, valid_params.merge({drop_id: 200})
+      expect(response).to have_http_status(404)
+    end
+
+    it "returns an empty array with no votes" do
+      get :show_votes, valid_params.merge({drop_id: drop.id})
+
+      res = JSON.parse(response.body)
+      expect(res['data']['votes'].length).to eq(0)
+    end
+
+    it "returns an array of votes" do
+      get :show_votes, valid_params
+
+      res = JSON.parse(response.body)
+      expect(res['data']['votes'].length).to eq(1)
     end
 
   end

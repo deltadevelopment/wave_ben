@@ -71,7 +71,7 @@ class DropsController < ApplicationController
 
     vote = DropActions.new(
       drop: drop,
-      param: { temperature: vote_params[:temperature] },
+      param: { vote: vote_params[:vote] },
       user: current_user
     ).vote!
 
@@ -94,6 +94,24 @@ class DropsController < ApplicationController
         raise CantSaveError
       end
     end
+  end
+
+  def show_votes
+    drop = Drop.find(params[:drop_id])
+    votes = Vote.where(drop: drop)
+    
+    authorize drop
+
+    json_response 200,
+      success: true,
+      message: I18n.t('success.ok'),
+      message_id: 'ok',
+      data: ActiveModel::ArraySerializer.new(
+        votes,
+        each_serializer: VoteSerializer,
+        root: "votes"
+      )
+
   end
 
   def redrop
@@ -137,6 +155,7 @@ class DropsController < ApplicationController
 
   end
 
+
   private
 
   def create_params
@@ -144,7 +163,7 @@ class DropsController < ApplicationController
   end
 
   def vote_params
-    params.require(:vote).permit(:temperature)
+    params.require(:vote).permit(:vote)
   end
 
 end

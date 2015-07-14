@@ -44,7 +44,7 @@ class DropActions
       bucket: @drop.bucket
     )
 
-    vote.temperature = @param[:temperature]
+    vote.vote = @param[:vote]
     
     if vote.save
       # Check if the user is the owner 
@@ -72,7 +72,6 @@ class DropActions
       caption: nil, 
       bucket_id: @user.user_bucket.take!.id,
       user_id: @user.id,
-      temperature: -1,
       drop_id: @drop.drop_id.nil? ? @drop.id : @drop.drop_id
     )
     

@@ -10,7 +10,7 @@ class Ripple < ActiveRecord::Base
     I18n.t "notification.#{interaction.action}",
       username: interaction.user.username,
       bucket_title: interaction.topic.class.method_defined?(:title) ? interaction.topic.title : nil,
-      temperature: interaction.topic.class.method_defined?(:temperature) ? interaction.topic.temperature : nil
+      vote: interaction.topic.class.method_defined?(:vote) ? interaction.topic.vote : nil
   end
 
   # TODO: Possible optimization handle this in the db

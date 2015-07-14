@@ -28,6 +28,14 @@ class DropPolicy < ApplicationPolicy
     end
   end
 
+  def show_votes?
+    if record.bucket.visibility == 'taggees'
+      user_is_bucket_owner_or_taggee?
+    else
+      is_logged_in?
+    end
+  end
+
   def redrop?
     is_logged_in?
   end
