@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :vote do
     user
     association :drop, factory: [:drop, :with_shared_bucket]

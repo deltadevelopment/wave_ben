@@ -18,9 +18,9 @@ class Vote < ActiveRecord::Base
 
   def increment_counter_cache
     if vote == 1
-      drop.increment(:vote_one_count)
+      drop.increment(:vote_one_count).save
     else
-      drop.increment(:vote_zero_count)
+      drop.increment(:vote_zero_count).save
     end
   end
 

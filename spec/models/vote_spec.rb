@@ -21,4 +21,17 @@ describe Vote do
 
   end
 
+  describe "#increment_counter_cache" do
+    it "gets called on create" do
+      vote = FactoryGirl.build(:vote)
+      expect(vote).to receive(:increment_counter_cache)
+      vote.save
+    end
+
+    it "changes the count" do
+      vote = FactoryGirl.create(:vote, vote: 1)
+      expect(vote.drop.reload.vote_one_count).to eq(1)
+    end
+  end
+
 end
