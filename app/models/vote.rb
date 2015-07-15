@@ -1,6 +1,7 @@
 class Vote < ActiveRecord::Base
 
   after_create :increment_counter_cache
+  after_destroy :decrement_counter_cache
 
   belongs_to :user
   belongs_to :drop
@@ -21,6 +22,14 @@ class Vote < ActiveRecord::Base
       drop.increment(:vote_one_count).save
     else
       drop.increment(:vote_zero_count).save
+    end
+  end
+
+  def decrement_counter_cache
+    if vote == 1
+      drop.decrement(:vote_one_count).save
+    else
+      drop.decrement(:vote_zero_count).save
     end
   end
 

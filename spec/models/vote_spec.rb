@@ -34,4 +34,19 @@ describe Vote do
     end
   end
 
+  describe "#decrement_counter_cache" do
+    it "gets called on destroy" do
+      vote = FactoryGirl.create(:vote)
+      expect(vote).to receive(:decrement_counter_cache)
+      vote.destroy
+    end
+
+    it "changes the count" do
+      vote = FactoryGirl.create(:vote, vote: 1)
+      drop = vote.drop
+      vote.destroy
+      expect(drop.reload.vote_one_count).to eq(0)
+    end
+  end
+
 end

@@ -20,24 +20,24 @@ class DropPolicy < ApplicationPolicy
     user_is_bucket_owner? || user_is_owner?
   end
 
-  def vote?
-    if record.bucket.visibility == 'taggees'
-      user_is_bucket_owner_or_taggee?
-    else
-      is_logged_in?
-    end
-  end
-
-  def show_votes?
-    if record.bucket.visibility == 'taggees'
-      user_is_bucket_owner_or_taggee?
-    else
-      is_logged_in?
-    end
-  end
-
   def redrop?
     is_logged_in?
+  end
+
+  def create_vote?
+    if record.bucket.visibility == 'taggees'
+      user_is_bucket_owner_or_taggee?
+    else
+      is_logged_in?
+    end
+  end
+
+  def list_votes?
+    if record.bucket.visibility == 'taggees'
+      user_is_bucket_owner_or_taggee?
+    else
+      is_logged_in?
+    end
   end
 
   private
