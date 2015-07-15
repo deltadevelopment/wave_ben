@@ -14,6 +14,10 @@ FactoryGirl.define do
       association :bucket, factory: [:user_bucket, :with_user_with_subscriber]
     }
 
+    trait(:with_user) {
+      association :user, factory: :user 
+    }
+
     trait(:with_user_with_subscriber) {
       association :user, factory: [:user, :with_subscriber]
     }
