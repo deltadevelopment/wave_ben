@@ -1,5 +1,5 @@
 class DropSerializer < ActiveModel::Serializer
-  attributes :id, :media_key, :temperature, :media_type, :media_url, :thumbnail_key, :thumbnail_url, :bucket_id, :drop_id, :originator, :most_votes, :total_votes_count
+  attributes :id, :media_key, :temperature, :media_type, :media_url, :thumbnail_key, :thumbnail_url, :bucket_id, :drop_id, :originator, :most_votes, :total_votes_count, :created_at
 
   has_one :user
 
