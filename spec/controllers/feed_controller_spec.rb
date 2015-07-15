@@ -25,19 +25,19 @@ describe FeedController do
       end 
     end 
 
-    context "it shows tagged content the user is tagged in" do
-      let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :with_taggee, with_user: user.subscriptions.first.user, taggee: user) }
+ #    context "it shows tagged content the user is tagged in" do
+ #      let(:bucket) { FactoryGirl.create(:shared_bucket, :with_user, :with_taggee, with_user: user.subscriptions.first.user, taggee: user) }
 
-      before do
-        allow(controller).to receive(:current_user) { user }
-      end
+ #      before do
+ #        allow(controller).to receive(:current_user) { user }
+ #      end
 
-      it "returns a tagged bucket for my subscriptions" do
-        get :list
-        res = JSON.parse(response.body)
-        expect(res['data']['buckets'].length).to eq(1)
-      end 
-    end 
+ #      it "returns a tagged bucket for my subscriptions" do
+ #        get :list
+ #        res = JSON.parse(response.body)
+ #        expect(res['data']['buckets'].length).to eq(1)
+ #      end 
+ #    end 
 
 
 

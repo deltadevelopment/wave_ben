@@ -10,9 +10,9 @@ class FeedController < ApplicationController
     # public_buckets = 
     #   Bucket.public_bucket.with_user_ids(subscription_ids).with_drops
 
-    buckets = Bucket.subscribees(current_user).public_bucket.with_drops.order(updated_at: :desc)
+    # buckets = Bucket.subscribees(current_user).public_bucket.with_drops.order(updated_at: :desc)
     
-    # buckets = Bucket.where("user_id IN (?) AND drops_count > 0", subscription_ids).order(updated_at: :desc)
+    buckets = Bucket.where("user_id IN (?) AND drops_count > 0", subscription_ids).order(updated_at: :desc)
 
     json_response 200,
       success: true,
