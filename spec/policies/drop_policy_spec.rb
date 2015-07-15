@@ -94,7 +94,7 @@ describe DropPolicy do
 
   end
 
-  permissions :vote? do
+  permissions :create_vote? do
 
     context "bucket visible to taggees" do
 
@@ -126,7 +126,7 @@ describe DropPolicy do
 
   end
 
-  permissions :show_votes? do
+  permissions :list_votes? do
  
     context "bucket visible to taggees" do
 
