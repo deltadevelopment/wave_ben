@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe DeleteOldDropsJob do
-  let!(:drop) { FactoryGirl.create(:drop, created_at: DateTime.now-48.hours) }
+  let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket, created_at: DateTime.now-48.hours) }
 
   before{
     Resque.inline = true  
