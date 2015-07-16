@@ -22,10 +22,6 @@ FactoryGirl.define do
       association :user, factory: [:user, :with_subscriber]
     }
 
-    trait(:day_old) {
-      created_at DateTime.now-24.hours
-    }
-
     trait(:as_redrop) {
       association :original_drop, factory: [:drop]
       temperature -1
