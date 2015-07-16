@@ -15,6 +15,14 @@ class Vote < ActiveRecord::Base
       message: I18n.t('validation.vote_must_be_between_0_1')
     }
 
+  def to_s
+    if vote == 0
+      "Funny"
+    else
+      "Cool"
+    end
+  end
+
   private
 
   def increment_counter_cache
