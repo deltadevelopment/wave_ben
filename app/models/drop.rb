@@ -59,9 +59,10 @@ class Drop < ActiveRecord::Base
 
   private
 
+  # TODO: Fix this
   def check_remaining_drops
     if !bucket.user_bucket? and bucket.drops_count == 1
-      bucket.destroy
+      # bucket.destroy
     end
   end
 
