@@ -5,18 +5,17 @@ class DropSerializer < ActiveModel::Serializer
 
   # Resolving to root drop because of redrops
   def root_drop
-    object.drop_id.nil? ? object : object.original_drop
   end
 
   def most_votes
-    root_drop = root_drop
+    root_drop = object.drop_id.nil? ? object : object.original_drop
 
     root_drop.vote_zero_count > root_drop.vote_one_count ?
       0 : 1
   end
 
   def total_votes_count
-    root_drop = root_drop
+    root_drop = object.drop_id.nil? ? object : object.original_drop
 
     root_drop.vote_zero_count + root_drop.vote_one_count
   end
