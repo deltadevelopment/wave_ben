@@ -1,6 +1,8 @@
 class Drop < ActiveRecord::Base
   attr_accessor :media_url, :thumbnail_url
 
+  after_destroy :check_remaining_drops
+
   belongs_to :bucket, counter_cache: true
 
   belongs_to :user
@@ -53,6 +55,14 @@ class Drop < ActiveRecord::Base
       errors.add(:thumbnail_key, I18n.t('validation.unique_key_exists'))
     end
 
+  end
+
+  private
+
+  def check_remaining_drops
+    if bucket.drops == 0
+      bucket.destroy
+    end
   end
 
 end
