@@ -32,8 +32,10 @@ Rails.application.routes.draw do
   post 'drop/:drop_id/redrop' => 'drops#redrop'
   delete 'drop/:drop_id/watch' => 'drops#unwatch'
 
-  # Temperature routes
-  post 'drop/:drop_id/vote' => 'drops#vote'
+  # Vote routes
+  post 'drop/:drop_id/vote' => 'votes#create'
+  delete 'vote/:vote_id' => 'votes#destroy'
+  get 'drop/:drop_id/votes' => 'votes#list'
 
   # Subscriber routes
   get 'user/:user_id/subscription/:subscribee_id' => 'subscriptions#show'

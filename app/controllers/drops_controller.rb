@@ -64,38 +64,6 @@ class DropsController < ApplicationController
 
   end
 
-  def vote
-    drop = Drop.find(params[:drop_id])
-
-    authorize drop
-
-    vote = DropActions.new(
-      drop: drop,
-      param: { temperature: vote_params[:temperature] },
-      user: current_user
-    ).vote!
-
-    if vote.persisted?
-      json_response 201,
-        success: true,
-        message_id: 'record_created',
-        message: I18n.t('success.record_created'),
-        data: {
-          vote: vote
-        }
-    else
-      unless vote.errors.empty?
-        json_response 400,
-          success: false,
-          message_id: 'validation_error',
-          message: I18n.t('error.validation_error'),
-          errors: vote.errors
-      else
-        raise CantSaveError
-      end
-    end
-  end
-
   def redrop
     drop = Drop.find(params[:drop_id]) 
     
@@ -137,14 +105,11 @@ class DropsController < ApplicationController
 
   end
 
+
   private
 
   def create_params
     params.require(:drop).permit(:media_key, :media_type, :caption, :thumbnail_key)
-  end
-
-  def vote_params
-    params.require(:vote).permit(:temperature)
   end
 
 end

@@ -1,5 +1,9 @@
 class Tag < ActiveRecord::Base
-  
+
+  scope :user_tag, -> { where(taggee_type: 'User') } 
+  scope :bucket_tag, -> { where(taggable_type: 'Bucket') }
+  scope :tags_for_user, -> (user) { where(taggee: user) }
+
   attr_accessor :tag_string
 
   has_many :interactions, as: :topic, dependent: :destroy

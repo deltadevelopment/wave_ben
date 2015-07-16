@@ -46,7 +46,7 @@ describe DropActions do
       let!(:vote) {
         DropActions.new(
           drop: drop,
-          param: { temperature: 50 },
+          param: { vote: 1 },
           user: drop.bucket.user
         ).vote!
       }
@@ -56,7 +56,7 @@ describe DropActions do
         expect{
           DropActions.new(
             drop: drop,
-            param: { temperature: 50 },
+            param: { vote: 1 },
             user: drop.bucket.user
           ).vote!
         }.to change(Vote, :count).by(1)
@@ -66,11 +66,11 @@ describe DropActions do
       
         DropActions.new(
           drop: drop,
-          param: { temperature: 25 },
+          param: { vote: 1 },
           user: drop.bucket.user
         ).vote!
 
-        expect(vote.reload.temperature).to eql(25)
+        expect(vote.reload.vote).to eql(1)
 
       end
 
@@ -78,7 +78,7 @@ describe DropActions do
         expect{
           DropActions.new(
             drop: drop, 
-            param: { temperature: 50 },
+            param: { vote: 1 },
             user: drop.bucket.user
           ).vote! 
         }.to change(Interaction, :count).by(1)
@@ -94,7 +94,7 @@ describe DropActions do
         it "the vote references the original drop" do
           vote = DropActions.new(
             drop: redrop,
-            param: { temperature: 25 },
+            param: { vote: 1 },
             user: redrop.bucket.user
           ).vote!
           expect(vote.drop.id).to eql(redrop.original_drop.id)

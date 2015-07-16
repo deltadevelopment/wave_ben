@@ -14,12 +14,12 @@ FactoryGirl.define do
       association :bucket, factory: [:user_bucket, :with_user_with_subscriber]
     }
 
-    trait(:with_user_with_subscriber) {
-      association :user, factory: [:user, :with_subscriber]
+    trait(:with_user) {
+      association :user, factory: :user 
     }
 
-    trait(:day_old) {
-      created_at DateTime.now-24.hours
+    trait(:with_user_with_subscriber) {
+      association :user, factory: [:user, :with_subscriber]
     }
 
     trait(:as_redrop) {

@@ -107,37 +107,6 @@ describe DropsController do
 
   end
 
-  describe "#vote" do
-    let!(:drop) { FactoryGirl.create(:drop, :with_shared_bucket, :with_user) }
-    let(:user) { FactoryGirl.create(:user) }
-
-    let(:valid_params) {
-      { drop_id: drop.id,
-        vote: {
-          temperature: 50
-        }
-      }
-    }
-
-    before { allow(controller).to receive(:current_user) { user } }
-
-    it "returns 201" do
-      post :vote, valid_params
-      expect(response).to have_http_status(201)
-    end 
-
-    it "returns 404 for a drop that does not exist" do
-      post :vote, valid_params.merge({drop_id: 500})
-      expect(response).to have_http_status(404)
-    end
-
-    it "returns 400 without a temperature" do
-      valid_params[:vote].delete(:temperature)
-      post :vote, valid_params
-      expect(response).to have_http_status(400)
-    end
-
-  end
 
   describe "#redrop" do
     let(:drop) { FactoryGirl.create(:drop) }

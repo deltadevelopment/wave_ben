@@ -4,6 +4,15 @@ class Bucket < ActiveRecord::Base
   enum visibility: [:everyone, :taggees]
 
   scope :user_bucket, -> { where(bucket_type: 1) }
+  
+  scope :public_bucket, -> { where(visibility: 0) }
+  scope :with_drops, -> { where('drops_count > 0') }
+  scope :with_user_ids, -> (ids) { where('user_id IN (?)', ids) }
+
+  scope :subscribees, -> (user) { 
+    select("*")
+      .join(:subscribee)
+  }
 
   belongs_to :user
 

@@ -1,5 +1,5 @@
 class FeedSerializer < ActiveModel::Serializer
-  attributes :id, :title, :bucket_type, :drops_count
+  attributes :id, :title, :bucket_type, :drops_count, :visibility
 
   has_one :user
   has_one :drop
