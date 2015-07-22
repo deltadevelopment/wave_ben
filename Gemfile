@@ -30,7 +30,6 @@ gem 'resque-scheduler'
 
 group :production do
   gem 'rails_stdout_logging'
-  gem 'raygun4ruby'
 end
 
 group :development, :test do

@@ -97,9 +97,6 @@ GEM
       rubocop (~> 0.20)
     hike (1.2.3)
     hitimes (1.2.2)
-    httparty (0.13.5)
-      json (~> 1.8)
-      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jmespath (1.0.2)
       multi_json (~> 1.0)
@@ -189,10 +186,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
-    raygun4ruby (1.1.6)
-      httparty (~> 0.11)
-      json
-      rack
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -294,7 +287,6 @@ DEPENDENCIES
   rails-api
   rails_12factor
   rails_stdout_logging
-  raygun4ruby
   rb-readline (~> 0.5.0)
   resque
   resque-scheduler
